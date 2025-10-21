@@ -1,0 +1,39 @@
+[
+        {
+          "name": "dim_harm",
+          "description": "Delegated harm categories defined by the DSA.",
+          "columns": ["harm_id", "harm_category", "description"],
+          "rows": [
+            { "harm_id": 1, "harm_category": "Disinformation", "description": "False narratives impacting civic discourse" },
+            { "harm_id": 2, "harm_category": "Harassment", "description": "Targeted abuse or intimidation" },
+            { "harm_id": 3, "harm_category": "Civic Integrity", "description": "Manipulation of elections or democratic processes" },
+            { "harm_id": 4, "harm_category": "Youth Safety", "description": "Risks to minors using the service" }
+          ]
+        },
+        {
+          "name": "dim_signal",
+          "description": "Signals and tables that capture harm-related activity.",
+          "columns": ["signal_id", "signal_name", "platform_table", "recommended_filter"],
+          "rows": [
+            { "signal_id": 1, "signal_name": "policy_label", "platform_table": "fact_content_moderation", "recommended_filter": "policy_label IN ('ELECTION','DISINFORMATION')" },
+            { "signal_id": 2, "signal_name": "enforcement_action", "platform_table": "fact_enforcement", "recommended_filter": "enforcement_action IS NOT NULL" },
+            { "signal_id": 3, "signal_name": "ranking_surface", "platform_table": "fact_recommendation_events", "recommended_filter": "ranking_surface = 'ForYou'" },
+            { "signal_id": 4, "signal_name": "predicted_age_bucket", "platform_table": "dim_user_profile", "recommended_filter": "predicted_age_bucket < 18" }
+          ]
+        },
+        {
+          "name": "fact_harm_signals",
+          "description": "Daily counts of signals aligned to delegated harms.",
+          "columns": ["snapshot_date", "harm_id", "signal_id", "incident_reports", "enforcement_actions", "coverage_score"],
+          "rows": [
+            { "snapshot_date": "2025-02-01", "harm_id": 1, "signal_id": 1, "incident_reports": 1840, "enforcement_actions": 920, "coverage_score": 0.68 },
+            { "snapshot_date": "2025-02-01", "harm_id": 1, "signal_id": 3, "incident_reports": 1260, "enforcement_actions": 540, "coverage_score": 0.55 },
+            { "snapshot_date": "2025-02-01", "harm_id": 2, "signal_id": 2, "incident_reports": 1425, "enforcement_actions": 1180, "coverage_score": 0.72 },
+            { "snapshot_date": "2025-02-01", "harm_id": 2, "signal_id": 4, "incident_reports": 980, "enforcement_actions": 410, "coverage_score": 0.44 },
+            { "snapshot_date": "2025-02-01", "harm_id": 3, "signal_id": 1, "incident_reports": 860, "enforcement_actions": 430, "coverage_score": 0.51 },
+            { "snapshot_date": "2025-02-01", "harm_id": 3, "signal_id": 3, "incident_reports": 760, "enforcement_actions": 295, "coverage_score": 0.38 },
+            { "snapshot_date": "2025-02-01", "harm_id": 4, "signal_id": 2, "incident_reports": 640, "enforcement_actions": 520, "coverage_score": 0.76 },
+            { "snapshot_date": "2025-02-01", "harm_id": 4, "signal_id": 4, "incident_reports": 1120, "enforcement_actions": 880, "coverage_score": 0.81 }
+          ]
+        }
+      ]

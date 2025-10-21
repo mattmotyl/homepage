@@ -1,0 +1,74 @@
+[
+  {
+    "indicator": "Content format coverage",
+    "dimension": "Structural Indicators",
+    "description": "Whether the dataset spans text, photo, video, live, and stories formats.",
+    "values": {
+      "TikTok": 4,
+      "Facebook": 5,
+      "YouTube": 3,
+      "Mastodon": 2,
+      "Google Search": 3
+    }
+  },
+  {
+    "indicator": "Recommender transparency",
+    "dimension": "Structural Indicators",
+    "description": "Availability of ranking signals, weighting, and user control parameters.",
+    "values": {
+      "TikTok": 3,
+      "Facebook": 2,
+      "YouTube": 3,
+      "Mastodon": 4,
+      "Google Search": 2
+    }
+  },
+  {
+    "indicator": "Moderation actions (policy-specific)",
+    "dimension": "Enforcement Metrics",
+    "description": "Granularity of enforcement metrics disaggregated by policy reason or risk.",
+    "values": {
+      "TikTok": 4,
+      "Facebook": 3,
+      "YouTube": 2,
+      "Mastodon": 1,
+      "Google Search": 2
+    }
+  },
+  {
+    "indicator": "Ad targeting transparency",
+    "dimension": "Audience Insights",
+    "description": "Ability to inspect targeting parameters, spend, and reach across campaigns.",
+    "values": {
+      "TikTok": 2,
+      "Facebook": 4,
+      "YouTube": 3,
+      "Mastodon": 0,
+      "Google Search": 3
+    }
+  },
+  {
+    "indicator": "Researcher support & documentation",
+    "dimension": "Audience Insights",
+    "description": "Quality of docs, example notebooks, and dedicated support programs.",
+    "values": {
+      "TikTok": 3,
+      "Facebook": 4,
+      "YouTube": 3,
+      "Mastodon": 2,
+      "Google Search": 4
+    }
+  },
+  {
+    "indicator": "Latency of data availability",
+    "dimension": "Enforcement Metrics",
+    "description": "How quickly data is refreshed after platform events (lower is better).",
+    "values": {
+      "TikTok": 2,
+      "Facebook": 3,
+      "YouTube": 4,
+      "Mastodon": 4,
+      "Google Search": 3
+    }
+  }
+]

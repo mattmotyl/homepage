@@ -1,0 +1,17 @@
+[
+        {
+          "title": "Start by exploring the dimensions",
+          "description": "Dimensions carry descriptive attributes you can join onto fact tables.",
+          "query": "SELECT * FROM dim_platform ORDER BY platform_id;"
+        },
+        {
+          "title": "Inspect the grain of the fact table",
+          "description": "Each row is a unique combination of snapshot date, platform, and content type.",
+          "query": "SELECT snapshot_date, COUNT(*) AS rows, SUM(impressions) AS impressions FROM fact_engagements GROUP BY snapshot_date;"
+        },
+        {
+          "title": "Join to add human-readable labels",
+          "description": "Bring in the content type descriptions to interpret platform performance.",
+          "query": "SELECT p.name AS platform, c.label AS content_type, impressions, engaged_users FROM fact_engagements f JOIN dim_platform p ON f.platform_id = p.platform_id JOIN dim_content_type c ON f.content_type_id = c.content_type_id ORDER BY impressions DESC;"
+        }
+      ]

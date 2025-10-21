@@ -1,0 +1,34 @@
+[
+        {
+          "program": "Meta Researcher Platform",
+          "sponsor": "Meta",
+          "url": "https://transparency.meta.com/researcher-platform/",
+          "cadence": "Rolling application, quarterly data refresh",
+          "scope": "CrowdTangle successor with reels, feed, and civic integrity datasets for qualified teams.",
+          "notes": "Requires institutional affiliation and GDPR-compliant data handling plan."
+        },
+        {
+          "program": "TikTok Research API",
+          "sponsor": "TikTok",
+          "url": "https://developers.tiktok.com/doc/research-api-overview/",
+          "cadence": "Quarterly enrollment windows",
+          "scope": "Provides video metrics, recommendation graph samples, and content moderation actions.",
+          "notes": "Strict usage caps with monthly disclosure requirements to TikTok trust & safety."
+        },
+        {
+          "program": "YouTube Researcher Program",
+          "sponsor": "Google",
+          "url": "https://research.google/resources/",
+          "cadence": "Invitation-based beta",
+          "scope": "Augmented YouTube Data API access with additional metadata on borderline content.",
+          "notes": "Currently capped at EU-based institutions focused on systemic risk research."
+        },
+        {
+          "program": "EDMO Platform-to-Research Task Forces",
+          "sponsor": "European Digital Media Observatory",
+          "url": "https://edmo.eu/initiatives/",
+          "cadence": "Biannual calls for collaborators",
+          "scope": "Coordinates transparency research teams across the EU and brokers Article 40 requests.",
+          "notes": "Ideal for cross-border projects that need harmonized access agreements."
+        }
+      ]
