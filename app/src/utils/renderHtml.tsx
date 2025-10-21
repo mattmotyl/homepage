@@ -1,8 +1,11 @@
 import parse, { domToReact } from 'html-react-parser'
 import type { Element, DOMNode, HTMLReactParserOptions } from 'html-react-parser'
 import { Link } from 'react-router-dom'
+import { createElement } from 'react'
+import { getText } from 'domutils'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import sqlTheme from './sqlTheme'
+import { slugifyHeading } from './headings'
 
 const routeMap: Record<string, string> = {
   'index.html': '/',
@@ -34,6 +37,17 @@ const transformNode = (domNode: Element, options: HTMLReactParserOptions) => {
     }
   }
 
+  if (/^h[1-6]$/.test(domNode.name)) {
+    const text = getText(domNode).replace(/\s+/g, ' ').trim()
+    const id = domNode.attribs?.id || slugifyHeading(text)
+    const props = { ...domNode.attribs, id }
+    return createElement(
+      domNode.name,
+      props,
+      domToReact(domNode.children as unknown as DOMNode[], options),
+    )
+  }
+
   if (domNode.name === 'code' && domNode.attribs?.class?.includes('language-sql')) {
     const content = domToReact(domNode.children as unknown as DOMNode[], options)
     const text = Array.isArray(content)
@@ -44,7 +58,11 @@ const transformNode = (domNode: Element, options: HTMLReactParserOptions) => {
         ? content
         : ''
     return (
-      <SyntaxHighlighter language="sql" style={sqlTheme} customStyle={{ borderRadius: '0.75rem' }}>
+      <SyntaxHighlighter
+        language="sql"
+        style={sqlTheme}
+        customStyle={{ borderRadius: '0.75rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
+      >
         {text.trim()}
       </SyntaxHighlighter>
     )

@@ -47,6 +47,95 @@ const defaultSelectors = {
   preview: '#sql-table-preview',
 }
 
+const KEYWORDS = [
+  'SELECT',
+  'FROM',
+  'WHERE',
+  'JOIN',
+  'LEFT',
+  'RIGHT',
+  'INNER',
+  'OUTER',
+  'ON',
+  'GROUP',
+  'BY',
+  'ORDER',
+  'LIMIT',
+  'AS',
+  'CASE',
+  'WHEN',
+  'THEN',
+  'ELSE',
+  'END',
+  'DISTINCT',
+  'WITH',
+  'HAVING',
+  'UNION',
+  'ALL',
+  'AND',
+  'OR',
+  'NOT',
+  'DELETE',
+  'UPDATE',
+  'INSERT',
+  'INTO',
+]
+
+const FUNCTION_KEYWORDS = [
+  'COUNT',
+  'SUM',
+  'AVG',
+  'MIN',
+  'MAX',
+  'ARRAY_AGG',
+  'STRING_AGG',
+  'DATE_TRUNC',
+  'COALESCE',
+]
+
+const KEYWORD_SET = new Set(KEYWORDS)
+const FUNCTION_SET = new Set(FUNCTION_KEYWORDS)
+
+const escapeHtml = (value: string): string =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+
+const highlightSql = (sql: string): string => {
+  let result = escapeHtml(sql)
+
+  result = result.replace(/\b([a-z_][a-z0-9_]*)\b/gi, (match) => {
+    const upper = match.toUpperCase()
+    if (KEYWORD_SET.has(upper) || FUNCTION_SET.has(upper)) {
+      return match
+    }
+    return `<span class="sql-token identifier">${match}</span>`
+  })
+
+  result = result.replace(
+    /(FROM|JOIN|INTO|UPDATE|DELETE\s+FROM)\s+<span class="sql-token identifier">([a-z0-9_.]+)<\/span>/gi,
+    (_match, keyword, table) => {
+      const normalized = String(keyword).toUpperCase()
+      return `${normalized} <span class="sql-token table">${table}</span>`
+    },
+  )
+
+  result = result.replace(
+    /\b(SELECT|FROM|WHERE|JOIN|LEFT|RIGHT|INNER|OUTER|ON|GROUP|BY|ORDER|LIMIT|AS|CASE|WHEN|THEN|ELSE|END|DISTINCT|WITH|HAVING|UNION|ALL|AND|OR|NOT|DELETE|UPDATE|INSERT|INTO)\b/gi,
+    (match) => `<span class="sql-token keyword">${match.toUpperCase()}</span>`,
+  )
+
+  result = result.replace(
+    /\b(COUNT|SUM|AVG|MIN|MAX|ARRAY_AGG|STRING_AGG|DATE_TRUNC|COALESCE)\b/gi,
+    (match) => `<span class="sql-token function">${match.toUpperCase()}</span>`,
+  )
+
+  return result
+}
+
 const renderResult = (container: HTMLElement | null, rows: Record<string, unknown>[]) => {
   if (!container) return
   if (!rows.length) {
@@ -90,10 +179,12 @@ const renderWalkthrough = (
   steps.forEach((step) => {
     const article = document.createElement('article')
     article.className = 'card'
+    const title = escapeHtml(step.title)
+    const description = escapeHtml(step.description)
     article.innerHTML = `
-      <h4>${step.title}</h4>
-      <p>${step.description}</p>
-      <pre><code class="language-sql">${step.query}</code></pre>
+      <h4>${title}</h4>
+      <p>${description}</p>
+      <pre class="sql-inline">${highlightSql(step.query)}</pre>
       <button type="button" class="button secondary">Try this query</button>
     `
     const button = article.querySelector('button')

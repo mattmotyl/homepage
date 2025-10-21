@@ -113,23 +113,32 @@ nav a[aria-current="page"] {
 
 .sidebar ol {
   list-style: none;
-  padding-left: 1.25rem;
+  padding-left: 0;
   margin: 0;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.5rem;
 }
 
 .sidebar ol ol {
-  list-style: none;
   padding-left: 1.25rem;
-  margin-top: 0.5rem;
-  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+.sidebar li {
+  margin: 0;
 }
 
 .sidebar a {
   color: var(--brand-primary);
   font-weight: 600;
   text-decoration: none;
+  display: block;
+  text-align: left;
+  line-height: 1.45;
+  padding-left: 0.9rem;
+  text-indent: -0.9rem;
+  word-break: break-word;
 }
 
 .sidebar a[aria-current="page"] {
@@ -199,7 +208,7 @@ p {
 .card-grid {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .card {
@@ -348,7 +357,7 @@ tfoot td {
 .diagram-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   margin-top: 1.5rem;
 }
 
@@ -370,10 +379,10 @@ tfoot td {
 }
 
 .diagram-card span {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
   color: var(--text-muted);
   word-break: break-word;
-  line-height: 1.4;
 }
 
 pre {
@@ -439,7 +448,7 @@ code {
 .sql-layout {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
 }
 
@@ -460,6 +469,18 @@ textarea {
   font-size: 0.95rem;
   font-family: "Fira Code", "SFMono-Regular", Consolas, monospace;
   white-space: pre-wrap;
+}
+
+.sql-inline {
+  background: #fff7ed;
+  border-radius: 12px;
+  padding: 1.1rem 1.3rem;
+  font-family: "Fira Code", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
 }
 
 .page-nav {

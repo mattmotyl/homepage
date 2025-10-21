@@ -20,7 +20,7 @@ type ViewMode = 'table' | 'radar' | 'bar'
 const formatValue = (value: number | string) => {
   if (typeof value === 'number') {
     const label = statusLabels[value]
-    return label ? `${label} (${value})` : String(value)
+    return label || String(value)
   }
   return value
 }

@@ -1,65 +1,114 @@
 [
-        {
-          "name": "Social Science One Facebook URLs",
-          "host": "Social Science One",
-          "platform": "Facebook",
-          "cadence": "Quarterly",
-          "link": "https://socialscience.one/data-sharing"
-        },
-        {
-          "name": "CrowdTangle Historical Exports",
-          "host": "Meta / Internet Archive",
-          "platform": "Facebook, Instagram",
-          "cadence": "Monthly",
-          "link": "https://archive.org/details/crowdtangle"
-        },
-        {
-          "name": "TikTok Election Integrity Dataset",
-          "host": "Tracking Exposed",
-          "platform": "TikTok",
-          "cadence": "Event-driven",
-          "link": "https://tracking.exposed"
-        },
-        {
-          "name": "YouTube RegretsReporter",
-          "host": "Mozilla Foundation",
-          "platform": "YouTube",
-          "cadence": "Ongoing",
-          "link": "https://foundation.mozilla.org/en/campaigns/regrets-reporter/"
-        },
-        {
-          "name": "Twitter Streaming Archives (pre-2023)",
-          "host": "Internet Archive / Pushshift",
-          "platform": "X (formerly Twitter)",
-          "cadence": "Legacy snapshot",
-          "link": "https://archive.org/details/twitterstream"
-        },
-        {
-          "name": "Reddit Comment Corpus",
-          "host": "Pushshift",
-          "platform": "Reddit",
-          "cadence": "Daily",
-          "link": "https://files.pushshift.io/reddit/comments/"
-        },
-        {
-          "name": "Mastodon Public Timelines",
-          "host": "Academic Torrents",
-          "platform": "Mastodon",
-          "cadence": "Weekly",
-          "link": "https://academictorrents.com/details/89d6d1b5ec1ad"
-        },
-        {
-          "name": "Google Search Trends Topical Dataset",
-          "host": "Google",
-          "platform": "Google Search",
-          "cadence": "Daily",
-          "link": "https://trends.google.com/trends/explore"
-        },
-        {
-          "name": "EU DisinfoLab Monitoring Sets",
-          "host": "EU DisinfoLab",
-          "platform": "Multi-platform",
-          "cadence": "Campaign-based",
-          "link": "https://www.disinfo.eu/publications/"
-        }
-      ]
+  {
+    "name": "Social Science One Facebook URLs",
+    "host": "Social Science One",
+    "platform": "Facebook",
+    "cadence": "Quarterly",
+    "link": "https://socialscience.one/data-sharing"
+  },
+  {
+    "name": "CrowdTangle Historical Exports",
+    "host": "Meta / Internet Archive",
+    "platform": "Facebook, Instagram",
+    "cadence": "Monthly",
+    "link": "https://archive.org/details/crowdtangle"
+  },
+  {
+    "name": "Meta Ad Library Bulk Downloader",
+    "host": "Meta Transparency Center",
+    "platform": "Facebook, Instagram",
+    "cadence": "Daily refresh",
+    "link": "https://www.facebook.com/ads/library/api"
+  },
+  {
+    "name": "Meta Widely Viewed Content Report",
+    "host": "Meta Transparency Center",
+    "platform": "Facebook",
+    "cadence": "Quarterly PDF & CSV",
+    "link": "https://transparency.fb.com/data/widely-viewed-content-report/"
+  },
+  {
+    "name": "TikTok Transparency Center Election Datasets",
+    "host": "TikTok",
+    "platform": "TikTok",
+    "cadence": "Event-driven",
+    "link": "https://transparency.tiktok.com/en"
+  },
+  {
+    "name": "TikTok Research API Portal",
+    "host": "TikTok",
+    "platform": "TikTok",
+    "cadence": "Rolling admission",
+    "link": "https://research.tiktok.com/portal"
+  },
+  {
+    "name": "YouTube RegretsReporter",
+    "host": "Mozilla Foundation",
+    "platform": "YouTube",
+    "cadence": "Ongoing",
+    "link": "https://foundation.mozilla.org/en/campaigns/regrets-reporter/"
+  },
+  {
+    "name": "YouTube Researcher Program",
+    "host": "Google",
+    "platform": "YouTube",
+    "cadence": "Application based",
+    "link": "https://research.youtube/"
+  },
+  {
+    "name": "Google Political Ads Transparency Bulk Data",
+    "host": "Google Transparency Report",
+    "platform": "Google Search, YouTube",
+    "cadence": "Weekly",
+    "link": "https://storage.googleapis.com/transparencyreport/google-political-ads-transparency-bulk-data.zip"
+  },
+  {
+    "name": "Google Search Trends Topical Dataset",
+    "host": "Google",
+    "platform": "Google Search",
+    "cadence": "Daily",
+    "link": "https://trends.google.com/trends/explore"
+  },
+  {
+    "name": "EU DisinfoLab Monitoring Sets",
+    "host": "EU DisinfoLab",
+    "platform": "Multi-platform",
+    "cadence": "Campaign-based",
+    "link": "https://www.disinfo.eu/publications/"
+  },
+  {
+    "name": "NYU Online Political Ads Transparency Project",
+    "host": "NYU Center for Cybersecurity",
+    "platform": "Facebook, Google",
+    "cadence": "Weekly",
+    "link": "https://adobservatory.org/data"
+  },
+  {
+    "name": "Pushshift Reddit Comment & Submission Corpus",
+    "host": "Pushshift",
+    "platform": "Reddit",
+    "cadence": "Daily",
+    "link": "https://files.pushshift.io/reddit/comments/"
+  },
+  {
+    "name": "Mastodon Public Timelines Snapshot",
+    "host": "Academic Torrents",
+    "platform": "Mastodon",
+    "cadence": "Weekly",
+    "link": "https://academictorrents.com/details/89d6d1b5ec1ad"
+  },
+  {
+    "name": "EDMO Platform-to-Researchers Resource Hub",
+    "host": "European Digital Media Observatory",
+    "platform": "Multi-platform",
+    "cadence": "Curated updates",
+    "link": "https://edmo.eu/tools-and-resources/"
+  },
+  {
+    "name": "Integrity Institute Transparency Tracker",
+    "host": "Integrity Institute",
+    "platform": "Multi-platform",
+    "cadence": "Monthly",
+    "link": "https://www.integrityinstitute.org/resources"
+  }
+]
