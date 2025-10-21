@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Platform Data Primer | Workflows and Practice</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="brand">
+          <span>Platform Data Primer</span>
+          <span>Matt Motyl, Ph.D.</span>
+        </div>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="foundations.html">Data Foundations</a></li>
+            <li><a href="api.html">API Access</a></li>
+            <li><a href="warehouses.html">Data Models</a></li>
+            <li><a href="workflows.html" aria-current="page">Workflows</a></li>
+            <li><a href="harms.html">Delegated Harms</a></li>
+            <li><a href="datasets.html">Researcher Datasets</a></li>
+            <li><a href="comparisons.html">Comparisons</a></li>
+            <li><a href="engage.html">Engage</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" aria-label="Table of contents">
+        <button class="sidebar-toggle" type="button" aria-expanded="false">Table of contents</button>
+        <nav class="sidebar-nav" data-current-page="workflows"></nav>
+      </aside>
+
+      <main>
+        <section id="workflow-orientation">
+          <h1>5. How to move from raw tables to insights</h1>
+          <p>
+            Article 40 gives you access to powerful datasets, but the first login to a researcher environment can feel overwhelming.
+            This chapter expands on the report’s guidance with additional handholding: we restate the narrative, annotate the SQL,
+            and provide interactive examples so you can build confidence step by step.
+          </p>
+          <p>
+            Start with a question grounded in the systemic risks described by the Digital Services Act. Then identify which tables
+            contain the signals you need. Most workflows follow this rhythm:
+          </p>
+          <ol>
+            <li>Review the available documentation to understand table grain, retention, and sensitive columns.</li>
+            <li>Explore the dimension tables first—they translate numeric IDs into meaningful labels.</li>
+            <li>Profile the fact tables to confirm how events are logged (per impression, per session, per content ID, etc.).</li>
+            <li>Join the facts and dimensions, filter to the cohort you care about, and compute your metrics.</li>
+            <li>Validate results against platform-provided benchmarks or public reporting when possible.</li>
+          </ol>
+        </section>
+
+        <section class="section" id="sample-tables">
+          <h2>5.1 Sample tables</h2>
+          <p>
+            The sandbox below uses synthetic engagement data that mirrors the structure described in Section 3. Study the tables
+            before running queries so you know which identifiers to join on and how fields are labeled.
+          </p>
+          <div class="card-grid" id="sql-table-preview"></div>
+        </section>
+
+        <section class="section" id="sql-walkthrough">
+          <h2>5.2 Guided SQL walkthrough</h2>
+          <p>
+            Each step echoes the examples in the written report. Click “Try this query” to run it instantly in the sandbox and see the
+            output. Pay attention to how the SELECT statements introduce joins one at a time.
+          </p>
+          <div class="sql-layout">
+            <div class="sql-panel" id="sql-walkthrough"></div>
+            <div class="sql-panel">
+              <h3>Common questions to ask</h3>
+              <ul>
+                <li>How many unique users or sessions are represented in my extract?</li>
+                <li>Which surfaces, content types, or policy labels dominate the activity?</li>
+                <li>Do engagement rates change when I filter to a specific country or risk cohort?</li>
+                <li>How do the metrics trend over time, and do they align with the platform’s public transparency reports?</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="sql-sandbox">
+          <h2>5.3 Practice sandbox</h2>
+          <p>
+            Use the editor to experiment with your own questions. The dataset includes <code>dim_platform</code>,
+            <code>dim_content_type</code>, and <code>fact_engagements</code>. Reset at any time to reload the original tables. The
+            “Sample tables” cards above stay visible so you can reference column names without scrolling away from the editor.
+          </p>
+          <div class="sql-layout">
+            <div class="sql-panel">
+              <label for="sql-input"><strong>Write your query</strong></label>
+              <textarea id="sql-input">SELECT *
+FROM fact_engagements
+LIMIT 5;</textarea>
+              <div style="display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap;">
+                <button id="run-query" class="button primary" type="button">Run query</button>
+                <button id="reset-db" class="button secondary" type="button">Reset tables</button>
+              </div>
+            </div>
+            <div class="sql-panel">
+              <h3>Results</h3>
+              <div id="sql-result" class="alert">Run a query to see the output table here.</div>
+              <h3>Quick sample queries</h3>
+              <ul id="sql-samples"></ul>
+            </div>
+          </div>
+        </section>
+
+        <div class="page-nav">
+          <a href="warehouses.html">← Previous: Data models</a>
+          <a href="harms.html">Next: Delegated harms →</a>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Need a deeper walkthrough?</strong>
+        <span>Schedule time with Matt to align these datasets to your investigation or research question.</span>
+        <span>© <span id="year"></span> Matt Motyl.</span>
+      </div>
+    </footer>
+
+    <script id="sql-bootstrap" type="application/json">
+      [
+        "CREATE TABLE dim_platform (platform_id INTEGER PRIMARY KEY, name TEXT, region TEXT);",
+        "INSERT INTO dim_platform (platform_id, name, region) VALUES (1, 'TikTok', 'EU'), (2, 'Facebook', 'EU'), (3, 'YouTube', 'EU'), (4, 'Mastodon', 'EU');",
+        "CREATE TABLE dim_content_type (content_type_id INTEGER PRIMARY KEY, label TEXT, description TEXT);",
+        "INSERT INTO dim_content_type (content_type_id, label, description) VALUES (1, 'Short video', 'Vertical video under 90 seconds'), (2, 'Feed post', 'Image or link shared to the primary feed'), (3, 'Livestream', 'Live video sessions'), (4, 'Long-form video', 'Video exceeding 10 minutes'), (5, 'Microblog', 'Short text-oriented update');",
+        "CREATE TABLE fact_engagements ( snapshot_date TEXT, platform_id INTEGER, content_type_id INTEGER, impressions INTEGER, engaged_users INTEGER, watch_hours REAL, PRIMARY KEY (snapshot_date, platform_id, content_type_id), FOREIGN KEY (platform_id) REFERENCES dim_platform(platform_id), FOREIGN KEY (content_type_id) REFERENCES dim_content_type(content_type_id) );",
+        "INSERT INTO fact_engagements (snapshot_date, platform_id, content_type_id, impressions, engaged_users, watch_hours) VALUES ('2025-01-15', 1, 1, 1890000, 340000, 125000.4), ('2025-01-15', 1, 3, 240000, 58000, 41200.7), ('2025-01-15', 2, 2, 940000, 210000, 47000.9), ('2025-01-15', 2, 5, 410000, 155000, 12000.1), ('2025-01-15', 3, 4, 720000, 132000, 91000.6), ('2025-01-15', 3, 1, 380000, 67000, 34000.8), ('2025-01-15', 4, 5, 68000, 24000, 1800.3), ('2025-01-15', 4, 2, 52000, 19000, 1600.5);"
+      ]
+    </script>
+    <script id="sql-walkthrough-data" type="application/json">
+      [
+        {
+          "title": "Start by exploring the dimensions",
+          "description": "Dimensions carry descriptive attributes you can join onto fact tables.",
+          "query": "SELECT * FROM dim_platform ORDER BY platform_id;"
+        },
+        {
+          "title": "Inspect the grain of the fact table",
+          "description": "Each row is a unique combination of snapshot date, platform, and content type.",
+          "query": "SELECT snapshot_date, COUNT(*) AS rows, SUM(impressions) AS impressions FROM fact_engagements GROUP BY snapshot_date;"
+        },
+        {
+          "title": "Join to add human-readable labels",
+          "description": "Bring in the content type descriptions to interpret platform performance.",
+          "query": "SELECT p.name AS platform, c.label AS content_type, impressions, engaged_users FROM fact_engagements f JOIN dim_platform p ON f.platform_id = p.platform_id JOIN dim_content_type c ON f.content_type_id = c.content_type_id ORDER BY impressions DESC;"
+        }
+      ]
+    </script>
+    <script id="sql-samples-data" type="application/json">
+      [
+        {
+          "label": "Which platform drives the most watch hours?",
+          "sql": "SELECT p.name AS platform, ROUND(SUM(watch_hours), 1) AS total_watch_hours\nFROM fact_engagements f\nJOIN dim_platform p ON f.platform_id = p.platform_id\nGROUP BY p.name\nORDER BY total_watch_hours DESC;"
+        },
+        {
+          "label": "How engaged are audiences by content type?",
+          "sql": "SELECT c.label AS content_type, ROUND(SUM(engaged_users) * 1.0 / SUM(impressions), 3) AS engagement_rate\nFROM fact_engagements f\nJOIN dim_content_type c ON f.content_type_id = c.content_type_id\nGROUP BY c.label\nORDER BY engagement_rate DESC;"
+        },
+        {
+          "label": "EU vs. non-EU coverage (placeholder)",
+          "sql": "SELECT p.region, COUNT(*) AS row_count, ROUND(SUM(impressions) / 1000.0, 1) AS impressions_k\nFROM fact_engagements f\nJOIN dim_platform p ON f.platform_id = p.platform_id\nGROUP BY p.region;"
+        }
+      ]
+    </script>
+    <script id="sql-table-data" type="application/json">
+      [
+        {
+          "name": "dim_platform",
+          "description": "Lookup table containing platform names and the regions covered in this extract.",
+          "columns": ["platform_id", "name", "region"],
+          "rows": [
+            { "platform_id": 1, "name": "TikTok", "region": "EU" },
+            { "platform_id": 2, "name": "Facebook", "region": "EU" },
+            { "platform_id": 3, "name": "YouTube", "region": "EU" },
+            { "platform_id": 4, "name": "Mastodon", "region": "EU" }
+          ]
+        },
+        {
+          "name": "dim_content_type",
+          "description": "Descriptions of the primary content formats available on each platform.",
+          "columns": ["content_type_id", "label", "description"],
+          "rows": [
+            { "content_type_id": 1, "label": "Short video", "description": "Vertical video under 90 seconds" },
+            { "content_type_id": 2, "label": "Feed post", "description": "Image or link shared to the primary feed" },
+            { "content_type_id": 3, "label": "Livestream", "description": "Live video sessions" },
+            { "content_type_id": 4, "label": "Long-form video", "description": "Video exceeding 10 minutes" },
+            { "content_type_id": 5, "label": "Microblog", "description": "Short text-oriented update" }
+          ]
+        },
+        {
+          "name": "fact_engagements",
+          "description": "Aggregated engagement metrics by platform, content type, and reporting date.",
+          "columns": ["snapshot_date", "platform_id", "content_type_id", "impressions", "engaged_users", "watch_hours"],
+          "rows": [
+            { "snapshot_date": "2025-01-15", "platform_id": 1, "content_type_id": 1, "impressions": 1890000, "engaged_users": 340000, "watch_hours": 125000.4 },
+            { "snapshot_date": "2025-01-15", "platform_id": 1, "content_type_id": 3, "impressions": 240000, "engaged_users": 58000, "watch_hours": 41200.7 },
+            { "snapshot_date": "2025-01-15", "platform_id": 2, "content_type_id": 2, "impressions": 940000, "engaged_users": 210000, "watch_hours": 47000.9 },
+            { "snapshot_date": "2025-01-15", "platform_id": 2, "content_type_id": 5, "impressions": 410000, "engaged_users": 155000, "watch_hours": 12000.1 },
+            { "snapshot_date": "2025-01-15", "platform_id": 3, "content_type_id": 4, "impressions": 720000, "engaged_users": 132000, "watch_hours": 91000.6 },
+            { "snapshot_date": "2025-01-15", "platform_id": 3, "content_type_id": 1, "impressions": 380000, "engaged_users": 67000, "watch_hours": 34000.8 },
+            { "snapshot_date": "2025-01-15", "platform_id": 4, "content_type_id": 5, "impressions": 68000, "engaged_users": 24000, "watch_hours": 1800.3 },
+            { "snapshot_date": "2025-01-15", "platform_id": 4, "content_type_id": 2, "impressions": 52000, "engaged_users": 19000, "watch_hours": 1600.5 }
+          ]
+        }
+      ]
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.js" integrity="sha512-jN2mYIZHuZOKhHvJ3C0cI85FhF38sZ4N2VNivX8XcX4Jt9V7H5PHeTtNKgHdwNwp0UrEGouGZWlznImPi0tL0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/sql-playground.js"></script>
+  </body>
+</html>

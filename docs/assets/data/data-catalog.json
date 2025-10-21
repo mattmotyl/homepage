@@ -1,0 +1,114 @@
+[
+  {
+    "platform": "Meta (Facebook & Instagram)",
+    "category": "User Provided",
+    "element": "Profile attributes (age range, gender, declared location, languages)",
+    "availability": "Researcher Program",
+    "notes": "Accessible via the Meta Researcher Platform for qualified projects under the DSA Article 40 framework.",
+    "lastUpdated": "2024-11-01"
+  },
+  {
+    "platform": "Meta (Facebook & Instagram)",
+    "category": "Observed Behavior",
+    "element": "Feed interactions (reactions, comments, shares) by content type",
+    "availability": "Researcher Program",
+    "notes": "Aggregated insights with 48-hour delay; sensitive cohorts (e.g., minors) receive additional suppression.",
+    "lastUpdated": "2025-01-12"
+  },
+  {
+    "platform": "Meta (Facebook & Instagram)",
+    "category": "Advertising",
+    "element": "Ad library creatives with spend and targeting descriptors",
+    "availability": "Public API",
+    "notes": "Creative media must be downloaded separately; spend is bucketed for campaigns below €1K.",
+    "lastUpdated": "2025-02-02"
+  },
+  {
+    "platform": "TikTok",
+    "category": "User Provided",
+    "element": "Creator declared categories and follower counts",
+    "availability": "Transparency Report",
+    "notes": "Quarterly PDF releases; CSV exports announced but not yet shipped.",
+    "lastUpdated": "2024-10-15"
+  },
+  {
+    "platform": "TikTok",
+    "category": "Observed Behavior",
+    "element": "Video performance metrics (views, watch time, completion rate)",
+    "availability": "Researcher Program",
+    "notes": "Requires project vetting; watch time delivered in aggregated percentiles for privacy.",
+    "lastUpdated": "2025-01-24"
+  },
+  {
+    "platform": "TikTok",
+    "category": "Civic Integrity",
+    "element": "Election misinformation takedown counts by policy reason",
+    "availability": "Transparency Report",
+    "notes": "Breakdowns currently provided only for EU member states and selected global events.",
+    "lastUpdated": "2024-12-30"
+  },
+  {
+    "platform": "YouTube",
+    "category": "Observed Behavior",
+    "element": "Recommendation graph edges for seed channels",
+    "availability": "Public API",
+    "notes": "Exposed through the YouTube Researcher Program API beta with rate limits and partial coverage.",
+    "lastUpdated": "2025-02-19"
+  },
+  {
+    "platform": "YouTube",
+    "category": "Advertising",
+    "element": "Political advertiser registry with spend bands",
+    "availability": "Public API",
+    "notes": "Spend buckets widen for campaigns targeting fewer than 10K impressions.",
+    "lastUpdated": "2025-02-14"
+  },
+  {
+    "platform": "X (formerly Twitter)",
+    "category": "User Provided",
+    "element": "Account metadata (creation date, declared location, verification class)",
+    "availability": "Public API",
+    "notes": "X API v2 Basic tier excludes verification class; Elevated access required.",
+    "lastUpdated": "2024-09-30"
+  },
+  {
+    "platform": "X (formerly Twitter)",
+    "category": "Civic Integrity",
+    "element": "Labeling activity for civic misinformation tweets",
+    "availability": "Unavailable",
+    "notes": "Removed from public datasets in 2023; only aggregate counts in quarterly trust & safety report.",
+    "lastUpdated": "2024-08-05"
+  },
+  {
+    "platform": "Mastodon (sample EU servers)",
+    "category": "User Provided",
+    "element": "Account profile metadata (bio, tags, server policies)",
+    "availability": "Public API",
+    "notes": "Federated data subject to individual server retention policies.",
+    "lastUpdated": "2025-01-06"
+  },
+  {
+    "platform": "Mastodon (sample EU servers)",
+    "category": "Observed Behavior",
+    "element": "Interaction counts (boosts, replies, favorites)",
+    "availability": "Public API",
+    "notes": "Public endpoints require pagination across instances; aggregated metrics available via ActivityPub streams.",
+    "lastUpdated": "2025-01-06"
+  },
+  {
+    "platform": "Google Search",
+    "category": "Inferred",
+    "element": "Search interest index by topic and country",
+    "availability": "Public API",
+    "notes": "Trends API provides normalized scores (0-100) rather than raw counts.",
+    "lastUpdated": "2025-02-11"
+  },
+  {
+    "platform": "Google Search",
+    "category": "Civic Integrity",
+    "element": "Disinformation takedown and demotion counts",
+    "availability": "Transparency Report",
+    "notes": "Counts released twice yearly with lag; EU-specific breakdown introduced in 2024.",
+    "lastUpdated": "2024-12-01"
+  }
+]
