@@ -1,0 +1,148 @@
+<main>
+<section id="api-overview">
+<h1>3. Preparing your workspace for Article 40 APIs</h1>
+<p>
+            Once a platform approves your Article 40 request, it typically provisions an isolated researcher workspace with API
+            credentials, sample queries, and compliance documentation. This page translates the report’s guidance into a
+            step-by-step setup checklist so you can start collecting data confidently—without needing to be a software engineer.
+          </p>
+<p>
+            Each platform exposes slightly different endpoints, but the workflow is consistent: confirm the scope of the data,
+            authenticate with the provided keys, store responses securely, and document every request you make. Treat the API as
+            an audited environment—your ability to renew access depends on demonstrating good stewardship.
+          </p>
+<div class="card-grid">
+<article class="card">
+<h3>Know what you are getting</h3>
+<p>
+                Review the schema documentation before touching the API. Identify which tables or endpoints map to the variables
+                you scoped in Section 2 and how often each payload is refreshed.
+              </p>
+</article>
+<article class="card">
+<h3>Decide where data will live</h3>
+<p>
+                Set up a secure storage location—an encrypted database, a restricted cloud bucket, or a researcher-managed
+                server—so downloads do not linger on personal devices.
+              </p>
+</article>
+<article class="card">
+<h3>Assemble your team</h3>
+<p>
+                Coordinate with collaborators responsible for governance, legal review, and analysis. Assign owners for
+                authentication, logging, and deletion workflows before data arrives.
+              </p>
+</article>
+</div>
+</section>
+<section class="section" id="api-authentication">
+<h2>3.1 Authenticating safely</h2>
+<p>
+            Platforms typically issue OAuth credentials, signed URL tokens, or SSH certificates. The safest pattern is to route
+            authentication through a dedicated command-line client or secrets manager rather than embedding keys in scripts.
+            Follow these steps for each new integration:
+          </p>
+<ol>
+<li>Store the raw credentials in an encrypted vault (for example, Bitwarden, 1Password, or AWS Secrets Manager).</li>
+<li>Use environment variables to inject tokens into your scripts or notebooks. Avoid committing them to version
+              control.</li>
+<li>Record the scopes each token grants. Article 40 access is often segmented by dataset; knowing which key unlocks
+              which table prevents accidental overreach.</li>
+<li>Test authentication in a sandbox endpoint first to confirm that your headers, user agent, and payload formatting
+              match platform expectations.</li>
+</ol>
+<div class="alert">
+            Need a visual guide? EDMO’s workshops on researcher onboarding walk through Meta, TikTok, and YouTube sign-in flows.
+            Bookmark them so future team members can self-serve.</div>
+</section>
+<section class="section" id="api-secrets">
+<h2>3.2 Managing keys and secrets</h2>
+<p>
+            Keys expire, and people change roles. Establish a rotation policy before you start downloading large extracts:
+          </p>
+<ul>
+<li>Designate a credential owner who receives renewal reminders from the platform.</li>
+<li>Set calendar holds for 30 days before token expiry to avoid downtime.</li>
+<li>Use per-person tokens where possible so access can be revoked without disrupting the entire project.</li>
+<li>Maintain a simple register (date issued, scope, owner, last used) stored alongside your governance documents.</li>
+</ul>
+<p>
+            Many researcher environments ship with data handling agreements that specify retention limits. Align your deletion
+            schedule with those obligations—store derived aggregates longer than row-level exports, and automate purges of staging
+            files after you have loaded them into your analysis environment.
+          </p>
+</section>
+<section class="section" id="api-limits">
+<h2>3.3 Handling rate limits and quotas</h2>
+<p>
+            API responses often cap the number of records returned per request. Use pagination helpers provided in the
+            documentation and design your extracts to respect the platform’s ceilings.
+          </p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Typical quota</th>
+<th>Recommended mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Meta Researcher Platform</td>
+<td>10 concurrent jobs, 1M rows per day</td>
+<td>Stage queries overnight; request higher burst limits for time-sensitive events.</td>
+</tr>
+<tr>
+<td>TikTok Research API</td>
+<td>60 requests per minute</td>
+<td>Batch content IDs and cache responses locally to avoid redundant pulls.</td>
+</tr>
+<tr>
+<td>YouTube Research Program</td>
+<td>Quota units tied to endpoint complexity</td>
+<td>Prioritize metadata endpoints before heavy video analytics exports.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>
+            When you hit a limit unexpectedly, capture the response headers—the retry-after interval, request ID, and timestamp
+            help platform support teams diagnose issues quickly. Document the workaround in your project log so colleagues can
+            reproduce it.
+          </p>
+</section>
+<section class="section" id="api-logging">
+<h2>3.4 Logging and documenting requests</h2>
+<p>
+            Treat every download like an experiment: track what you pulled, why you needed it, and how you stored it. A lightweight
+            log can be as simple as a shared spreadsheet or as formal as a Git repository that stores YAML request manifests.
+          </p>
+<div class="card-grid">
+<article class="card">
+<h3>Minimum logging fields</h3>
+<ul>
+<li>Date and time of the request</li>
+<li>Endpoint or table name</li>
+<li>Filters and parameters applied</li>
+<li>Files generated and their storage location</li>
+</ul>
+</article>
+<article class="card">
+<h3>Why it matters</h3>
+<p>
+                Logging protects you during audits, accelerates troubleshooting with platform contacts, and makes it easier to
+                onboard collaborators midstream.
+              </p>
+</article>
+<article class="card">
+<h3>Share responsibly</h3>
+<p>
+                Provide summaries—not raw exports—when briefing partners. Link back to Article 40 agreements so everyone
+                understands the boundaries around redistribution and publication.
+              </p>
+</article>
+</div>
+</section>
+</main>
+

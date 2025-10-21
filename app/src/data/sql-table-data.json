@@ -1,0 +1,40 @@
+[
+        {
+          "name": "dim_platform",
+          "description": "Lookup table containing platform names and the regions covered in this extract.",
+          "columns": ["platform_id", "name", "region"],
+          "rows": [
+            { "platform_id": 1, "name": "TikTok", "region": "EU" },
+            { "platform_id": 2, "name": "Facebook", "region": "EU" },
+            { "platform_id": 3, "name": "YouTube", "region": "EU" },
+            { "platform_id": 4, "name": "Mastodon", "region": "EU" }
+          ]
+        },
+        {
+          "name": "dim_content_type",
+          "description": "Descriptions of the primary content formats available on each platform.",
+          "columns": ["content_type_id", "label", "description"],
+          "rows": [
+            { "content_type_id": 1, "label": "Short video", "description": "Vertical video under 90 seconds" },
+            { "content_type_id": 2, "label": "Feed post", "description": "Image or link shared to the primary feed" },
+            { "content_type_id": 3, "label": "Livestream", "description": "Live video sessions" },
+            { "content_type_id": 4, "label": "Long-form video", "description": "Video exceeding 10 minutes" },
+            { "content_type_id": 5, "label": "Microblog", "description": "Short text-oriented update" }
+          ]
+        },
+        {
+          "name": "fact_engagements",
+          "description": "Aggregated engagement metrics by platform, content type, and reporting date.",
+          "columns": ["snapshot_date", "platform_id", "content_type_id", "impressions", "engaged_users", "watch_hours"],
+          "rows": [
+            { "snapshot_date": "2025-01-15", "platform_id": 1, "content_type_id": 1, "impressions": 1890000, "engaged_users": 340000, "watch_hours": 125000.4 },
+            { "snapshot_date": "2025-01-15", "platform_id": 1, "content_type_id": 3, "impressions": 240000, "engaged_users": 58000, "watch_hours": 41200.7 },
+            { "snapshot_date": "2025-01-15", "platform_id": 2, "content_type_id": 2, "impressions": 940000, "engaged_users": 210000, "watch_hours": 47000.9 },
+            { "snapshot_date": "2025-01-15", "platform_id": 2, "content_type_id": 5, "impressions": 410000, "engaged_users": 155000, "watch_hours": 12000.1 },
+            { "snapshot_date": "2025-01-15", "platform_id": 3, "content_type_id": 4, "impressions": 720000, "engaged_users": 132000, "watch_hours": 91000.6 },
+            { "snapshot_date": "2025-01-15", "platform_id": 3, "content_type_id": 1, "impressions": 380000, "engaged_users": 67000, "watch_hours": 34000.8 },
+            { "snapshot_date": "2025-01-15", "platform_id": 4, "content_type_id": 5, "impressions": 68000, "engaged_users": 24000, "watch_hours": 1800.3 },
+            { "snapshot_date": "2025-01-15", "platform_id": 4, "content_type_id": 2, "impressions": 52000, "engaged_users": 19000, "watch_hours": 1600.5 }
+          ]
+        }
+      ]

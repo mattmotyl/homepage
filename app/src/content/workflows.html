@@ -1,0 +1,75 @@
+<main>
+<section id="workflow-orientation">
+<h1>5. How to move from raw tables to insights</h1>
+<p>
+            Article 40 gives you access to powerful datasets, but the first login to a researcher environment can feel overwhelming.
+            This chapter expands on the report’s guidance with additional handholding: we restate the narrative, annotate the SQL,
+            and provide interactive examples so you can build confidence step by step.
+          </p>
+<p>
+            Start with a question grounded in the systemic risks described by the Digital Services Act. Then identify which tables
+            contain the signals you need. Most workflows follow this rhythm:
+          </p>
+<ol>
+<li>Review the available documentation to understand table grain, retention, and sensitive columns.</li>
+<li>Explore the dimension tables first—they translate numeric IDs into meaningful labels.</li>
+<li>Profile the fact tables to confirm how events are logged (per impression, per session, per content ID, etc.).</li>
+<li>Join the facts and dimensions, filter to the cohort you care about, and compute your metrics.</li>
+<li>Validate results against platform-provided benchmarks or public reporting when possible.</li>
+</ol>
+</section>
+<section class="section" id="sample-tables">
+<h2>5.1 Sample tables</h2>
+<p>
+            The sandbox below uses synthetic engagement data that mirrors the structure described in Section 3. Study the tables
+            before running queries so you know which identifiers to join on and how fields are labeled.
+          </p>
+<div class="card-grid" id="sql-table-preview"></div>
+</section>
+<section class="section" id="sql-walkthrough">
+<h2>5.2 Guided SQL walkthrough</h2>
+<p>
+            Each step echoes the examples in the written report. Click “Try this query” to run it instantly in the sandbox and see the
+            output. Pay attention to how the SELECT statements introduce joins one at a time.
+          </p>
+<div class="sql-layout">
+<div class="sql-panel" id="sql-walkthrough"></div>
+<div class="sql-panel">
+<h3>Common questions to ask</h3>
+<ul>
+<li>How many unique users or sessions are represented in my extract?</li>
+<li>Which surfaces, content types, or policy labels dominate the activity?</li>
+<li>Do engagement rates change when I filter to a specific country or risk cohort?</li>
+<li>How do the metrics trend over time, and do they align with the platform’s public transparency reports?</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="section" id="sql-sandbox">
+<h2>5.3 Practice sandbox</h2>
+<p>
+            Use the editor to experiment with your own questions. The dataset includes <code>dim_platform</code>,
+            <code>dim_content_type</code>, and <code>fact_engagements</code>. Reset at any time to reload the original tables. The
+            “Sample tables” cards above stay visible so you can reference column names without scrolling away from the editor.
+          </p>
+<div class="sql-layout">
+<div class="sql-panel">
+<label for="sql-input"><strong>Write your query</strong></label>
+<textarea id="sql-input">SELECT *
+FROM fact_engagements
+LIMIT 5;</textarea>
+<div style="display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap;">
+<button class="button primary" id="run-query" type="button">Run query</button>
+<button class="button secondary" id="reset-db" type="button">Reset tables</button>
+</div>
+</div>
+<div class="sql-panel">
+<h3>Results</h3>
+<div class="alert" id="sql-result">Run a query to see the output table here.</div>
+<h3>Quick sample queries</h3>
+<ul id="sql-samples"></ul>
+</div>
+</div>
+</section>
+</main>
+
