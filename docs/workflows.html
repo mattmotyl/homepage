@@ -11,6 +11,11 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <title>Workflows &amp; SQL Practice | Platform Data Handbook</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <header>
@@ -18,16 +23,16 @@
         <div class="brand">
           <span>Platform Data Primer</span>
           <span>Matt Motyl, Ph.D.</span>
+          <span>Matt Motyl</span>
+          <span>Platform Data Handbook</span>
         </div>
         <nav aria-label="Primary">
           <ul>
             <li><a href="index.html">Welcome</a></li>
             <li><a href="foundations.html">Data Foundations</a></li>
-            <li><a href="api.html">API Access</a></li>
             <li><a href="warehouses.html">Data Models</a></li>
+            <li><a href="warehouses.html">Warehouses</a></li>
             <li><a href="workflows.html" aria-current="page">Workflows</a></li>
-            <li><a href="harms.html">Delegated Harms</a></li>
-            <li><a href="datasets.html">Researcher Datasets</a></li>
             <li><a href="comparisons.html">Comparisons</a></li>
             <li><a href="engage.html">Engage</a></li>
           </ul>
@@ -38,12 +43,69 @@
     <div class="layout">
       <aside class="sidebar" aria-label="Table of contents">
         <button class="sidebar-toggle" type="button" aria-expanded="false">Table of contents</button>
-        <nav class="sidebar-nav" data-current-page="workflows"></nav>
+        <nav class="sidebar-nav">
+          <ol>
+            <li>
+              <a href="index.html">Welcome</a>
+              <ol>
+                <li><a href="index.html#introduction">1. Introduction</a></li>
+                <li><a href="index.html#article-40">1.1 Article 40 at a glance</a></li>
+                <li><a href="index.html#using-primer">1.2 How to use this primer</a></li>
+                <li><a href="index.html#audiences">1.3 Who this is for</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="foundations.html">Data foundations</a>
+              <ol>
+                <li><a href="foundations.html#data-categories">2. What data do platforms collect?</a></li>
+                <li><a href="foundations.html#category-reference">2.1 Data category reference</a></li>
+                <li><a href="foundations.html#additional-families">2.2 Extended data families</a></li>
+                <li><a href="foundations.html#catalog">2.3 Interactive catalog</a></li>
+                <li><a href="foundations.html#supplemental">2.4 Supplemental datasets</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="warehouses.html">Understanding platform data models</a>
+              <ol>
+                <li><a href="warehouses.html#generated-data">3. What do platforms generate?</a></li>
+                <li><a href="warehouses.html#fact-tables">3.1 Fact tables</a></li>
+                <li><a href="warehouses.html#dimension-tables">3.2 Dimension tables</a></li>
+                <li><a href="warehouses.html#joining-data">3.3 Joining data across tables</a></li>
+                <li><a href="warehouses.html#probabilistic">3.4 Probabilistic variables</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="workflows.html" aria-current="page">Workflows and practice</a>
+              <ol>
+                <li><a href="#workflow-orientation">4. Starting your workflow</a></li>
+                <li><a href="#sample-tables">4.1 Sample tables</a></li>
+                <li><a href="#sql-walkthrough">4.2 Guided SQL walkthrough</a></li>
+                <li><a href="#sql-sandbox">4.3 Practice sandbox</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="comparisons.html">Comparing API and internal data</a>
+              <ol>
+                <li><a href="comparisons.html#comparisons-overview">5. Why comparisons matter</a></li>
+                <li><a href="comparisons.html#example-1">5.1 Research by harm type</a></li>
+                <li><a href="comparisons.html#example-2">5.2 Structural indicator coverage</a></li>
+                <li><a href="comparisons.html#example-3">5.3 Mastodon as a reference point</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="engage.html">Engage and next steps</a>
+              <ol>
+                <li><a href="engage.html#contact">6. Connect with Matt</a></li>
+                <li><a href="engage.html#further-reading">6.1 Further reading</a></li>
+              </ol>
+            </li>
+          </ol>
+        </nav>
       </aside>
 
       <main>
         <section id="workflow-orientation">
-          <h1>5. How to move from raw tables to insights</h1>
+          <h1>4. How to move from raw tables to insights</h1>
           <p>
             Article 40 gives you access to powerful datasets, but the first login to a researcher environment can feel overwhelming.
             This chapter expands on the report’s guidance with additional handholding: we restate the narrative, annotate the SQL,
@@ -63,7 +125,7 @@
         </section>
 
         <section class="section" id="sample-tables">
-          <h2>5.1 Sample tables</h2>
+          <h2>4.1 Sample tables</h2>
           <p>
             The sandbox below uses synthetic engagement data that mirrors the structure described in Section 3. Study the tables
             before running queries so you know which identifiers to join on and how fields are labeled.
@@ -72,7 +134,7 @@
         </section>
 
         <section class="section" id="sql-walkthrough">
-          <h2>5.2 Guided SQL walkthrough</h2>
+          <h2>4.2 Guided SQL walkthrough</h2>
           <p>
             Each step echoes the examples in the written report. Click “Try this query” to run it instantly in the sandbox and see the
             output. Pay attention to how the SELECT statements introduce joins one at a time.
@@ -92,7 +154,7 @@
         </section>
 
         <section class="section" id="sql-sandbox">
-          <h2>5.3 Practice sandbox</h2>
+          <h2>4.3 Practice sandbox</h2>
           <p>
             Use the editor to experiment with your own questions. The dataset includes <code>dim_platform</code>,
             <code>dim_content_type</code>, and <code>fact_engagements</code>. Reset at any time to reload the original tables. The
@@ -117,11 +179,6 @@ LIMIT 5;</textarea>
             </div>
           </div>
         </section>
-
-        <div class="page-nav">
-          <a href="warehouses.html">← Previous: Data models</a>
-          <a href="harms.html">Next: Delegated harms →</a>
-        </div>
       </main>
     </div>
 
@@ -129,6 +186,72 @@ LIMIT 5;</textarea>
       <div class="footer-inner">
         <strong>Need a deeper walkthrough?</strong>
         <span>Schedule time with Matt to align these datasets to your investigation or research question.</span>
+    <main>
+      <h1>Workflows &amp; SQL Practice</h1>
+      <p>
+        Follow this step-by-step workflow to explore Article 40 datasets, with a sandbox where you can experiment using real SQL syntax. Each walkthrough prompt mirrors what you’ll do once you access platform-held data.
+      </p>
+
+      <section class="section">
+        <h2>Workflow overview</h2>
+        <ol>
+          <li>Start with the platform’s documentation to understand available tables, fields, and access constraints.</li>
+          <li>Create a staging area to profile the raw data and validate row counts against the platform’s stated coverage.</li>
+          <li>Model the data into fact and dimension tables, keeping the original grain intact.</li>
+          <li>Iterate with your team to define metrics, dashboards, and research-ready extracts.</li>
+        </ol>
+        <blockquote>
+          “Treat platform transparency data like a partnership: document your assumptions, share findings responsibly, and close the loop with the platform when you see anomalies.” — Matt Motyl
+        </blockquote>
+      </section>
+
+      <section class="section">
+        <h2>Interactive SQL sandbox</h2>
+        <p>
+          This sandbox runs entirely in your browser using <a href="https://sql.js.org/" target="_blank" rel="noreferrer">sql.js</a>. No data ever leaves your computer. Use the walkthrough steps or try the sample questions.
+        </p>
+        <div class="sql-playground" id="sql-playground">
+          <div class="sql-editor">
+            <label for="sql-input">Write or paste a SQL query</label>
+            <textarea id="sql-input" spellcheck="false">SELECT * FROM fact_engagements LIMIT 5;</textarea>
+            <div class="sql-actions">
+              <button type="button" id="run-query">Run query</button>
+              <button type="button" id="reset-db">Reset tables</button>
+            </div>
+          </div>
+          <div>
+            <h3>Guided walkthrough</h3>
+            <div id="sql-walkthrough"></div>
+            <h3>Sample questions to explore</h3>
+            <ul id="sql-samples"></ul>
+          </div>
+        </div>
+        <div class="sql-result" id="sql-result"></div>
+      </section>
+
+      <section class="section">
+        <h2>Checklist for responsible analysis</h2>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Document privacy guardrails</h3>
+            <p>Note any k-anonymity thresholds or aggregation rules applied to sensitive cohorts.</p>
+          </article>
+          <article class="card">
+            <h3>Track data lineage</h3>
+            <p>Record when tables were refreshed and the transformations you performed before publication.</p>
+          </article>
+          <article class="card">
+            <h3>Share reproducible notebooks</h3>
+            <p>Pair your SQL queries with annotated notebooks so peers can replicate your findings.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Ready to level up?</strong>
+        <span>Matt can facilitate team workshops that blend data literacy training with platform transparency strategy.</span>
         <span>© <span id="year"></span> Matt Motyl.</span>
       </div>
     </footer>
@@ -224,5 +347,8 @@ LIMIT 5;</textarea>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.js" integrity="sha512-jN2mYIZHuZOKhHvJ3C0cI85FhF38sZ4N2VNivX8XcX4Jt9V7H5PHeTtNKgHdwNwp0UrEGouGZWlznImPi0tL0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/sql-playground.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.js" integrity="sha512-YoQdpdFQMGgrN/B+e3fHDC6W5UPeJDrW9PiAbRbqnbsdcI3yGqeG5kQxy34ENXGuzqVaq/h8GKyNEmlQrYSZkA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="assets/js/sql-playground.js" type="module"></script>
   </body>
 </html>

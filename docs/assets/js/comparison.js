@@ -6,19 +6,6 @@ const viewButtons = document.querySelectorAll('.comparison-controls button');
 let chart;
 let rows = [];
 const palette = ['#1e2a5a', '#f97316', '#2dd4bf', '#6366f1', '#0ea5e9'];
-const statusLabels = {
-  0: 'Not available',
-  1: 'Partial coverage',
-  2: 'Available with safeguards',
-};
-
-const formatValue = (value) => {
-  if (typeof value === 'number') {
-    const label = statusLabels[value];
-    return label ? `${label} (${value})` : String(value);
-  }
-  return value;
-};
 
 const buildTable = () => {
   if (!tbody) return;
@@ -28,11 +15,11 @@ const buildTable = () => {
     tr.innerHTML = `
       <td>${row.indicator}</td>
       <td>${row.dimension}</td>
-      <td>${formatValue(row.values.TikTok)}</td>
-      <td>${formatValue(row.values.Facebook)}</td>
-      <td>${formatValue(row.values.YouTube)}</td>
-      <td>${formatValue(row.values.Mastodon)}</td>
-      <td>${formatValue(row.values['Google Search'])}</td>
+      <td>${row.values.TikTok}</td>
+      <td>${row.values.Facebook}</td>
+      <td>${row.values.YouTube}</td>
+      <td>${row.values.Mastodon}</td>
+      <td>${row.values['Google Search']}</td>
     `;
     tbody.appendChild(tr);
   });

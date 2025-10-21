@@ -11,6 +11,11 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <title>Comparisons | Platform Data Handbook</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <header>
@@ -18,16 +23,16 @@
         <div class="brand">
           <span>Platform Data Primer</span>
           <span>Matt Motyl, Ph.D.</span>
+          <span>Matt Motyl</span>
+          <span>Platform Data Handbook</span>
         </div>
         <nav aria-label="Primary">
           <ul>
             <li><a href="index.html">Welcome</a></li>
             <li><a href="foundations.html">Data Foundations</a></li>
-            <li><a href="api.html">API Access</a></li>
             <li><a href="warehouses.html">Data Models</a></li>
+            <li><a href="warehouses.html">Warehouses</a></li>
             <li><a href="workflows.html">Workflows</a></li>
-            <li><a href="harms.html">Delegated Harms</a></li>
-            <li><a href="datasets.html">Researcher Datasets</a></li>
             <li><a href="comparisons.html" aria-current="page">Comparisons</a></li>
             <li><a href="engage.html">Engage</a></li>
           </ul>
@@ -38,12 +43,69 @@
     <div class="layout">
       <aside class="sidebar" aria-label="Table of contents">
         <button class="sidebar-toggle" type="button" aria-expanded="false">Table of contents</button>
-        <nav class="sidebar-nav" data-current-page="comparisons"></nav>
+        <nav class="sidebar-nav">
+          <ol>
+            <li>
+              <a href="index.html">Welcome</a>
+              <ol>
+                <li><a href="index.html#introduction">1. Introduction</a></li>
+                <li><a href="index.html#article-40">1.1 Article 40 at a glance</a></li>
+                <li><a href="index.html#using-primer">1.2 How to use this primer</a></li>
+                <li><a href="index.html#audiences">1.3 Who this is for</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="foundations.html">Data foundations</a>
+              <ol>
+                <li><a href="foundations.html#data-categories">2. What data do platforms collect?</a></li>
+                <li><a href="foundations.html#category-reference">2.1 Data category reference</a></li>
+                <li><a href="foundations.html#additional-families">2.2 Extended data families</a></li>
+                <li><a href="foundations.html#catalog">2.3 Interactive catalog</a></li>
+                <li><a href="foundations.html#supplemental">2.4 Supplemental datasets</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="warehouses.html">Understanding platform data models</a>
+              <ol>
+                <li><a href="warehouses.html#generated-data">3. What do platforms generate?</a></li>
+                <li><a href="warehouses.html#fact-tables">3.1 Fact tables</a></li>
+                <li><a href="warehouses.html#dimension-tables">3.2 Dimension tables</a></li>
+                <li><a href="warehouses.html#joining-data">3.3 Joining data across tables</a></li>
+                <li><a href="warehouses.html#probabilistic">3.4 Probabilistic variables</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="workflows.html">Workflows and practice</a>
+              <ol>
+                <li><a href="workflows.html#workflow-orientation">4. Starting your workflow</a></li>
+                <li><a href="workflows.html#sample-tables">4.1 Sample tables</a></li>
+                <li><a href="workflows.html#sql-walkthrough">4.2 Guided SQL walkthrough</a></li>
+                <li><a href="workflows.html#sql-sandbox">4.3 Practice sandbox</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="comparisons.html" aria-current="page">Comparing API and internal data</a>
+              <ol>
+                <li><a href="#comparisons-overview">5. Why comparisons matter</a></li>
+                <li><a href="#example-1">5.1 Research by harm type</a></li>
+                <li><a href="#example-2">5.2 Structural indicator coverage</a></li>
+                <li><a href="#example-3">5.3 Mastodon as a reference point</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="engage.html">Engage and next steps</a>
+              <ol>
+                <li><a href="engage.html#contact">6. Connect with Matt</a></li>
+                <li><a href="engage.html#further-reading">6.1 Further reading</a></li>
+              </ol>
+            </li>
+          </ol>
+        </nav>
       </aside>
 
       <main>
         <section id="comparisons-overview">
-          <h1>8. Comparing API outputs with internal datasets</h1>
+          <h1>5. Comparing API outputs with internal datasets</h1>
           <p>
             Section 4 of the report examines how public APIs fall short of internal data when studying systemic risks. This page
             recreates that analysis while adding interactive views so you can isolate specific indicators. Understanding the gaps
@@ -61,7 +123,7 @@
         </section>
 
         <section class="section" id="example-1">
-          <h2>8.1 Research by harm type</h2>
+          <h2>5.1 Research by harm type</h2>
           <p>
             The report catalogs how TikTok, Facebook, YouTube, Google Search, and Mastodon cover different harm categories. Public
             APIs often reveal basic engagement counts but omit enforcement outcomes or demographic breakdowns. Use the controls below
@@ -90,14 +152,13 @@
           </div>
           <canvas id="comparison-chart" width="640" height="360" hidden aria-label="Indicator comparison chart"></canvas>
           <p class="table-note">
-            Scores translate to plain language in the table: <strong>Not available (0)</strong>, <strong>Partial coverage (1)</strong>,
-            and <strong>Available with safeguards (2)</strong>. They mirror the assessment in the EDMO report and help you
-            prioritize Article 40 requests.
+            Scores are ordinal (0 = not available, 1 = partial, 2 = available with conditions). They mirror the assessment in the
+            EDMO report and help you prioritize Article 40 requests.
           </p>
         </section>
 
         <section class="section" id="example-2">
-          <h2>8.2 Structural indicator coverage</h2>
+          <h2>5.2 Structural indicator coverage</h2>
           <p>
             Many indicators cluster into themes: access to recommender logs, advertising transparency, civic integrity interventions,
             and moderation resources. Break down the table above by theme to see where each platform excels or lags.
@@ -130,7 +191,7 @@
         </section>
 
         <section class="section" id="example-3">
-          <h2>8.3 Mastodon as a reference point</h2>
+          <h2>5.3 Mastodon as a reference point</h2>
           <p>
             Mastodon is included in the report as a north star: federated servers document their policies, publish moderation
             decisions, and expose ActivityPub feeds that researchers can analyze without special permission. When negotiating Article
@@ -142,11 +203,6 @@
             you can advocate for parity.
           </p>
         </section>
-
-        <div class="page-nav">
-          <a href="datasets.html">← Previous: Researcher datasets</a>
-          <a href="engage.html">Next: Engage →</a>
-        </div>
       </main>
     </div>
 
@@ -154,6 +210,64 @@
       <div class="footer-inner">
         <strong>Need a deeper walkthrough?</strong>
         <span>Schedule time with Matt to align these datasets to your investigation or research question.</span>
+    <main>
+      <h1>Comparing platform transparency</h1>
+      <p>
+        These visualizations distill hundreds of rows of platform transparency data into quick takeaways. Use them to guide policy conversations, prioritize your data requests, and explain coverage gaps to stakeholders.
+      </p>
+
+      <section class="section">
+        <h2>Choose a view</h2>
+        <div class="comparison-controls">
+          <button type="button" data-view="table" class="active">Table</button>
+          <button type="button" data-view="radar">Radar chart</button>
+          <button type="button" data-view="bar">Stacked bar</button>
+        </div>
+        <div class="chart-container">
+          <canvas id="comparison-chart" height="360" hidden></canvas>
+          <table id="comparison-table">
+            <thead>
+              <tr>
+                <th>Indicator</th>
+                <th>Dimension</th>
+                <th>TikTok</th>
+                <th>Facebook</th>
+                <th>YouTube</th>
+                <th>Mastodon</th>
+                <th>Google Search</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>How to cite these comparisons</h2>
+        <p>
+          Pair the visuals with qualitative context from platform transparency reports, civil society audits, and EDMO research briefs. When in doubt, link directly to the original API or dataset so readers can inspect the raw evidence.
+        </p>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Highlight strengths</h3>
+            <p>Celebrate platforms that publish granular enforcement metrics or robust ad libraries. Positive reinforcement encourages continued investment.</p>
+          </article>
+          <article class="card">
+            <h3>Flag gaps responsibly</h3>
+            <p>When a score is low, explain whether the limitation is technical, legal, or a policy choice. Suggest specific disclosures that would improve accountability.</p>
+          </article>
+          <article class="card">
+            <h3>Invite collaboration</h3>
+            <p>Use the data to start conversations with regulators, academics, and civil society partners who can collectively advocate for better access.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Need platform-specific advice?</strong>
+        <span>Matt can help you interpret transparency releases and turn them into actionable research roadmaps.</span>
         <span>© <span id="year"></span> Matt Motyl.</span>
       </div>
     </footer>
@@ -211,5 +325,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js" integrity="sha512-A98m3J44zI2xleqrs9jwELyhl725LLJoPLt114F8CbnMD4HzyBbs6k8ZZrVSu2Ce279b9Ec/WWEDuJeayQM2xw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/comparison.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" integrity="sha512-bsaEh1PQuPgzpzqFNVY0Bn7Cqq9UjlVxxn7MnuJXd94nOHEmRqpP37n8b7ASesYXJU4ORgxN6dwhi8clgSzNAw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="assets/js/comparison.js" type="module"></script>
   </body>
 </html>

@@ -4,6 +4,9 @@ const walkthroughDataEl = document.getElementById('sql-walkthrough-data');
 const samplesDataEl = document.getElementById('sql-samples-data');
 const previewEl = document.getElementById('sql-table-preview');
 const tableDataEl = document.getElementById('sql-table-data');
+const BOOTSTRAP_URL = 'assets/data/sql-bootstrap.json';
+const WALKTHROUGH_URL = 'assets/data/sql-walkthrough.json';
+const SAMPLES_URL = 'assets/data/sql-samples.json';
 
 const textarea = document.getElementById('sql-input');
 const runBtn = document.getElementById('run-query');
@@ -103,23 +106,41 @@ const renderWalkthrough = () => {
   if (!walkthroughEl) return;
   walkthroughEl.innerHTML = '';
   walkthroughSteps.forEach((step) => {
+  const bootstrapStatements = await fetch(BOOTSTRAP_URL).then((res) => res.json());
+  db.exec('BEGIN TRANSACTION;');
+  bootstrapStatements.forEach((statement) => {
+    db.exec(statement);
+  });
+  db.exec('COMMIT;');
+  if (resultEl) resultEl.innerHTML = '<div class="alert">Tables reloaded. Run a query!</div>';
+};
+
+const renderWalkthrough = async () => {
+  if (!walkthroughEl) return;
+  const steps = await fetch(WALKTHROUGH_URL).then((res) => res.json());
+  walkthroughEl.innerHTML = '';
+  steps.forEach((step) => {
     const section = document.createElement('article');
     section.className = 'card';
     section.innerHTML = `
       <h4>${step.title}</h4>
       <p>${step.description}</p>
-      <pre><code class="language-sql">${step.query}</code></pre>
+      <pre><code>${step.query}</code></pre>
       <button type="button" class="button secondary" data-query="${encodeURIComponent(step.query)}">Try this query</button>
     `;
     walkthroughEl.appendChild(section);
   });
-  if (window.applySqlHighlight) window.applySqlHighlight();
 };
 
 const renderSamples = () => {
   if (!samplesEl) return;
   samplesEl.innerHTML = '';
   sampleQueries.forEach((sample) => {
+const renderSamples = async () => {
+  if (!samplesEl) return;
+  const samples = await fetch(SAMPLES_URL).then((res) => res.json());
+  samplesEl.innerHTML = '';
+  samples.forEach((sample) => {
     const li = document.createElement('li');
     const button = document.createElement('button');
     button.type = 'button';
@@ -187,6 +208,7 @@ const renderPreviewTables = () => {
   renderSamples();
   renderPreviewTables();
 
+async function init() {
   if (!window.initSqlJs) {
     if (resultEl) resultEl.innerHTML = '<div class="alert">Unable to load the SQL engine.</div>';
     return;
@@ -194,5 +216,9 @@ const renderPreviewTables = () => {
   SQL = await window.initSqlJs({ locateFile: () => SQL_WASM_PATH });
   await resetDatabase();
   attachHandlers();
-  if (window.applySqlHighlight) window.applySqlHighlight();
 })();
+  await Promise.all([renderWalkthrough(), renderSamples()]);
+  attachHandlers();
+}
+
+init();

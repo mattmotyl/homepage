@@ -11,6 +11,11 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <title>Platform Data Handbook | Matt Motyl</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <header>
@@ -18,16 +23,16 @@
         <div class="brand">
           <span>Platform Data Primer</span>
           <span>Matt Motyl, Ph.D.</span>
+          <span>Matt Motyl</span>
+          <span>Platform Data Handbook</span>
         </div>
         <nav aria-label="Primary">
           <ul>
             <li><a href="index.html" aria-current="page">Welcome</a></li>
             <li><a href="foundations.html">Data Foundations</a></li>
-            <li><a href="api.html">API Access</a></li>
             <li><a href="warehouses.html">Data Models</a></li>
+            <li><a href="warehouses.html">Warehouses</a></li>
             <li><a href="workflows.html">Workflows</a></li>
-            <li><a href="harms.html">Delegated Harms</a></li>
-            <li><a href="datasets.html">Researcher Datasets</a></li>
             <li><a href="comparisons.html">Comparisons</a></li>
             <li><a href="engage.html">Engage</a></li>
           </ul>
@@ -38,12 +43,67 @@
     <div class="layout">
       <aside class="sidebar" aria-label="Table of contents">
         <button class="sidebar-toggle" type="button" aria-expanded="false">Table of contents</button>
-        <nav class="sidebar-nav" data-current-page="welcome"></nav>
+        <nav class="sidebar-nav">
+          <ol>
+            <li>
+              <a href="index.html" aria-current="page">Welcome</a>
+              <ol>
+                <li><a href="#introduction">1. Introduction</a></li>
+                <li><a href="#article-40">1.1 Article 40 at a glance</a></li>
+                <li><a href="#using-primer">1.2 How to use this primer</a></li>
+                <li><a href="#audiences">1.3 Who this is for</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="foundations.html">Data foundations</a>
+              <ol>
+                <li><a href="foundations.html#data-categories">2. What data do platforms collect?</a></li>
+                <li><a href="foundations.html#category-reference">2.1 Data category reference</a></li>
+                <li><a href="foundations.html#additional-families">2.2 Extended data families</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="warehouses.html">Understanding platform data models</a>
+              <ol>
+                <li><a href="warehouses.html#generated-data">3. What do platforms generate?</a></li>
+                <li><a href="warehouses.html#fact-tables">3.1 Fact tables</a></li>
+                <li><a href="warehouses.html#dimension-tables">3.2 Dimension tables</a></li>
+                <li><a href="warehouses.html#joining-data">3.3 Joining tables</a></li>
+                <li><a href="warehouses.html#probabilistic">3.4 Probabilistic variables</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="workflows.html">Workflows and practice</a>
+              <ol>
+                <li><a href="workflows.html#workflow-orientation">4. Starting your workflow</a></li>
+                <li><a href="workflows.html#sample-tables">4.1 Sample tables</a></li>
+                <li><a href="workflows.html#sql-walkthrough">4.2 Guided SQL walkthrough</a></li>
+                <li><a href="workflows.html#sql-sandbox">4.3 Practice sandbox</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="comparisons.html">Comparing API and internal data</a>
+              <ol>
+                <li><a href="comparisons.html#comparisons-overview">5. Why comparisons matter</a></li>
+                <li><a href="comparisons.html#example-1">5.1 Research by harm type</a></li>
+                <li><a href="comparisons.html#example-2">5.2 Structural indicator coverage</a></li>
+                <li><a href="comparisons.html#example-3">5.3 Mastodon as a reference point</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="engage.html">Engage and next steps</a>
+              <ol>
+                <li><a href="engage.html#contact">6. Connect with Matt</a></li>
+                <li><a href="engage.html#further-reading">6.1 Further reading</a></li>
+              </ol>
+            </li>
+          </ol>
+        </nav>
       </aside>
 
       <main>
         <section class="hero" id="introduction">
-          <h1>1. Introduction: Welcome to the Platform Data Primer</h1>
+          <h1>Welcome to the Platform Data Primer</h1>
           <p>
             This handbook translates a 35-page research report into an approachable, web-native guide. It walks you through what
             very large online platforms and search engines collect, how those data are structured, and how Article 40 of the
@@ -118,11 +178,6 @@
             analytical moves that transform raw tables into evidence.
           </p>
         </section>
-
-        <div class="page-nav">
-          <span class="page-nav-placeholder"></span>
-          <a href="foundations.html">Next: Data foundations →</a>
-        </div>
       </main>
     </div>
 
@@ -134,6 +189,86 @@
       </div>
     </footer>
 
+    <main>
+      <section class="hero">
+        <h1>Navigate platform transparency data with confidence.</h1>
+        <p>
+          A practical handbook for researchers, investigators, journalists, policymakers, and curious analysts who want to work with social media and search platform datasets under the EU Digital Services Act.
+        </p>
+        <div class="button-group">
+          <a class="button primary" href="foundations.html">Start with the data foundations →</a>
+          <a class="button secondary" href="engage.html">Book a session with Matt →</a>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>What you'll find inside</h2>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Clarity on what data exists</h3>
+            <p>
+              Explore an interactive catalog of datasets released by Very Large Online Platforms and Search Engines (VLOPSEs), including access channels, update cadence, and practical notes.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Guided data architecture primers</h3>
+            <p>
+              Understand how fact and dimension tables work together with a visual walkthrough designed for newcomers to data warehousing.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Hands-on SQL practice</h3>
+            <p>
+              Run live SQL against a synthetic engagement dataset to build confidence before you request or access real platform data.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Comparative insights</h3>
+            <p>
+              Compare transparency coverage across platforms using focused visualizations and narrative takeaways you can cite in your work.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Actionable next steps</h3>
+            <p>
+              Discover vetted access programs, recommended reading, and direct ways to collaborate with Matt Motyl for tailored support.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Quick links</h2>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Download the original report</h3>
+            <p><a href="../EDMO-Report_Platform-Datasets_.pdf">PDF (35 pages)</a></p>
+          </article>
+          <article class="card">
+            <h3>Browse supplemental datasets</h3>
+            <p><a href="https://drive.google.com/drive/folders/1KNoxVeo8Vn6mJtxG8kp5Iijee6aEVSpu" target="_blank" rel="noreferrer">Google Drive folder</a></p>
+          </article>
+          <article class="card">
+            <h3>Follow Matt</h3>
+            <p>
+              <a href="https://www.youtube.com/@UnmoderatedInsights?sub_confirmation=1" target="_blank" rel="noreferrer">YouTube</a> ·
+              <a href="https://mattmotyl.substack.com" target="_blank" rel="noreferrer">Substack</a> ·
+              <a href="https://app.ducoexperts.com/users/matt-motyl" target="_blank" rel="noreferrer">Duco Experts</a>
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Looking for a custom workshop or consultation?</strong>
+        <span>
+          Email <a href="mailto:matt@mattmotyl.com">matt@mattmotyl.com</a> or use the contact form in the <a href="engage.html">Engage</a> section.
+        </span>
+        <span>© <span id="year"></span> Matt Motyl. All rights reserved.</span>
+      </div>
+    </footer>
     <script src="assets/js/main.js"></script>
   </body>
 </html>
