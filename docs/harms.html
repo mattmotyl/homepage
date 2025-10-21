@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Platform Data Primer | Mapping Signals to Delegated Harms</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="brand">
+          <span>Platform Data Primer</span>
+          <span>Matt Motyl, Ph.D.</span>
+        </div>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="foundations.html">Data Foundations</a></li>
+            <li><a href="api.html">API Access</a></li>
+            <li><a href="warehouses.html">Data Models</a></li>
+            <li><a href="workflows.html">Workflows</a></li>
+            <li><a href="harms.html" aria-current="page">Delegated Harms</a></li>
+            <li><a href="datasets.html">Researcher Datasets</a></li>
+            <li><a href="comparisons.html">Comparisons</a></li>
+            <li><a href="engage.html">Engage</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" aria-label="Table of contents">
+        <button class="sidebar-toggle" type="button" aria-expanded="false">Table of contents</button>
+        <nav class="sidebar-nav" data-current-page="harms"></nav>
+      </aside>
+
+      <main>
+        <section id="harms-overview">
+          <h1>6. Understanding delegated risks</h1>
+          <p>
+            Article 40 focuses on <em>systemic risks</em>—delegated harms that platforms must monitor and mitigate, such as
+            disinformation, gender-based violence, threats to civic discourse, and harms to minors. Translating these broad
+            categories into data requests is one of the hardest steps for newcomers. This page restates the report’s guidance and
+            adds practical examples that connect the high-level harms to concrete variables.
+          </p>
+          <p>
+            Begin by framing your research question in terms of the delegated risk categories defined by the Digital Services Act.
+            Then identify observable signals that capture the harm. The table below illustrates how to move from policy language to
+            measurable variables.
+          </p>
+        </section>
+
+        <section class="section" id="harms-mapping">
+          <h2>6.1 Linking variables to harms</h2>
+          <p>
+            Use this matrix as a starting point when drafting Article 40 requests. It blends the report’s examples with additional
+            prompts for investigators and journalists.
+          </p>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Delegated harm</th>
+                  <th>Signals to request</th>
+                  <th>Example variables</th>
+                  <th>Why they matter</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Disinformation and manipulation</td>
+                  <td>Content labels, fact-check outcomes, repeat spreaders, paid promotion metadata</td>
+                  <td><code>policy_label</code>, <code>fact_check_status</code>, <code>forward_chain_id</code>, <code>ad_disclaimer_text</code></td>
+                  <td>Reveals whether false claims are amplified, monetized, or removed slowly compared with policy commitments.</td>
+                </tr>
+                <tr>
+                  <td>Harassment and gender-based violence</td>
+                  <td>User reports, enforcement actions, appeals, safety escalations</td>
+                  <td><code>report_category</code>, <code>enforcement_action</code>, <code>escalation_reason</code>, <code>appeal_outcome</code></td>
+                  <td>Shows whether survivors receive timely protection, and whether repeat offenders evade moderation.</td>
+                </tr>
+                <tr>
+                  <td>Threats to civic discourse and elections</td>
+                  <td>Coordinated account flags, state-controlled media classifiers, recommendation surfaces</td>
+                  <td><code>coordinated_behavior_score</code>, <code>state_media_flag</code>, <code>ranking_surface</code>, <code>target_region</code></td>
+                  <td>Helps evaluate whether democratic processes are being gamed or targeted by foreign influence operations.</td>
+                </tr>
+                <tr>
+                  <td>Harms to minors</td>
+                  <td>Age estimation, content suitability ratings, time-on-platform by cohort</td>
+                  <td><code>predicted_age_bucket</code>, <code>age_restricted_reason</code>, <code>daily_watch_minutes</code>, <code>parental_control_status</code></td>
+                  <td>Surfaces whether products deliver on safety promises for younger users and where intervention is failing.</td>
+                </tr>
+                <tr>
+                  <td>Illegal products and services</td>
+                  <td>Marketplace takedowns, payment provider escalations, law-enforcement referrals</td>
+                  <td><code>listing_violation_type</code>, <code>seller_authenticity_score</code>, <code>financial_hold_flag</code>, <code>law_enforcement_case_id</code></td>
+                  <td>Documents how quickly platforms identify and disrupt illicit commerce that endangers consumers.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">Match each signal to the data families in Section 2 so your requests cite the same vocabulary.</p>
+        </section>
+
+        <section class="section" id="harms-sql">
+          <h2>6.2 Building harm-specific queries</h2>
+          <p>
+            The sandbox below extends the workflow dataset with harm annotations. Practice crafting queries that align signals to
+            delegated risk categories. Try filtering for a single harm, comparing enforcement rates, or isolating regions where a
+            harm is under-addressed.
+          </p>
+          <div class="card-grid" id="sql-table-preview"></div>
+          <div class="sql-layout">
+            <div class="sql-panel">
+              <label for="sql-input"><strong>Write your query</strong></label>
+              <textarea id="sql-input">SELECT
+  h.harm_category,
+  SUM(f.incident_reports) AS reports,
+  SUM(f.enforcement_actions) AS actions
+FROM fact_harm_signals f
+JOIN dim_harm h ON f.harm_id = h.harm_id
+GROUP BY h.harm_category
+ORDER BY reports DESC;</textarea>
+              <div style="display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap;">
+                <button id="run-query" class="button primary" type="button">Run query</button>
+                <button id="reset-db" class="button secondary" type="button">Reset tables</button>
+              </div>
+            </div>
+            <div class="sql-panel">
+              <h3>Results</h3>
+              <div id="sql-result" class="alert">Run a query to see the output table here.</div>
+              <h3>Try these scenarios</h3>
+              <ul id="sql-samples"></ul>
+            </div>
+          </div>
+        </section>
+
+        <div class="page-nav">
+          <a href="workflows.html">← Previous: Workflows</a>
+          <a href="datasets.html">Next: Researcher datasets →</a>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Need a deeper walkthrough?</strong>
+        <span>Schedule time with Matt to align these datasets to your investigation or research question.</span>
+        <span>© <span id="year"></span> Matt Motyl.</span>
+      </div>
+    </footer>
+
+    <script id="sql-bootstrap" type="application/json">
+      [
+        "CREATE TABLE dim_harm (harm_id INTEGER PRIMARY KEY, harm_category TEXT, description TEXT);",
+        "INSERT INTO dim_harm (harm_id, harm_category, description) VALUES (1, 'Disinformation', 'False or misleading narratives that affect civic participation'), (2, 'Harassment', 'Targeted abuse or intimidation, including gender-based violence'), (3, 'Civic Integrity', 'Manipulation of civic processes or elections'), (4, 'Youth Safety', 'Content or behaviors that endanger minors');",
+        "CREATE TABLE dim_signal (signal_id INTEGER PRIMARY KEY, signal_name TEXT, platform_table TEXT, recommended_filter TEXT);",
+        "INSERT INTO dim_signal (signal_id, signal_name, platform_table, recommended_filter) VALUES (1, 'policy_label', 'fact_content_moderation', 'policy_label IN (''ELECTION'', ''DISINFORMATION'')'), (2, 'enforcement_action', 'fact_enforcement', 'enforcement_action IS NOT NULL'), (3, 'ranking_surface', 'fact_recommendation_events', 'ranking_surface = ''ForYou'''), (4, 'predicted_age_bucket', 'dim_user_profile', 'predicted_age_bucket < 18');",
+        "CREATE TABLE fact_harm_signals (snapshot_date TEXT, harm_id INTEGER, signal_id INTEGER, incident_reports INTEGER, enforcement_actions INTEGER, coverage_score REAL, PRIMARY KEY (snapshot_date, harm_id, signal_id), FOREIGN KEY (harm_id) REFERENCES dim_harm(harm_id), FOREIGN KEY (signal_id) REFERENCES dim_signal(signal_id));",
+        "INSERT INTO fact_harm_signals (snapshot_date, harm_id, signal_id, incident_reports, enforcement_actions, coverage_score) VALUES ('2025-02-01', 1, 1, 1840, 920, 0.68), ('2025-02-01', 1, 3, 1260, 540, 0.55), ('2025-02-01', 2, 2, 1425, 1180, 0.72), ('2025-02-01', 2, 4, 980, 410, 0.44), ('2025-02-01', 3, 1, 860, 430, 0.51), ('2025-02-01', 3, 3, 760, 295, 0.38), ('2025-02-01', 4, 2, 640, 520, 0.76), ('2025-02-01', 4, 4, 1120, 880, 0.81);"
+      ]
+    </script>
+    <script id="sql-table-data" type="application/json">
+      [
+        {
+          "name": "dim_harm",
+          "description": "Delegated harm categories defined by the DSA.",
+          "columns": ["harm_id", "harm_category", "description"],
+          "rows": [
+            { "harm_id": 1, "harm_category": "Disinformation", "description": "False narratives impacting civic discourse" },
+            { "harm_id": 2, "harm_category": "Harassment", "description": "Targeted abuse or intimidation" },
+            { "harm_id": 3, "harm_category": "Civic Integrity", "description": "Manipulation of elections or democratic processes" },
+            { "harm_id": 4, "harm_category": "Youth Safety", "description": "Risks to minors using the service" }
+          ]
+        },
+        {
+          "name": "dim_signal",
+          "description": "Signals and tables that capture harm-related activity.",
+          "columns": ["signal_id", "signal_name", "platform_table", "recommended_filter"],
+          "rows": [
+            { "signal_id": 1, "signal_name": "policy_label", "platform_table": "fact_content_moderation", "recommended_filter": "policy_label IN ('ELECTION','DISINFORMATION')" },
+            { "signal_id": 2, "signal_name": "enforcement_action", "platform_table": "fact_enforcement", "recommended_filter": "enforcement_action IS NOT NULL" },
+            { "signal_id": 3, "signal_name": "ranking_surface", "platform_table": "fact_recommendation_events", "recommended_filter": "ranking_surface = 'ForYou'" },
+            { "signal_id": 4, "signal_name": "predicted_age_bucket", "platform_table": "dim_user_profile", "recommended_filter": "predicted_age_bucket < 18" }
+          ]
+        },
+        {
+          "name": "fact_harm_signals",
+          "description": "Daily counts of signals aligned to delegated harms.",
+          "columns": ["snapshot_date", "harm_id", "signal_id", "incident_reports", "enforcement_actions", "coverage_score"],
+          "rows": [
+            { "snapshot_date": "2025-02-01", "harm_id": 1, "signal_id": 1, "incident_reports": 1840, "enforcement_actions": 920, "coverage_score": 0.68 },
+            { "snapshot_date": "2025-02-01", "harm_id": 1, "signal_id": 3, "incident_reports": 1260, "enforcement_actions": 540, "coverage_score": 0.55 },
+            { "snapshot_date": "2025-02-01", "harm_id": 2, "signal_id": 2, "incident_reports": 1425, "enforcement_actions": 1180, "coverage_score": 0.72 },
+            { "snapshot_date": "2025-02-01", "harm_id": 2, "signal_id": 4, "incident_reports": 980, "enforcement_actions": 410, "coverage_score": 0.44 },
+            { "snapshot_date": "2025-02-01", "harm_id": 3, "signal_id": 1, "incident_reports": 860, "enforcement_actions": 430, "coverage_score": 0.51 },
+            { "snapshot_date": "2025-02-01", "harm_id": 3, "signal_id": 3, "incident_reports": 760, "enforcement_actions": 295, "coverage_score": 0.38 },
+            { "snapshot_date": "2025-02-01", "harm_id": 4, "signal_id": 2, "incident_reports": 640, "enforcement_actions": 520, "coverage_score": 0.76 },
+            { "snapshot_date": "2025-02-01", "harm_id": 4, "signal_id": 4, "incident_reports": 1120, "enforcement_actions": 880, "coverage_score": 0.81 }
+          ]
+        }
+      ]
+    </script>
+    <script id="sql-samples-data" type="application/json">
+      [
+        {
+          "label": "Which harms lag in enforcement?",
+          "sql": "SELECT h.harm_category, SUM(f.incident_reports) AS reports, SUM(f.enforcement_actions) AS actions, ROUND(SUM(f.enforcement_actions) * 1.0 / SUM(f.incident_reports), 2) AS enforcement_rate FROM fact_harm_signals f JOIN dim_harm h ON f.harm_id = h.harm_id GROUP BY h.harm_category ORDER BY enforcement_rate ASC;"
+        },
+        {
+          "label": "Focus on youth safety signals",
+          "sql": "SELECT s.signal_name, SUM(f.incident_reports) AS reports, SUM(f.coverage_score) / COUNT(*) AS avg_coverage FROM fact_harm_signals f JOIN dim_signal s ON f.signal_id = s.signal_id WHERE f.harm_id = 4 GROUP BY s.signal_name;"
+        },
+        {
+          "label": "Identify high-volume disinformation signals",
+          "sql": "SELECT s.signal_name, SUM(f.incident_reports) AS reports FROM fact_harm_signals f JOIN dim_signal s ON f.signal_id = s.signal_id WHERE f.harm_id = 1 GROUP BY s.signal_name ORDER BY reports DESC;"
+        }
+      ]
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.js" integrity="sha512-jN2mYIZHuZOKhHvJ3C0cI85FhF38sZ4N2VNivX8XcX4Jt9V7H5PHeTtNKgHdwNwp0UrEGouGZWlznImPi0tL0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/sql-playground.js"></script>
+  </body>
+</html>

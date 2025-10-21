@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Platform Data Primer | Understanding Platform Data Models</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Warehouses &amp; Modeling | Platform Data Handbook</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="brand">
+          <span>Platform Data Primer</span>
+          <span>Matt Motyl, Ph.D.</span>
+          <span>Matt Motyl</span>
+          <span>Platform Data Handbook</span>
+        </div>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="foundations.html">Data Foundations</a></li>
+            <li><a href="warehouses.html" aria-current="page">Data Models</a></li>
+            <li><a href="warehouses.html" aria-current="page">Warehouses</a></li>
+            <li><a href="workflows.html">Workflows</a></li>
+            <li><a href="comparisons.html">Comparisons</a></li>
+            <li><a href="engage.html">Engage</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" aria-label="Table of contents">
+        <button class="sidebar-toggle" type="button" aria-expanded="false">Table of contents</button>
+        <nav class="sidebar-nav">
+          <ol>
+            <li>
+              <a href="index.html">Welcome</a>
+              <ol>
+                <li><a href="index.html#introduction">1. Introduction</a></li>
+                <li><a href="index.html#article-40">1.1 Article 40 at a glance</a></li>
+                <li><a href="index.html#using-primer">1.2 How to use this primer</a></li>
+                <li><a href="index.html#audiences">1.3 Who this is for</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="foundations.html">Data foundations</a>
+              <ol>
+                <li><a href="foundations.html#data-categories">2. What data do platforms collect?</a></li>
+                <li><a href="foundations.html#category-reference">2.1 Data category reference</a></li>
+                <li><a href="foundations.html#additional-families">2.2 Extended data families</a></li>
+                <li><a href="foundations.html#catalog">2.3 Interactive catalog</a></li>
+                <li><a href="foundations.html#supplemental">2.4 Supplemental datasets</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="warehouses.html" aria-current="page">Understanding platform data models</a>
+              <ol>
+                <li><a href="#generated-data">3. What do platforms generate?</a></li>
+                <li><a href="#fact-tables">3.1 Fact tables</a></li>
+                <li><a href="#dimension-tables">3.2 Dimension tables</a></li>
+                <li><a href="#joining-data">3.3 Joining data across tables</a></li>
+                <li><a href="#probabilistic">3.4 Probabilistic variables</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="workflows.html">Workflows and practice</a>
+              <ol>
+                <li><a href="workflows.html#workflow-orientation">4. Starting your workflow</a></li>
+                <li><a href="workflows.html#sample-tables">4.1 Sample tables</a></li>
+                <li><a href="workflows.html#sql-walkthrough">4.2 Guided SQL walkthrough</a></li>
+                <li><a href="workflows.html#sql-sandbox">4.3 Practice sandbox</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="comparisons.html">Comparing API and internal data</a>
+              <ol>
+                <li><a href="comparisons.html#comparisons-overview">5. Why comparisons matter</a></li>
+                <li><a href="comparisons.html#example-1">5.1 Research by harm type</a></li>
+                <li><a href="comparisons.html#example-2">5.2 Structural indicator coverage</a></li>
+                <li><a href="comparisons.html#example-3">5.3 Mastodon as a reference point</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="engage.html">Engage and next steps</a>
+              <ol>
+                <li><a href="engage.html#contact">6. Connect with Matt</a></li>
+                <li><a href="engage.html#further-reading">6.1 Further reading</a></li>
+              </ol>
+            </li>
+          </ol>
+        </nav>
+      </aside>
+
+      <main>
+        <section id="generated-data">
+          <h1>3. What do platforms generate from collected data?</h1>
+          <p>
+            The event logs described in Section 2 power everything from recommendation systems to integrity defenses. Platforms use
+            the raw signals to predict which videos will be watched, which accounts are trustworthy, and whether a piece of content
+            likely violates policy. This page retains the full narrative from the report while adding plain-language explanations so
+            you can follow each concept without needing a background in data engineering.
+          </p>
+          <p>
+            Storage and processing at VLOPSE scale is expensive. To make queries efficient, teams break activity into specialized
+            tables. Most follow a dimensional model: <strong>fact tables</strong> capture actions or events, <strong>dimension
+            tables</strong> describe the people or objects involved, and <strong>probabilistic scores</strong> summarize model
+            outputs. You do not need to build a warehouse yourself—you simply need to recognize these shapes so you can request the
+            right extracts and interpret the columns you receive.
+          </p>
+        </section>
+
+        <section class="section" id="fact-tables">
+          <h2>3.1 Fact tables</h2>
+          <p>
+            Fact tables store discrete events. They are often long and narrow: each row represents a specific action, and the
+            columns capture identifiers that let you connect the event to additional context. The EDMO report uses the following
+            user activity table to illustrate the pattern.
+          </p>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>session_id</th>
+                  <th>event_id</th>
+                  <th>post_id</th>
+                  <th>event_time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>12</td>
+                  <td>5021</td>
+                  <td>LIKE</td>
+                  <td>90</td>
+                  <td>2025-01-01T00:10:10Z</td>
+                </tr>
+                <tr>
+                  <td>12</td>
+                  <td>5021</td>
+                  <td>VIEW</td>
+                  <td>93</td>
+                  <td>2025-01-01T00:20:15Z</td>
+                </tr>
+                <tr>
+                  <td>12</td>
+                  <td>5022</td>
+                  <td>LIKE</td>
+                  <td>93</td>
+                  <td>2025-01-01T00:20:20Z</td>
+                </tr>
+                <tr>
+                  <td>53</td>
+                  <td>5023</td>
+                  <td>REPLY</td>
+                  <td>143</td>
+                  <td>2025-01-01T00:30:23Z</td>
+                </tr>
+                <tr>
+                  <td>53</td>
+                  <td>5023</td>
+                  <td>SHARE</td>
+                  <td>143</td>
+                  <td>2025-01-01T00:30:24Z</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Even in five rows you can see core analytic moves: two people generated the activity above, one had two sessions, and
+            each session included multiple actions. Fact tables almost always include timestamps, making it possible to group by day
+            or hour to understand trends.
+          </p>
+          <p>
+            Platforms maintain dictionaries so analysts know what each column means. When Article 40 requests reference
+            documentation, you may receive a table similar to the one below.
+          </p>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Description</th>
+                  <th>Data type</th>
+                  <th>Retention (days)</th>
+                  <th>Restricted?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>user_id</code></td>
+                  <td>Assigned numeric ID for each account.</td>
+                  <td>INTEGER</td>
+                  <td>730</td>
+                  <td>No</td>
+                </tr>
+                <tr>
+                  <td><code>session_id</code></td>
+                  <td>Identifier for a contiguous period of activity.</td>
+                  <td>INTEGER</td>
+                  <td>730</td>
+                  <td>No</td>
+                </tr>
+                <tr>
+                  <td><code>event_id</code></td>
+                  <td>Label describing the action (view, like, share, etc.).</td>
+                  <td>STRING</td>
+                  <td>730</td>
+                  <td>No</td>
+                </tr>
+                <tr>
+                  <td><code>post_id</code></td>
+                  <td>Content identifier associated with the event.</td>
+                  <td>INTEGER</td>
+                  <td>730</td>
+                  <td>No</td>
+                </tr>
+                <tr>
+                  <td><code>event_time</code></td>
+                  <td>Timestamp when the event occurred (UTC).</td>
+                  <td>TIMESTAMP</td>
+                  <td>730</td>
+                  <td>No</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Note the emphasis on retention windows. Many fact tables only store two years of history for privacy or cost reasons.
+            When designing your research, plan for rolling exports or snapshots if you need longer horizons.
+          </p>
+        </section>
+
+        <section class="section" id="dimension-tables">
+          <h2>3.2 Dimension tables</h2>
+          <p>
+            Dimension tables enrich the identifiers found in fact tables. A <code>user_id</code> becomes a person with creation
+            date, declared location, and safety flags; a <code>post_id</code> becomes an object with language, media type, and
+            enforcement status. These tables are wide, with dozens or hundreds of columns that describe relatively stable
+            attributes.
+          </p>
+          <div class="diagram-grid">
+            <div class="diagram-card">
+              <strong>User dimension</strong>
+              <span><code>user_id</code>, name, account_age_days, declared_country, risk_tier, consent_status</span>
+            </div>
+            <div class="diagram-card">
+              <strong>Post dimension</strong>
+              <span><code>post_id</code>, media_type, caption_language, safety_label, distribution_status, author_id</span>
+            </div>
+            <div class="diagram-card">
+              <strong>Session dimension</strong>
+              <span><code>session_id</code>, entry_surface, device_type, network_quality, experiment_bucket</span>
+            </div>
+          </div>
+          <p>
+            Once you have both fact and dimension tables, you can answer richer questions. For example, you can calculate the number
+            of views per session (<code>fact_user_activity</code>) and then slice by country or risk tier using
+            <code>dim_users</code>.
+          </p>
+        </section>
+
+        <section class="section" id="joining-data">
+          <h2>3.3 Joining data across tables</h2>
+          <p>
+            The relationship between fact and dimension tables is the backbone of platform analytics. You join on shared keys: a
+            <code>user_id</code> in the fact table matches the same <code>user_id</code> in the dimension table, linking events to
+            their context. The queries below are drawn directly from the report and show how to derive insight from the sample data.
+          </p>
+          <pre><code>-- Daily active users
+SELECT
+  CAST(event_time AS DATE) AS event_date,
+  COUNT(DISTINCT user_id) AS total_users
+FROM fact_user_activity
+GROUP BY event_date
+ORDER BY event_date;</code></pre>
+          <pre><code>-- Average number of posts viewed per session
+WITH per_session AS (
+  SELECT
+    session_id,
+    COUNT(DISTINCT post_id) AS posts_per_session
+  FROM fact_user_activity
+  GROUP BY session_id
+)
+SELECT AVG(posts_per_session) AS avg_posts_per_session
+FROM per_session;</code></pre>
+          <p>
+            When you join to dimensions, always verify that the keys are unique. If the join multiplies your rows unexpectedly,
+            check for duplicate records or missing filters (for example, limiting to active posts only). The goal is not to mirror a
+            platform’s entire warehouse but to extract the slices needed to answer your systemic risk questions.
+          </p>
+        </section>
+
+        <section class="section" id="probabilistic">
+          <h2>3.4 Probabilistic variables and model outputs</h2>
+          <p>
+            Platforms increasingly rely on machine learning predictions. These scores are probabilistic: they estimate the likelihood
+            that an account is authentic, a post violates policy, or a video is relevant. Treat them as model outputs, not ground
+            truth. The report highlights two case studies—a location authenticity score and a policy enforcement model—to show how
+            reviewers interpret these signals alongside human labels.
+          </p>
+          <p>
+            When requesting probabilistic fields, ask for accompanying metadata: the model version, the thresholds that trigger
+            actions, the timestamp of the last human review, and any documented accuracy metrics. These details let you judge
+            whether a score is reliable enough for your analysis or if you should triangulate with observed behavior.
+          </p>
+          <div class="alert">
+            You never need to ask a platform for “lookup tables.” If a field references a code (for example, <code>risk_tier</code>
+            values of 1–5), request the documented definitions as part of your Article 40 submission. Platforms maintain this
+            metadata because their own analysts rely on it.
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Need a deeper walkthrough?</strong>
+        <span>Schedule time with Matt to align these datasets to your investigation or research question.</span>
+        <span>© <span id="year"></span> Matt Motyl.</span>
+      </div>
+    </footer>
+
+    <main>
+      <h1>Warehouses &amp; Modeling</h1>
+      <p>
+        Even if platforms deliver CSVs or dashboards, you’ll unlock the most value when you reshape them into a warehouse with consistent grain. This section introduces dimensional modeling with a diagram you can adapt to your own research pipelines.
+      </p>
+
+      <section class="section">
+        <h2>Fact and dimension at a glance</h2>
+        <div class="fact-dimension">
+          <div>
+            <p>
+              <strong>Fact tables</strong> capture events that can be counted: impressions, watch hours, violations, or recommendation outputs. They’re long, skinny tables with a timestamp and one row per combination of descriptive keys.
+            </p>
+            <p>
+              <strong>Dimension tables</strong> provide the human-readable labels you join onto the fact table—platform names, content formats, region codes, enforcement policy buckets.
+            </p>
+            <p class="highlight">
+              When you request data from a VLOPSE, ask which fields form the primary key. That tells you the natural grain you must preserve when cleaning the dataset.
+            </p>
+          </div>
+          <div>
+            <svg viewBox="0 0 500 380" role="img" aria-labelledby="diagram-title">
+              <title id="diagram-title">Dimensional model for engagement data</title>
+              <rect x="180" y="140" width="140" height="120" rx="16" fill="#f97316" opacity="0.18" />
+              <rect x="190" y="150" width="120" height="100" rx="12" fill="#f97316" />
+              <text x="250" y="180" text-anchor="middle" fill="#0f172a" font-weight="600">fact_engagements</text>
+              <text x="250" y="205" text-anchor="middle" fill="#0f172a" font-size="13">snapshot_date</text>
+              <text x="250" y="225" text-anchor="middle" fill="#0f172a" font-size="13">platform_id</text>
+              <text x="250" y="245" text-anchor="middle" fill="#0f172a" font-size="13">content_type_id</text>
+              <text x="250" y="265" text-anchor="middle" fill="#0f172a" font-size="13">impressions · watch_hours</text>
+
+              <rect x="40" y="40" width="140" height="100" rx="12" fill="#1e2a5a" />
+              <text x="110" y="75" text-anchor="middle" fill="#ffffff" font-weight="600">dim_platform</text>
+              <text x="110" y="98" text-anchor="middle" fill="#e2e8f0" font-size="13">platform_id</text>
+              <text x="110" y="118" text-anchor="middle" fill="#e2e8f0" font-size="13">name</text>
+              <text x="110" y="138" text-anchor="middle" fill="#e2e8f0" font-size="13">region</text>
+
+              <rect x="320" y="40" width="140" height="100" rx="12" fill="#1e2a5a" />
+              <text x="390" y="75" text-anchor="middle" fill="#ffffff" font-weight="600">dim_content_type</text>
+              <text x="390" y="98" text-anchor="middle" fill="#e2e8f0" font-size="13">content_type_id</text>
+              <text x="390" y="118" text-anchor="middle" fill="#e2e8f0" font-size="13">label</text>
+              <text x="390" y="138" text-anchor="middle" fill="#e2e8f0" font-size="13">description</text>
+
+              <line x1="160" y1="140" x2="230" y2="150" stroke="#1e2a5a" stroke-width="3" marker-end="url(#arrow)" />
+              <line x1="340" y1="140" x2="270" y2="150" stroke="#1e2a5a" stroke-width="3" marker-end="url(#arrow)" />
+
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#1e2a5a" />
+                </marker>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Checklist for your warehouse request</h2>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Confirm the grain</h3>
+            <p>Is each row a piece of content, a user cohort, or an aggregated statistic? Request the exact primary key fields.</p>
+          </article>
+          <article class="card">
+            <h3>Ask for lookup tables</h3>
+            <p>Platform taxonomies change often. Request dimension tables (e.g., policy buckets, content format codes) alongside the fact tables.</p>
+          </article>
+          <article class="card">
+            <h3>Specify refresh cadence</h3>
+            <p>Understanding how frequently the data refreshes helps you choose the right snapshot for longitudinal analyses.</p>
+          </article>
+          <article class="card">
+            <h3>Clarify suppression rules</h3>
+            <p>Document the thresholds for redaction or aggregation so your statistical tests account for any noise introduced.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Example schema questions for VLOPSEs</h2>
+        <ul>
+          <li>Which fields should we treat as stable identifiers across refreshes?</li>
+          <li>Are moderation outcomes reported before or after appeals are processed?</li>
+          <li>How are duplicates handled for cross-posted content?</li>
+          <li>What caveats should we note when communicating findings to the public?</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Want feedback on your schema?</strong>
+        <span>Matt regularly reviews Article 40 data pipelines and can help de-risk your modeling choices.</span>
+        <span>© <span id="year"></span> Matt Motyl.</span>
+      </div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

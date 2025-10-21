@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Platform Data Primer | Researcher-Maintained Datasets</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="brand">
+          <span>Platform Data Primer</span>
+          <span>Matt Motyl, Ph.D.</span>
+        </div>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="foundations.html">Data Foundations</a></li>
+            <li><a href="api.html">API Access</a></li>
+            <li><a href="warehouses.html">Data Models</a></li>
+            <li><a href="workflows.html">Workflows</a></li>
+            <li><a href="harms.html">Delegated Harms</a></li>
+            <li><a href="datasets.html" aria-current="page">Researcher Datasets</a></li>
+            <li><a href="comparisons.html">Comparisons</a></li>
+            <li><a href="engage.html">Engage</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" aria-label="Table of contents">
+        <button class="sidebar-toggle" type="button" aria-expanded="false">Table of contents</button>
+        <nav class="sidebar-nav" data-current-page="datasets"></nav>
+      </aside>
+
+      <main>
+        <section id="datasets-overview">
+          <h1>7. Landscape of public datasets</h1>
+          <p>
+            Hundreds of academic labs, nonprofits, and investigative newsrooms share curated platform datasets outside of the
+            official Article 40 channels. These resources can help you prototype research questions, validate your models, and
+            build partnerships before you submit a formal request to a platform.
+          </p>
+          <p>
+            The list below spotlights well-maintained collections cited throughout the report and in Matt’s field work. Many link
+            directly to raw data; others provide request forms or mirrors that you can download after a lightweight vetting step.
+          </p>
+        </section>
+
+        <section class="section" id="datasets-table">
+          <h2>7.1 Explore the dataset catalog</h2>
+          <div class="filter-bar" style="margin-bottom: 1.5rem;">
+            <label>
+              Keyword search
+              <input type="text" id="datasets-search" placeholder="Filter by dataset, host, or platform" />
+            </label>
+            <button class="button secondary" id="datasets-export" type="button">Download CSV</button>
+          </div>
+          <div class="table-wrapper">
+            <table id="datasets-table-grid">
+              <thead>
+                <tr>
+                  <th>Dataset</th>
+                  <th>Host organization</th>
+                  <th>Platform coverage</th>
+                  <th>Update cadence</th>
+                  <th>Access</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="datasets-status" class="alert" role="status" aria-live="polite">Loading datasets…</div>
+        </section>
+
+        <section class="section" id="datasets-practice">
+          <h2>7.2 Tips for responsible reuse</h2>
+          <div class="card-grid">
+            <article class="card">
+              <h3>Document provenance</h3>
+              <p>
+                Note who collected the data, under what terms, and whether you must attribute or notify them when publishing
+                findings. Many civic-tech projects rely on volunteer labor—acknowledging their work sustains the ecosystem.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Respect licensing</h3>
+              <p>
+                Some repositories allow unrestricted reuse; others require you to keep derivatives non-commercial or to delete data
+                after a set window. When in doubt, email the maintainers before redistributing.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Cross-check with Article 40 access</h3>
+              <p>
+                Use public datasets to refine your hypotheses and to test code. When you receive official platform data, compare
+                metrics to ensure your transformations are working and to surface gaps in public transparency.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <div class="page-nav">
+          <a href="harms.html">← Previous: Delegated harms</a>
+          <a href="comparisons.html">Next: Comparisons →</a>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Need a deeper walkthrough?</strong>
+        <span>Schedule time with Matt to align these datasets to your investigation or research question.</span>
+        <span>© <span id="year"></span> Matt Motyl.</span>
+      </div>
+    </footer>
+
+    <script id="datasets-data" type="application/json">
+      [
+        {
+          "name": "Social Science One Facebook URLs",
+          "host": "Social Science One",
+          "platform": "Facebook",
+          "cadence": "Quarterly",
+          "link": "https://socialscience.one/data-sharing"
+        },
+        {
+          "name": "CrowdTangle Historical Exports",
+          "host": "Meta / Internet Archive",
+          "platform": "Facebook, Instagram",
+          "cadence": "Monthly",
+          "link": "https://archive.org/details/crowdtangle"
+        },
+        {
+          "name": "TikTok Election Integrity Dataset",
+          "host": "Tracking Exposed",
+          "platform": "TikTok",
+          "cadence": "Event-driven",
+          "link": "https://tracking.exposed"
+        },
+        {
+          "name": "YouTube RegretsReporter",
+          "host": "Mozilla Foundation",
+          "platform": "YouTube",
+          "cadence": "Ongoing",
+          "link": "https://foundation.mozilla.org/en/campaigns/regrets-reporter/"
+        },
+        {
+          "name": "Twitter Streaming Archives (pre-2023)",
+          "host": "Internet Archive / Pushshift",
+          "platform": "X (formerly Twitter)",
+          "cadence": "Legacy snapshot",
+          "link": "https://archive.org/details/twitterstream"
+        },
+        {
+          "name": "Reddit Comment Corpus",
+          "host": "Pushshift",
+          "platform": "Reddit",
+          "cadence": "Daily",
+          "link": "https://files.pushshift.io/reddit/comments/"
+        },
+        {
+          "name": "Mastodon Public Timelines",
+          "host": "Academic Torrents",
+          "platform": "Mastodon",
+          "cadence": "Weekly",
+          "link": "https://academictorrents.com/details/89d6d1b5ec1ad"
+        },
+        {
+          "name": "Google Search Trends Topical Dataset",
+          "host": "Google",
+          "platform": "Google Search",
+          "cadence": "Daily",
+          "link": "https://trends.google.com/trends/explore"
+        },
+        {
+          "name": "EU DisinfoLab Monitoring Sets",
+          "host": "EU DisinfoLab",
+          "platform": "Multi-platform",
+          "cadence": "Campaign-based",
+          "link": "https://www.disinfo.eu/publications/"
+        }
+      ]
+    </script>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/datasets.js"></script>
+  </body>
+</html>
