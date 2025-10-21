@@ -1,5 +1,5 @@
-const DATA_URL = 'assets/data/data-catalog.json';
-const PROGRAMS_URL = 'assets/data/access-programs.json';
+const catalogDataEl = document.getElementById('catalog-data');
+const programDataEl = document.getElementById('program-data');
 
 const platformSelect = document.getElementById('filter-platform');
 const categorySelect = document.getElementById('filter-category');
@@ -7,7 +7,7 @@ const availabilitySelect = document.getElementById('filter-availability');
 const searchInput = document.getElementById('filter-search');
 const statusEl = document.getElementById('catalog-status');
 const table = document.getElementById('catalog-table');
-const tbody = table?.querySelector('tbody');
+const tbody = table ? table.querySelector('tbody') : null;
 const exportBtn = document.getElementById('export-csv');
 
 let rows = [];
@@ -37,9 +37,6 @@ const renderTable = () => {
   });
   if (statusEl) {
     statusEl.textContent = `${filteredRows.length} record${filteredRows.length === 1 ? '' : 's'} displayed.`;
-    statusEl.classList.remove('alert');
-    statusEl.style.background = 'transparent';
-    statusEl.style.borderLeft = 'none';
   }
   if (table) {
     table.hidden = filteredRows.length === 0;
@@ -47,10 +44,10 @@ const renderTable = () => {
 };
 
 const applyFilters = () => {
-  const platform = platformSelect?.value ?? '';
-  const category = categorySelect?.value ?? '';
-  const availability = availabilitySelect?.value ?? '';
-  const searchTerm = (searchInput?.value ?? '').toLowerCase();
+  const platform = platformSelect ? platformSelect.value : '';
+  const category = categorySelect ? categorySelect.value : '';
+  const availability = availabilitySelect ? availabilitySelect.value : '';
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
 
   filteredRows = rows.filter((row) => {
     const matchesPlatform = !platform || row.platform === platform;
@@ -67,6 +64,7 @@ const applyFilters = () => {
 
 const populateSelect = (select, values) => {
   if (!select) return;
+  select.querySelectorAll('option:not([value=""])').forEach((option) => option.remove());
   values.forEach((value) => {
     const option = document.createElement('option');
     option.value = value;
@@ -76,6 +74,7 @@ const populateSelect = (select, values) => {
 };
 
 const downloadCsv = () => {
+  if (!filteredRows.length) return;
   const header = ['Platform', 'Category', 'Data element', 'Availability', 'Notes', 'Last updated'];
   const csv = [header.join(',')]
     .concat(
@@ -121,33 +120,37 @@ const renderPrograms = (programs) => {
   });
 };
 
-async function init() {
+(function init() {
+  if (!catalogDataEl) return;
   try {
-    const [dataRes, programsRes] = await Promise.all([
-      fetch(DATA_URL),
-      fetch(PROGRAMS_URL),
-    ]);
-    rows = await dataRes.json();
-    filteredRows = rows.slice();
-    const programs = await programsRes.json();
-    if (platformSelect) populateSelect(platformSelect, [...new Set(rows.map((row) => row.platform))].sort());
-    if (categorySelect) populateSelect(categorySelect, [...new Set(rows.map((row) => row.category))].sort());
-    if (availabilitySelect)
-      populateSelect(availabilitySelect, [...new Set(rows.map((row) => row.availability))].sort());
-    renderTable();
-    renderPrograms(programs);
-    if (statusEl) statusEl.textContent = `${rows.length} records loaded. Use the filters to refine your view.`;
+    rows = JSON.parse(catalogDataEl.textContent || '[]');
   } catch (error) {
-    if (statusEl) {
-      statusEl.textContent = 'Unable to load the catalog. Please refresh or check your connection.';
+    rows = [];
+  }
+  filteredRows = rows.slice();
+
+  if (platformSelect) populateSelect(platformSelect, [...new Set(rows.map((row) => row.platform))].sort());
+  if (categorySelect) populateSelect(categorySelect, [...new Set(rows.map((row) => row.category))].sort());
+  if (availabilitySelect)
+    populateSelect(availabilitySelect, [...new Set(rows.map((row) => row.availability))].sort());
+  renderTable();
+  if (statusEl) {
+    statusEl.textContent = `${rows.length} records loaded. Use the filters to refine your view.`;
+    statusEl.classList.add('alert');
+  }
+
+  if (programDataEl) {
+    try {
+      const programs = JSON.parse(programDataEl.textContent || '[]');
+      renderPrograms(programs);
+    } catch (error) {
+      // no-op
     }
   }
-}
+})();
 
 if (platformSelect) platformSelect.addEventListener('change', applyFilters);
 if (categorySelect) categorySelect.addEventListener('change', applyFilters);
 if (availabilitySelect) availabilitySelect.addEventListener('change', applyFilters);
 if (searchInput) searchInput.addEventListener('input', applyFilters);
 if (exportBtn) exportBtn.addEventListener('click', downloadCsv);
-
-init();

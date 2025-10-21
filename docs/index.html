@@ -3,6 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Platform Data Primer | Welcome</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <title>Platform Data Handbook | Matt Motyl</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,6 +21,8 @@
     <header>
       <div class="header-inner">
         <div class="brand">
+          <span>Platform Data Primer</span>
+          <span>Matt Motyl, Ph.D.</span>
           <span>Matt Motyl</span>
           <span>Platform Data Handbook</span>
         </div>
@@ -20,6 +30,7 @@
           <ul>
             <li><a href="index.html" aria-current="page">Welcome</a></li>
             <li><a href="foundations.html">Data Foundations</a></li>
+            <li><a href="warehouses.html">Data Models</a></li>
             <li><a href="warehouses.html">Warehouses</a></li>
             <li><a href="workflows.html">Workflows</a></li>
             <li><a href="comparisons.html">Comparisons</a></li>
@@ -28,6 +39,155 @@
         </nav>
       </div>
     </header>
+
+    <div class="layout">
+      <aside class="sidebar" aria-label="Table of contents">
+        <button class="sidebar-toggle" type="button" aria-expanded="false">Table of contents</button>
+        <nav class="sidebar-nav">
+          <ol>
+            <li>
+              <a href="index.html" aria-current="page">Welcome</a>
+              <ol>
+                <li><a href="#introduction">1. Introduction</a></li>
+                <li><a href="#article-40">1.1 Article 40 at a glance</a></li>
+                <li><a href="#using-primer">1.2 How to use this primer</a></li>
+                <li><a href="#audiences">1.3 Who this is for</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="foundations.html">Data foundations</a>
+              <ol>
+                <li><a href="foundations.html#data-categories">2. What data do platforms collect?</a></li>
+                <li><a href="foundations.html#category-reference">2.1 Data category reference</a></li>
+                <li><a href="foundations.html#additional-families">2.2 Extended data families</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="warehouses.html">Understanding platform data models</a>
+              <ol>
+                <li><a href="warehouses.html#generated-data">3. What do platforms generate?</a></li>
+                <li><a href="warehouses.html#fact-tables">3.1 Fact tables</a></li>
+                <li><a href="warehouses.html#dimension-tables">3.2 Dimension tables</a></li>
+                <li><a href="warehouses.html#joining-data">3.3 Joining tables</a></li>
+                <li><a href="warehouses.html#probabilistic">3.4 Probabilistic variables</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="workflows.html">Workflows and practice</a>
+              <ol>
+                <li><a href="workflows.html#workflow-orientation">4. Starting your workflow</a></li>
+                <li><a href="workflows.html#sample-tables">4.1 Sample tables</a></li>
+                <li><a href="workflows.html#sql-walkthrough">4.2 Guided SQL walkthrough</a></li>
+                <li><a href="workflows.html#sql-sandbox">4.3 Practice sandbox</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="comparisons.html">Comparing API and internal data</a>
+              <ol>
+                <li><a href="comparisons.html#comparisons-overview">5. Why comparisons matter</a></li>
+                <li><a href="comparisons.html#example-1">5.1 Research by harm type</a></li>
+                <li><a href="comparisons.html#example-2">5.2 Structural indicator coverage</a></li>
+                <li><a href="comparisons.html#example-3">5.3 Mastodon as a reference point</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="engage.html">Engage and next steps</a>
+              <ol>
+                <li><a href="engage.html#contact">6. Connect with Matt</a></li>
+                <li><a href="engage.html#further-reading">6.1 Further reading</a></li>
+              </ol>
+            </li>
+          </ol>
+        </nav>
+      </aside>
+
+      <main>
+        <section class="hero" id="introduction">
+          <h1>Welcome to the Platform Data Primer</h1>
+          <p>
+            This handbook translates a 35-page research report into an approachable, web-native guide. It walks you through what
+            very large online platforms and search engines collect, how those data are structured, and how Article 40 of the
+            Digital Services Act opens doors for researchers, investigators, journalists, and watchdogs who want to study online
+            risks responsibly.
+          </p>
+        </section>
+
+        <section class="section" id="article-40">
+          <h2>1.1 Article 40 at a glance</h2>
+          <p>
+            Article 40 obligates Very Large Online Platforms and Search Engines (VLOPSEs) to provide qualified researchers with
+            access to the datasets needed to evaluate systemic risks, mitigation efforts, and compliance with the Code of Practice
+            on Disinformation. The Article formalizes a pathway for requesting data, establishes safeguards for privacy, and
+            requires platforms to respond on clear timelines. Used well, this access enables independent verification of platform
+            claims, early detection of emerging harms, and evidence-based policy debates.
+          </p>
+          <p>
+            Inside companies, engineers rely on expansive warehouses that log the moment-by-moment behavior of billions of
+            accounts. Article 40 is a lever that lets outside experts peek behind that curtain. This primer prepares you to engage
+            with platforms from a position of understanding, so that when access is granted you know exactly what to ask for and
+            how to interpret what you receive.
+          </p>
+        </section>
+
+        <section class="section" id="using-primer">
+          <h2>1.2 How to use this primer</h2>
+          <p>
+            The chapters mirror the structure of the original EDMO report. Each page contains the full narrative text, extended
+            explanations, concrete examples, and downloadable resources. You can read linearly—from the foundations of what data
+            exist, to how platforms transform them, to practical workflows and comparative case studies—or jump to the sections
+            most relevant to your investigation via the table of contents.
+          </p>
+          <div class="card-grid">
+            <article class="card">
+              <h3>Start with the data landscape</h3>
+              <p>
+                Section 2 catalogues the six core data categories VLOPSEs collect and provides detailed examples drawn from
+                internal documentation. It is designed to make opaque terminology feel concrete before you ever write a query.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Understand how platforms think</h3>
+              <p>
+                Section 3 explains fact tables, dimension tables, and probabilistic scores in plain language. Visual walkthroughs
+                illustrate how platform teams combine these ingredients to measure activity or detect risk.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Practice with real workflows</h3>
+              <p>
+                Section 4 introduces typical research questions, provides annotated SQL examples, and offers a browser-based
+                sandbox seeded with synthetic data. You can safely experiment with joins, filters, and aggregations before touching
+                sensitive datasets.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="audiences">
+          <h2>1.3 Who this is for</h2>
+          <p>
+            The Platform Data Primer is written for anyone seeking clarity about social media and search data—academic researchers,
+            investigative journalists, civil society analysts, platform integrity teams, and public-interest technologists. No
+            prior experience building data warehouses is required. Where the original PDF assumed familiarity with internal
+            tooling, the web version adds supporting context, definitions, and examples so newcomers can follow along without
+            feeling overwhelmed.
+          </p>
+          <p>
+            If you already work inside a platform, use these chapters to align cross-functional partners. If you are new to
+            Article 40, follow the navigation sequentially: learn what exists, explore how it is stored, and then practice the
+            analytical moves that transform raw tables into evidence.
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Need a deeper walkthrough?</strong>
+        <span>Schedule time with Matt to align these datasets to your investigation or research question.</span>
+        <span>© <span id="year"></span> Matt Motyl.</span>
+      </div>
+    </footer>
 
     <main>
       <section class="hero">

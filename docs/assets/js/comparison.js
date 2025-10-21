@@ -1,7 +1,6 @@
-const DATA_URL = 'assets/data/comparison-indicators.json';
-
+const comparisonDataEl = document.getElementById('comparison-data');
 const table = document.getElementById('comparison-table');
-const tbody = table?.querySelector('tbody');
+const tbody = table ? table.querySelector('tbody') : null;
 const canvas = document.getElementById('comparison-chart');
 const viewButtons = document.querySelectorAll('.comparison-controls button');
 let chart;
@@ -27,7 +26,7 @@ const buildTable = () => {
 };
 
 const buildChart = (type) => {
-  if (!canvas) return;
+  if (!canvas || !rows.length) return;
   const ctx = canvas.getContext('2d');
   if (chart) chart.destroy();
   const labels = Object.keys(rows[0].values);
@@ -92,20 +91,24 @@ const setView = (view) => {
   }
 };
 
-async function init() {
+(function init() {
+  if (!comparisonDataEl) return;
   try {
-    const res = await fetch(DATA_URL);
-    rows = await res.json();
-    buildTable();
-    setView('table');
+    rows = JSON.parse(comparisonDataEl.textContent || '[]');
   } catch (error) {
+    rows = [];
+  }
+  if (!rows.length) {
     if (tbody) {
       const tr = document.createElement('tr');
-      tr.innerHTML = '<td colspan="7">Unable to load comparison data.</td>';
+      tr.innerHTML = '<td colspan="7">No comparison data available.</td>';
       tbody.appendChild(tr);
     }
+    return;
   }
-}
+  buildTable();
+  setView('table');
+})();
 
 viewButtons.forEach((button) => {
   button.addEventListener('click', () => {
@@ -113,5 +116,3 @@ viewButtons.forEach((button) => {
     if (view) setView(view);
   });
 });
-
-init();

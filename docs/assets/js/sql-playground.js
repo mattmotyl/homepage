@@ -1,4 +1,9 @@
 const SQL_WASM_PATH = 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.wasm';
+const bootstrapEl = document.getElementById('sql-bootstrap');
+const walkthroughDataEl = document.getElementById('sql-walkthrough-data');
+const samplesDataEl = document.getElementById('sql-samples-data');
+const previewEl = document.getElementById('sql-table-preview');
+const tableDataEl = document.getElementById('sql-table-data');
 const BOOTSTRAP_URL = 'assets/data/sql-bootstrap.json';
 const WALKTHROUGH_URL = 'assets/data/sql-walkthrough.json';
 const SAMPLES_URL = 'assets/data/sql-samples.json';
@@ -12,6 +17,19 @@ const samplesEl = document.getElementById('sql-samples');
 
 let SQL;
 let db;
+let bootstrapStatements = [];
+let walkthroughSteps = [];
+let sampleQueries = [];
+let previewTables = [];
+
+const parseJson = (el) => {
+  if (!el) return [];
+  try {
+    return JSON.parse(el.textContent || '[]');
+  } catch (error) {
+    return [];
+  }
+};
 
 const renderResult = (rows) => {
   if (!resultEl) return;
@@ -74,6 +92,20 @@ const resetDatabase = async () => {
   if (!SQL) return;
   if (resultEl) resultEl.innerHTML = '<div class="alert">Resetting tables…</div>';
   db = new SQL.Database();
+  if (bootstrapStatements.length) {
+    db.exec('BEGIN TRANSACTION;');
+    bootstrapStatements.forEach((statement) => {
+      db.exec(statement);
+    });
+    db.exec('COMMIT;');
+  }
+  if (resultEl) resultEl.innerHTML = '<div class="alert">Tables reloaded. Run a query!</div>';
+};
+
+const renderWalkthrough = () => {
+  if (!walkthroughEl) return;
+  walkthroughEl.innerHTML = '';
+  walkthroughSteps.forEach((step) => {
   const bootstrapStatements = await fetch(BOOTSTRAP_URL).then((res) => res.json());
   db.exec('BEGIN TRANSACTION;');
   bootstrapStatements.forEach((statement) => {
@@ -100,6 +132,10 @@ const renderWalkthrough = async () => {
   });
 };
 
+const renderSamples = () => {
+  if (!samplesEl) return;
+  samplesEl.innerHTML = '';
+  sampleQueries.forEach((sample) => {
 const renderSamples = async () => {
   if (!samplesEl) return;
   const samples = await fetch(SAMPLES_URL).then((res) => res.json());
@@ -140,6 +176,38 @@ const attachHandlers = () => {
   if (resetBtn) resetBtn.addEventListener('click', resetDatabase);
 };
 
+const renderPreviewTables = () => {
+  if (!previewEl || !previewTables.length) return;
+  previewEl.innerHTML = '';
+  previewTables.forEach((tableInfo) => {
+    const article = document.createElement('article');
+    article.className = 'card';
+    const columns = tableInfo.columns;
+    const sampleRows = tableInfo.rows || [];
+    const tableMarkup = sampleRows.length
+      ? `<div class="table-wrapper"><table><thead><tr>${columns.map((col) => `<th>${col}</th>`).join('')}</tr></thead><tbody>${sampleRows
+          .map((row) => `<tr>${columns.map((col) => `<td>${row[col] ?? '—'}</td>`).join('')}</tr>`)
+          .join('')}</tbody></table></div>`
+      : '';
+    article.innerHTML = `
+      <h4>${tableInfo.name}</h4>
+      <p>${tableInfo.description}</p>
+      <p><strong>Key fields:</strong> ${columns.map((column) => `<code>${column}</code>`).join(', ')}</p>
+      ${tableMarkup}
+    `;
+    previewEl.appendChild(article);
+  });
+};
+
+(async function init() {
+  bootstrapStatements = parseJson(bootstrapEl);
+  walkthroughSteps = parseJson(walkthroughDataEl);
+  sampleQueries = parseJson(samplesDataEl);
+  previewTables = parseJson(tableDataEl);
+  renderWalkthrough();
+  renderSamples();
+  renderPreviewTables();
+
 async function init() {
   if (!window.initSqlJs) {
     if (resultEl) resultEl.innerHTML = '<div class="alert">Unable to load the SQL engine.</div>';
@@ -147,6 +215,8 @@ async function init() {
   }
   SQL = await window.initSqlJs({ locateFile: () => SQL_WASM_PATH });
   await resetDatabase();
+  attachHandlers();
+})();
   await Promise.all([renderWalkthrough(), renderSamples()]);
   attachHandlers();
 }
