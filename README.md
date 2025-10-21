@@ -1,4 +1,4 @@
-# Platform Data Primer
+# Matt Motyl Platform Data Handbook
 
 This repository now ships as a static website—no build tools required. Open the files in the `docs/` folder in any modern browser to explore the handbook that adapts the EDMO platform datasets report into a web-first experience.
 
@@ -19,12 +19,12 @@ All assets (fonts, charts, sql.js) load from public CDNs so you don’t need to 
 ## Project structure
 
 - `docs/` – multi-page handbook with shared styling and scripts
-  - `index.html` – abstract, introduction, and chapter navigation
-  - `foundations.html` – detailed data collection overview with filterable catalogs
-  - `warehouses.html` – explanations of fact/dimension tables and probabilistic features
-  - `workflows.html` – guided workflow plus browser-based SQL sandbox and schema previews
-  - `comparisons.html` – narrative context with table/radar/bar comparisons of API vs. internal data
-  - `engage.html` – consultation form, collaboration ideas, and partner organisations
+  - `index.html` – welcome and quick links
+  - `foundations.html` – interactive data catalog and access programs
+  - `warehouses.html` – fact/dimension primer and modeling checklist
+  - `workflows.html` – workflow guidance and browser-based SQL sandbox
+  - `comparisons.html` – toggleable table, radar, and stacked-bar views
+  - `engage.html` – consultation form, social links, recommended reading
   - `assets/data/` – JSON data powering tables, charts, and the sandbox
   - `assets/js/` – vanilla JavaScript modules for interactivity
   - `styles.css` – Matt Motyl-inspired branding and responsive layout

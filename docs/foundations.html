@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Data Collection | Platform Data Primer</title>
+    <title>Platform Data Primer | Data Foundations</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,11 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <title>Data Foundations | Platform Data Handbook</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <header>
@@ -18,145 +23,271 @@
         <div class="brand">
           <span>Platform Data Primer</span>
           <span>Matt Motyl, Ph.D.</span>
+          <span>Matt Motyl</span>
+          <span>Platform Data Handbook</span>
         </div>
         <nav aria-label="Primary">
           <ul>
             <li><a href="index.html">Welcome</a></li>
-            <li><a href="foundations.html" aria-current="page">Data Collection</a></li>
-            <li><a href="warehouses.html">How Platforms Use Data</a></li>
-            <li><a href="workflows.html">Hands-On Practice</a></li>
-            <li><a href="comparisons.html">Access vs. Reality</a></li>
+            <li><a href="foundations.html" aria-current="page">Data Foundations</a></li>
+            <li><a href="warehouses.html">Data Models</a></li>
+            <li><a href="warehouses.html">Warehouses</a></li>
+            <li><a href="workflows.html">Workflows</a></li>
+            <li><a href="comparisons.html">Comparisons</a></li>
             <li><a href="engage.html">Engage</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <div class="page-layout">
-      <aside class="sidebar" data-toc>
-        <button type="button" class="toc-toggle">On this page</button>
-        <h2>On this page</h2>
-        <nav aria-label="On this page">
-          <ul></ul>
+    <div class="layout">
+      <aside class="sidebar" aria-label="Table of contents">
+        <button class="sidebar-toggle" type="button" aria-expanded="false">Table of contents</button>
+        <nav class="sidebar-nav">
+          <ol>
+            <li>
+              <a href="index.html">Welcome</a>
+              <ol>
+                <li><a href="index.html#introduction">1. Introduction</a></li>
+                <li><a href="index.html#article-40">1.1 Article 40 at a glance</a></li>
+                <li><a href="index.html#using-primer">1.2 How to use this primer</a></li>
+                <li><a href="index.html#audiences">1.3 Who this is for</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="foundations.html" aria-current="page">Data foundations</a>
+              <ol>
+                <li><a href="#data-categories">2. What data do platforms collect?</a></li>
+                <li><a href="#category-reference">2.1 Data category reference</a></li>
+                <li><a href="#additional-families">2.2 Extended data families</a></li>
+                <li><a href="#catalog">2.3 Interactive catalog</a></li>
+                <li><a href="#supplemental">2.4 Supplemental datasets</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="warehouses.html">Understanding platform data models</a>
+              <ol>
+                <li><a href="warehouses.html#generated-data">3. What do platforms generate?</a></li>
+                <li><a href="warehouses.html#fact-tables">3.1 Fact tables</a></li>
+                <li><a href="warehouses.html#dimension-tables">3.2 Dimension tables</a></li>
+                <li><a href="warehouses.html#joining-data">3.3 Joining tables</a></li>
+                <li><a href="warehouses.html#probabilistic">3.4 Probabilistic variables</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="workflows.html">Workflows and practice</a>
+              <ol>
+                <li><a href="workflows.html#workflow-orientation">4. Starting your workflow</a></li>
+                <li><a href="workflows.html#sample-tables">4.1 Sample tables</a></li>
+                <li><a href="workflows.html#sql-walkthrough">4.2 Guided SQL walkthrough</a></li>
+                <li><a href="workflows.html#sql-sandbox">4.3 Practice sandbox</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="comparisons.html">Comparing API and internal data</a>
+              <ol>
+                <li><a href="comparisons.html#comparisons-overview">5. Why comparisons matter</a></li>
+                <li><a href="comparisons.html#example-1">5.1 Research by harm type</a></li>
+                <li><a href="comparisons.html#example-2">5.2 Structural indicator coverage</a></li>
+                <li><a href="comparisons.html#example-3">5.3 Mastodon as a reference point</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="engage.html">Engage and next steps</a>
+              <ol>
+                <li><a href="engage.html#contact">6. Connect with Matt</a></li>
+                <li><a href="engage.html#further-reading">6.1 Further reading</a></li>
+              </ol>
+            </li>
+          </ol>
         </nav>
       </aside>
 
       <main>
-        <h1>Chapter 2 · What Data Do Platforms Collect?</h1>
-        <p>
-          Platforms collect a large amount of personal data, network data, advertising information, and engagement signals from
-          their users. Some information is volunteered, some is inferred, and some is purchased from third parties. Not every
-          platform gathers the same fields, but together these categories describe the universe of variables researchers may
-          encounter when requesting Article 40 access.
-        </p>
-
-        <section class="section" id="six-categories">
-          <h2>The six core categories</h2>
+        <section id="data-categories">
+          <h1>2. What data do platforms collect?</h1>
           <p>
-            The primer groups platform-held data into six recurring categories. The original report lists concrete examples for
-            each category; the table below adapts that inventory so you can quickly reference the breadth of what platforms store.
+            Very large online platforms collect an enormous amount of data to keep their services running and to optimize the
+            experience for users and advertisers. New employees often spend months learning the warehouse simply so they can find
+            the right tables. This section reproduces the full text of the EDMO report so you can build the same intuition. Use it
+            as a glossary: when a platform representative mentions “observed behavior” or “inferred scores,” you will know exactly
+            what they mean and how the data are captured.
+          </p>
+          <p>
+            Six broad categories encompass the majority of fields held by VLOPSEs: information people provide directly, data
+            collected from their devices, records of behavior, signals coming from other users, inferences generated by machine
+            learning, and data purchased or collected from outside the platform. The tables below detail each family, replicating
+            the report’s examples so you can see the breadth of possible fields.
+          </p>
+        </section>
+
+        <section class="section" id="category-reference">
+          <h2>2.1 Data category reference</h2>
+          <p>
+            Each category mixes qualitative and quantitative variables. The same person might have hundreds of rows describing
+            their actions over time, alongside a handful of descriptive attributes such as account creation date. Use the table to
+            map the vocabulary used by platforms to the kinds of questions you want to investigate.
           </p>
           <div class="table-wrapper">
             <table>
               <thead>
                 <tr>
-                  <th>User shared / provided</th>
-                  <th>Extracted from devices</th>
-                  <th>Created behaviors</th>
-                  <th>Received from other users</th>
-                  <th>Inferred by the platform</th>
-                  <th>Purchased or third-party</th>
+                  <th>Category</th>
+                  <th>Examples of variables</th>
+                  <th>Why platforms collect it</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Name, profile picture, declared pronouns</td>
-                  <td>IP address, GPS coordinates, browser fingerprint</td>
-                  <td>Views, likes, comments, session duration</td>
-                  <td>Reports filed, blocks, friend requests accepted</td>
-                  <td>Interest segments (e.g., "political news"), authenticity scores</td>
-                  <td>Credit score range, property records, shopping history</td>
+                  <td><strong>User provided</strong></td>
+                  <td>
+                    Names, email addresses, profile bios, pronouns, languages, birthdays, devices used, professional or creator
+                    categories selected during onboarding.
+                  </td>
+                  <td>
+                    Establish accounts, customize experiences, comply with advertising disclosure rules, and support safety teams
+                    when authenticating users.
+                  </td>
                 </tr>
                 <tr>
-                  <td>Email addresses and phone numbers</td>
-                  <td>Device model, operating system, app version</td>
-                  <td>Search queries, watch time, scroll depth</td>
-                  <td>Account labels applied by moderators</td>
-                  <td>Propensity to click ads or join groups</td>
-                  <td>Estimated household income or net worth</td>
+                  <td><strong>Extracted</strong></td>
+                  <td>
+                    IP addresses, GPS coordinates, device identifiers, browser fingerprints, overlap with other household devices,
+                    and inferred country or region from connection metadata.
+                  </td>
+                  <td>
+                    Detect suspicious access, enforce localization (e.g., content licensing), and surface context-sensitive
+                    features like language defaults or regional policies.
+                  </td>
                 </tr>
                 <tr>
-                  <td>Birthdays, relationship status, occupation</td>
-                  <td>Language settings, VPN usage, network overlap</td>
-                  <td>Survey responses, login streaks, notification taps</td>
-                  <td>Rejections of follow or group requests</td>
-                  <td>Risk scores for misinformation or spam</td>
-                  <td>Political donation history, magazine subscriptions</td>
+                  <td><strong>Observed behavior</strong></td>
+                  <td>
+                    Session starts, watch time, click-throughs, scroll depth, reactions, shares, saves, search queries, ad
+                    impressions, and time spent on each experience.
+                  </td>
+                  <td>
+                    Power recommendation algorithms, highlight trending content, measure feature adoption, and identify potential
+                    harms such as brigading or brigaded targets.
+                  </td>
                 </tr>
                 <tr>
-                  <td>About/bio fields and vanity URLs</td>
-                  <td>Session IDs, hardware identifiers</td>
-                  <td>Video uploads, edits, stickers, event RSVPs</td>
-                  <td>Conversation mutes, custom filters, hides</td>
-                  <td>Location probability, inferred language, bot likelihood</td>
-                  <td>Third-party shopping data, loyalty program participation</td>
+                  <td><strong>Signals from other users</strong></td>
+                  <td>
+                    Reports and appeals, block events, friend or follow requests, comments on profiles, and ratings provided by
+                    trusted flaggers or community moderators.
+                  </td>
+                  <td>
+                    Evaluate trust and safety workflows, assess quality of experience for vulnerable communities, and understand
+                    how misinformation propagates across networks.
+                  </td>
                 </tr>
                 <tr>
-                  <td>Public account settings (privacy, verification)</td>
-                  <td>Overlap with other accounts on shared devices</td>
-                  <td>Ad clicks, purchases, and payments</td>
-                  <td>Appeals filed, admin action notes, moderation outcomes</td>
-                  <td>Likelihood that content violates policy</td>
-                  <td>Audience panels from survey vendors</td>
+                  <td><strong>Inferred</strong></td>
+                  <td>
+                    Risk scores, predicted interests, estimated income brackets, authenticity likelihood, quality ratings for
+                    media entities, and probabilities that content violates policy.
+                  </td>
+                  <td>
+                    Feed ranking, ad targeting, abuse prevention, and policy enforcement rely on these outputs—often generated by
+                    large machine learning systems trained on historical labels.
+                  </td>
                 </tr>
                 <tr>
-                  <td>Creator tags, channel categories, public affiliations</td>
-                  <td>Real-time location pings and network signal strength</td>
-                  <td>Time spent in product surfaces (feed, stories, reels)</td>
-                  <td>Signals about superspreaders or network influence</td>
-                  <td>Recommendations assigned to a piece of content</td>
-                  <td>Offline purchase data linked to advertising IDs</td>
+                  <td><strong>Purchased or external</strong></td>
+                  <td>
+                    Data broker attributes such as property ownership, credit history segments, charitable donation history,
+                    third-party web browsing logs, or manually curated authoritative source lists.
+                  </td>
+                  <td>
+                    Augment sparse internal signals, validate identity, support political ad transparency, and improve recommender
+                    coverage in markets with limited first-party data.
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <p class="table-note">
-            The examples above come directly from the EDMO report. Platforms can usually produce many more variables inside each
-            category, especially when they combine behavioural logs with predictive models.
-          </p>
-          <p>
-            For a deeper dive into this topic, the report’s authors compiled a spreadsheet with detailed inventories of user,
-            content, session, predictive, survey, and network variables. The supplemental explorer below mirrors that appendix so
-            you can see how the categories translate into specific fields.
+            Source: Platform Datasets: Challenges, Insights, and Examples for Researchers under Article 40 of the Digital Services
+            Act (EDMO, 2025).
           </p>
         </section>
 
-        <section class="section" id="data-uses">
-          <h2>Why these data matter for research</h2>
+        <section class="section" id="additional-families">
+          <h2>2.2 Extended data families</h2>
           <p>
-            Platforms rely on these signals to power machine learning systems, advertising optimisation, integrity enforcement,
-            and product experimentation. Understanding which pieces exist—and where they originate—helps you request the right
-            tables and interpret transparency disclosures. For example:
+            Beyond the headline categories, platforms maintain specialized tables for content objects, sessions, predictive model
+            outputs, survey programs, and networks. The examples below mirror the supplemental spreadsheet referenced in the report
+            so you can examine the granularity available when Article 40 access is granted.
           </p>
-          <div class="example-callout">
-            <ul>
-              <li>User-provided and behavioural data reveal what happened on the platform and who was involved.</li>
-              <li>Signals received from other users and device telemetry capture community-level reactions and potential abuse.</li>
-              <li>Inferences and purchased datasets often drive ranking, safety, or revenue decisions yet rarely appear in public APIs.</li>
-            </ul>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Dataset family</th>
+                  <th>Key entities</th>
+                  <th>Illustrative fields</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>User-centric tables</strong></td>
+                  <td>Accounts, devices, enforcement history</td>
+                  <td>
+                    Account creation time, verification status, linked phone/email, risk tier, country, consent for sensitive data,
+                    time since last active session.
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Content tables</strong></td>
+                  <td>Posts, videos, comments, audio tracks</td>
+                  <td>
+                    Content ID, creation timestamp, media type, length, language detection, safety labels, distribution status,
+                    visibility flags, fact-checking verdicts.
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Session tables</strong></td>
+                  <td>Logins, device state changes, navigation flows</td>
+                  <td>
+                    Session ID, login source, network quality, surfaces visited, dwell time per surface, experiment buckets, logout
+                    reason, concurrency indicators.
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Predictive model tables</strong></td>
+                  <td>Risk scores, recommendations, quality predictions</td>
+                  <td>
+                    Model version, score value, threshold applied, label timestamp, evaluator confidence, time-to-decision,
+                    downstream action taken.
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Survey and research tables</strong></td>
+                  <td>In-product surveys, diary studies, civic panels</td>
+                  <td>
+                    Survey question ID, sampling frame, response options, weighting factors, optional text answers, retention policy
+                    for personally identifiable information.
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Network tables</strong></td>
+                  <td>Follower graphs, group membership, messaging ties</td>
+                  <td>
+                    Edge type, source and destination IDs, affinity score, reciprocity, group roles, moderation interventions,
+                    cross-network overlap.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <p>
-            When you ask a platform to fulfil an Article 40 request, reference these categories explicitly. It shows that you
-            understand the internal landscape and reduces ambiguity about the granularity you expect.
-          </p>
         </section>
 
         <section class="section" id="catalog">
-          <h2>Interactive platform data catalog</h2>
+          <h2>2.3 Interactive platform data catalog</h2>
           <p>
-            Use the filters to explore a living catalog of transparency assets already announced by major platforms. The entries
-            summarise what the primer’s authors have seen in practice and highlight where coverage is partial. Download the CSV to
-            incorporate the catalog into your own tracking sheet.
+            Use the catalog to explore which public and restricted datasets align with your project. All entries correspond to the
+            transparency programs referenced in the report and reflect their status as of early 2025.
           </p>
           <div class="filter-bar" id="catalog-filters">
             <label>
@@ -184,7 +315,7 @@
             <button class="button secondary" id="export-csv" type="button">Download CSV</button>
           </div>
 
-          <div class="alert" id="catalog-status" role="status" aria-live="polite">Catalog loading…</div>
+          <div class="alert" id="catalog-status" role="status" aria-live="polite">Loading catalog…</div>
           <div class="table-wrapper">
             <table id="catalog-table" hidden>
               <thead>
@@ -203,69 +334,29 @@
         </section>
 
         <section class="section" id="supplemental">
-          <h2>Browse supplemental datasets</h2>
+          <h2>2.4 Supplemental datasets</h2>
           <p>
-            The original Google Sheets appendix is now embedded here as a searchable, filterable table. Each row corresponds to a
-            tab in the spreadsheet—users, content, sessions, machine learning, surveys, and networks—so you can see how platforms
-            track the same concept across multiple tables. Use the filters to zero in on the variables that support your research
-            questions.
+            The original report linked to a spreadsheet describing hundreds of individual data points. The tables below bring that
+            reference material onto the website so you can browse, filter, and download it without leaving the primer. Select a tab
+            to focus on user, content, session, predictive, survey, or network datasets.
           </p>
-          <div class="supplemental-summary">
-            <article class="card">
-              <h3>Users</h3>
-              <p>Profile metadata, declared traits, and identifiers that link to behavioural logs.</p>
-            </article>
-            <article class="card">
-              <h3>Content</h3>
-              <p>Text, media, and metadata describing how posts are created, promoted, or moderated.</p>
-            </article>
-            <article class="card">
-              <h3>Sessions &amp; devices</h3>
-              <p>Login activity, session duration, and technical fingerprints used for security.</p>
-            </article>
-            <article class="card">
-              <h3>Machine learning outputs</h3>
-              <p>Predicted policy violations, quality scores, and recommendation labels.</p>
-            </article>
-            <article class="card">
-              <h3>Surveys</h3>
-              <p>Opt-in responses that capture sentiment, well-being, or self-reported experiences.</p>
-            </article>
-            <article class="card">
-              <h3>Networks</h3>
-              <p>Follower graphs, superspreader diagnostics, and ties between accounts.</p>
-            </article>
+          <div class="supplemental-controls">
+            <div class="supplemental-tabs" id="supplemental-tabs" role="tablist"></div>
+            <div class="supplemental-search">
+              <label for="supplemental-search-input">Search fields</label>
+              <input id="supplemental-search-input" type="text" placeholder="Filter by field name or description" />
+            </div>
+            <button class="button secondary" id="supplemental-export" type="button">Download visible rows</button>
           </div>
-
-          <div class="filter-bar" id="supplemental-filters">
-            <label>
-              Collection
-              <select id="supplemental-group">
-                <option value="">All collections</option>
-              </select>
-            </label>
-            <label>
-              Availability
-              <select id="supplemental-availability">
-                <option value="">Any availability</option>
-              </select>
-            </label>
-            <label>
-              Search
-              <input type="text" id="supplemental-search" placeholder="e.g. violations or language" />
-            </label>
-          </div>
-
           <div class="table-wrapper">
             <table id="supplemental-table">
               <thead>
                 <tr>
-                  <th data-sort="group">Collection</th>
-                  <th data-sort="subcategory">Worksheet</th>
-                  <th data-sort="element">Data element</th>
-                  <th data-sort="description">Description</th>
-                  <th data-sort="availability">Availability</th>
-                  <th data-sort="link">Link</th>
+                  <th>Field</th>
+                  <th>Description</th>
+                  <th>Primary table</th>
+                  <th>Access considerations</th>
+                  <th>Source</th>
                 </tr>
               </thead>
               <tbody></tbody>
@@ -273,55 +364,141 @@
           </div>
         </section>
 
-        <section class="section" id="programs">
-          <h2>Trusted access programs</h2>
-          <p>
-            These programs act as the front door for deeper, non-public datasets. Review their cadence and scope to align your
-            project timelines and make sure your Article 40 requests reference the appropriate channel.
-          </p>
-          <div class="card-grid" id="access-programs"></div>
-        </section>
-
         <section class="section" id="staying-current">
-          <h2>Staying current without official changelogs</h2>
+          <h2>Staying current on data access</h2>
+          <p>
+            Article 40 programs continue to evolve. These organizations monitor platform transparency and can help you stay ahead of
+            schema changes or new application windows.
+          </p>
           <div class="card-grid">
             <article class="card">
-              <h3>Join transparency communities</h3>
+              <h3>European Digital Media Observatory</h3>
               <p>
-                EDMO task forces, the Integrity Institute, and All Tech Is Human convene practitioners who share early intel on
-                schema shifts and newly released datasets.
+                EDMO convenes regional task forces that surface new datasets, highlight research-ready cohorts, and document where
+                access falls short of legal requirements.
               </p>
+              <p><a href="https://edmo.eu" target="_blank" rel="noreferrer">Visit EDMO ↗</a></p>
             </article>
             <article class="card">
-              <h3>Document every delivery</h3>
-              <p>Keep a copy of the data dictionaries and tables you receive. Treat them as version-controlled artefacts.</p>
+              <h3>Integrity Institute</h3>
+              <p>
+                A network of former platform professionals who publish implementation guidance, including practical tips for
+                navigating data-sharing agreements and making sense of platform-specific terminology.
+              </p>
+              <p><a href="https://integrityinstitute.org" target="_blank" rel="noreferrer">Explore resources ↗</a></p>
             </article>
             <article class="card">
-              <h3>Log open questions</h3>
+              <h3>All Tech Is Human</h3>
               <p>
-                When you notice gaps or ambiguous fields, note them in your research journal so you can follow up with the
-                platform or triangulate with other datasets later.
+                A community advancing responsible technology. Their convenings and newsletters surface new collaborations between
+                researchers, civil society, and industry, with frequent coverage of transparency tooling.
               </p>
+              <p><a href="https://alltechishuman.org" target="_blank" rel="noreferrer">Join the community ↗</a></p>
             </article>
           </div>
         </section>
 
-        <p>
-          Ready to see how these data are stored and transformed inside platforms? Continue to
-          <a href="warehouses.html">Chapter 3: How Platforms Use Data</a> for a plain-language walkthrough of fact and dimension tables.
-        </p>
+        <section class="section" id="programs">
+          <h2>Trusted access programs</h2>
+          <p>
+            These programs act as gateways to non-public datasets. Review their cadence and scope before drafting Article 40
+            requests so you can align your research timelines with platform refresh cycles.
+          </p>
+          <div class="card-grid" id="access-programs"></div>
+        </section>
       </main>
     </div>
+    <main>
+      <h1>Data Foundations</h1>
+      <p>
+        The Digital Services Act obligates Very Large Online Platforms and Search Engines to provide vetted researchers and civil society partners with meaningful access to systemic risk data. Use this catalog to understand what’s available, where to request it, and how to stay current.
+      </p>
+
+      <section class="section">
+        <h2>Interactive platform data catalog</h2>
+        <p>
+          Filter by platform, data category, or availability channel. You can search across notes and field names, then export the filtered view for your own tracking sheet.
+        </p>
+        <div class="filter-bar" id="catalog-filters">
+          <label>
+            Platform
+            <select id="filter-platform">
+              <option value="">All platforms</option>
+            </select>
+          </label>
+          <label>
+            Category
+            <select id="filter-category">
+              <option value="">All categories</option>
+            </select>
+          </label>
+          <label>
+            Availability
+            <select id="filter-availability">
+              <option value="">All access paths</option>
+            </select>
+          </label>
+          <label>
+            Keyword search
+            <input type="text" id="filter-search" placeholder="e.g. transparency report" />
+          </label>
+          <button class="button secondary" id="export-csv" type="button">Download CSV</button>
+        </div>
+
+        <div class="alert" id="catalog-status" role="status" aria-live="polite">Loading catalog…</div>
+        <div class="table-wrapper">
+          <table id="catalog-table" hidden>
+            <thead>
+              <tr>
+                <th>Platform</th>
+                <th>Category</th>
+                <th>Data element</th>
+                <th>Availability</th>
+                <th>Notes</th>
+                <th>Last updated</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Trusted access programs</h2>
+        <p>
+          These programs are the front door for deeper, non-public datasets. Review their cadence and scope to align your project timelines.
+        </p>
+        <div class="card-grid" id="access-programs"></div>
+      </section>
+
+      <section class="section">
+        <h2>How to stay current</h2>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Subscribe to official changelogs</h3>
+            <p>Most platforms maintain RSS feeds or release notes. Add them to your research ops tracker to catch schema updates early.</p>
+          </article>
+          <article class="card">
+            <h3>Join transparency communities</h3>
+            <p>Working groups such as EDMO task forces and Mozilla’s Observatory community often share early intel on dataset releases.</p>
+          </article>
+          <article class="card">
+            <h3>Document your requests</h3>
+            <p>Track when you submit Article 40 requests and the exact datasets you receive. This makes renewal conversations faster.</p>
+          </article>
+        </div>
+      </section>
+    </main>
 
     <footer>
       <div class="footer-inner">
-        <strong>Need help drafting a data request?</strong>
-        <span>Matt can review your access plans and suggest which tables to prioritise.</span>
+        <strong>Need a deeper walkthrough?</strong>
+        <span>Schedule time with Matt to align these datasets to your investigation or research question.</span>
         <span>© <span id="year"></span> Matt Motyl.</span>
       </div>
     </footer>
 
-    <script type="application/json" id="catalog-data">
+    <script id="catalog-data" type="application/json">
       [
         {
           "platform": "Meta (Facebook & Instagram)",
@@ -437,7 +614,7 @@
         }
       ]
     </script>
-    <script type="application/json" id="programs-data">
+    <script id="program-data" type="application/json">
       [
         {
           "program": "Meta Researcher Platform",
@@ -464,189 +641,204 @@
           "notes": "Currently capped at EU-based institutions focused on systemic risk research."
         },
         {
-          "program": "EDMO Data Access Support Hub",
+          "program": "EDMO Platform-to-Research Task Forces",
           "sponsor": "European Digital Media Observatory",
-          "url": "https://edmo.eu/data-access-support-hub/",
-          "cadence": "Support requests reviewed monthly",
-          "scope": "Guides researchers through Article 40 eligibility, secure data handling, and coordination with platforms.",
-          "notes": "Ideal for civil society teams navigating cross-border data access requirements."
+          "url": "https://edmo.eu/initiatives/",
+          "cadence": "Biannual calls for collaborators",
+          "scope": "Coordinates transparency research teams across the EU and brokers Article 40 requests.",
+          "notes": "Ideal for cross-border projects that need harmonized access agreements."
         }
       ]
     </script>
-    <script type="application/json" id="supplemental-data">
-      [
-        {
-          "group": "Users",
-          "subcategory": "Profile",
-          "element": "user_id",
-          "description": "Assigned numeric identifier that links a person to sessions, content, and enforcement tables.",
-          "availability": "Internal warehouse",
-          "link": ""
-        },
-        {
-          "group": "Users",
-          "subcategory": "Profile",
-          "element": "account_creation_time",
-          "description": "Timestamp for when the account was created, often used to detect suspicious bursts of registrations.",
-          "availability": "Internal warehouse",
-          "link": ""
-        },
-        {
-          "group": "Users",
-          "subcategory": "Demographics",
-          "element": "declared_location",
-          "description": "Self-reported city or country combined with device-derived geolocation to validate presence.",
-          "availability": "Researcher program",
-          "link": "https://transparency.meta.com/researcher-platform/"
-        },
-        {
-          "group": "Users",
-          "subcategory": "Integrity",
-          "element": "account_violation_count",
-          "description": "Running tally of confirmed policy violations linked to the account, segmented by policy area.",
-          "availability": "Internal warehouse",
-          "link": ""
-        },
-        {
-          "group": "Content",
-          "subcategory": "Status",
-          "element": "status_id",
-          "description": "Unique identifier for each piece of public content; joins to engagement, moderation, and ranking logs.",
-          "availability": "Public API",
-          "link": "https://docs.joinmastodon.org/methods/statuses/"
-        },
-        {
-          "group": "Content",
-          "subcategory": "Metadata",
-          "element": "media_type",
-          "description": "Categorises posts as video, image, link, or text to support downstream measurement of harms.",
-          "availability": "Researcher program",
-          "link": "https://developers.tiktok.com/doc/research-api-overview/"
-        },
-        {
-          "group": "Content",
-          "subcategory": "Moderation",
-          "element": "enforcement_action",
-          "description": "Outcome applied to the content (removal, label, demotion) along with the policy cited.",
-          "availability": "Internal warehouse",
-          "link": ""
-        },
-        {
-          "group": "Sessions",
-          "subcategory": "Activity",
-          "element": "session_id",
-          "description": "Identifier for each authenticated session, enabling analysis of login frequency and device switching.",
-          "availability": "Internal warehouse",
-          "link": ""
-        },
-        {
-          "group": "Sessions",
-          "subcategory": "Device",
-          "element": "client_app_version",
-          "description": "App or browser version captured at login—critical for understanding feature rollouts and bugs.",
-          "availability": "Internal warehouse",
-          "link": ""
-        },
-        {
-          "group": "Sessions",
-          "subcategory": "Security",
-          "element": "session_ip_country",
-          "description": "Country derived from the session IP address, used to detect account takeover or travel patterns.",
-          "availability": "Researcher program",
-          "link": "https://transparency.meta.com/researcher-platform/"
-        },
-        {
-          "group": "Machine Learning",
-          "subcategory": "Integrity",
-          "element": "misinformation_score",
-          "description": "Probability that the content matches known misinformation narratives, generated by internal classifiers.",
-          "availability": "Internal warehouse",
-          "link": ""
-        },
-        {
-          "group": "Machine Learning",
-          "subcategory": "Recommendation",
-          "element": "candidate_rank",
-          "description": "Ordinal score showing where a piece of content ranked in the recommendation slate presented to a user.",
-          "availability": "Internal warehouse",
-          "link": ""
-        },
-        {
-          "group": "Machine Learning",
-          "subcategory": "Quality",
-          "element": "predicted_watch_time",
-          "description": "Expected seconds of watch time used to optimise short-form video feeds.",
-          "availability": "Researcher program",
-          "link": "https://research.tiktok.com/"
-        },
-        {
-          "group": "Surveys",
-          "subcategory": "Well-being",
-          "element": "perceived_harm_score",
-          "description": "Self-reported rating of how harmful the user perceived their recent experience on the platform.",
-          "availability": "Internal warehouse",
-          "link": ""
-        },
-        {
-          "group": "Surveys",
-          "subcategory": "Civic",
-          "element": "election_information_satisfaction",
-          "description": "Measures whether respondents feel they can access reliable election information on the platform.",
-          "availability": "Researcher program",
-          "link": "https://edmo.eu/data-access-support-hub/"
-        },
-        {
-          "group": "Surveys",
-          "subcategory": "Safety",
-          "element": "policy_understanding",
-          "description": "Respondents indicate whether they understand why specific moderation actions were taken on their content.",
-          "availability": "Internal warehouse",
-          "link": ""
-        },
-        {
-          "group": "Networks",
-          "subcategory": "Graph",
-          "element": "follower_edge",
-          "description": "Each edge represents a follow relationship and includes timestamps for creation and removal.",
-          "availability": "Public API",
-          "link": "https://docs.joinmastodon.org/entities/relationship/"
-        },
-        {
-          "group": "Networks",
-          "subcategory": "Superspreaders",
-          "element": "superspreader_percentile",
-          "description": "Places an account within the distribution of total exposures generated across the platform.",
-          "availability": "Internal warehouse",
-          "link": ""
-        },
-        {
-          "group": "Networks",
-          "subcategory": "Communities",
-          "element": "cluster_label",
-          "description": "Community detection label applied to accounts or content to describe ideological or topical clusters.",
-          "availability": "Researcher program",
-          "link": "https://transparency.meta.com/researcher-platform/"
-        },
-        {
-          "group": "Content",
-          "subcategory": "Ads",
-          "element": "ad_targeting_segment",
-          "description": "Audience segment applied to the advertisement, such as demographic or interest-based groupings.",
-          "availability": "Public API",
-          "link": "https://www.facebook.com/ads/library/"
-        },
-        {
-          "group": "Machine Learning",
-          "subcategory": "Authenticity",
-          "element": "bot_probability",
-          "description": "Classifier output estimating the likelihood that an account exhibits automated behaviour.",
-          "availability": "Internal warehouse",
-          "link": ""
-        }
-      ]
+    <script id="supplemental-data" type="application/json">
+      {
+        "User": [
+          {
+            "field": "user_id",
+            "description": "Unique identifier assigned to each account at creation.",
+            "table": "dim_users",
+            "access": "Always pseudonymized; link tables provided after risk review.",
+            "source": "Internal warehouse"
+          },
+          {
+            "field": "account_creation_time",
+            "description": "Timestamp of initial signup, stored in UTC.",
+            "table": "dim_users",
+            "access": "Retained indefinitely except for deleted accounts.",
+            "source": "Internal warehouse"
+          },
+          {
+            "field": "declared_pronouns",
+            "description": "Self-selected pronouns from profile settings.",
+            "table": "dim_users",
+            "access": "Sensitive; surfaced only in aggregated reporting.",
+            "source": "Profile settings"
+          },
+          {
+            "field": "risk_tier",
+            "description": "Internal classification used by integrity teams to prioritize review.",
+            "table": "dim_users",
+            "access": "Requires additional integrity justification.",
+            "source": "Integrity scoring model"
+          }
+        ],
+        "Content": [
+          {
+            "field": "content_id",
+            "description": "Unique identifier for each post, video, or comment.",
+            "table": "dim_content",
+            "access": "Available with event tables to enable joins.",
+            "source": "Content management system"
+          },
+          {
+            "field": "media_type",
+            "description": "Classification of the creative: text, image, video, live, audio.",
+            "table": "dim_content",
+            "access": "No special restrictions; mapped to policy review queues.",
+            "source": "Upload metadata"
+          },
+          {
+            "field": "safety_label",
+            "description": "Latest enforcement decision, such as misinformation, hate speech, or spam.",
+            "table": "dim_content",
+            "access": "Delayed release until appeals conclude.",
+            "source": "Policy enforcement system"
+          },
+          {
+            "field": "distribution_status",
+            "description": "Indicator showing whether the content is boosted, demoted, or removed from recommendations.",
+            "table": "dim_content",
+            "access": "Shared as part of Article 40 risk mitigation reporting.",
+            "source": "Recommendation pipeline"
+          }
+        ],
+        "Session": [
+          {
+            "field": "session_id",
+            "description": "Identifier for each login session across devices.",
+            "table": "fact_sessions",
+            "access": "Accessible with user consent through researcher environments.",
+            "source": "Authentication service"
+          },
+          {
+            "field": "entry_surface",
+            "description": "The first surface loaded during the session (e.g., feed, messaging, search).",
+            "table": "fact_sessions",
+            "access": "Anonymized; often bucketed for small cohorts.",
+            "source": "Client logging"
+          },
+          {
+            "field": "dwell_seconds",
+            "description": "Total time spent in the session before logout or timeout.",
+            "table": "fact_sessions",
+            "access": "Provided as aggregated percentiles for privacy.",
+            "source": "Client logging"
+          },
+          {
+            "field": "experiment_bucket",
+            "description": "Variant assignment for product experiments touching the session.",
+            "table": "fact_sessions",
+            "access": "Shared with research teams after experiment debriefs.",
+            "source": "Experimentation platform"
+          }
+        ],
+        "Predictive": [
+          {
+            "field": "model_name",
+            "description": "Short identifier for the machine learning model generating the score.",
+            "table": "fact_model_scores",
+            "access": "Documented in governance registries; accessible with aligned risk studies.",
+            "source": "Model registry"
+          },
+          {
+            "field": "score",
+            "description": "Numeric prediction such as probability of policy violation.",
+            "table": "fact_model_scores",
+            "access": "Provided with differential privacy noise for high-risk categories.",
+            "source": "Model inference service"
+          },
+          {
+            "field": "threshold_met",
+            "description": "Boolean flag showing whether the score triggered an automated action.",
+            "table": "fact_model_scores",
+            "access": "Shared alongside enforcement logs for transparency audits.",
+            "source": "Integrity automation"
+          },
+          {
+            "field": "label_timestamp",
+            "description": "When a human reviewer confirmed or rejected the automated score.",
+            "table": "fact_model_scores",
+            "access": "Available once investigations close.",
+            "source": "Reviewer tooling"
+          }
+        ],
+        "Survey": [
+          {
+            "field": "survey_id",
+            "description": "Unique identifier for an in-product survey deployment.",
+            "table": "dim_surveys",
+            "access": "Shared with researchers studying systemic risks or civic engagement.",
+            "source": "User research operations"
+          },
+          {
+            "field": "sampling_frame",
+            "description": "Description of the targeted population (e.g., EU adults, recent reporters).",
+            "table": "dim_surveys",
+            "access": "Requires alignment with survey privacy commitments.",
+            "source": "Research design documentation"
+          },
+          {
+            "field": "response_weight",
+            "description": "Weight applied to responses to ensure representative estimates.",
+            "table": "fact_survey_responses",
+            "access": "Provided with anonymized response IDs.",
+            "source": "Survey analytics platform"
+          },
+          {
+            "field": "open_text_response",
+            "description": "Optional free-text provided by participants.",
+            "table": "fact_survey_responses",
+            "access": "Often redacted or tokenized due to PII risk.",
+            "source": "Survey analytics platform"
+          }
+        ],
+        "Network": [
+          {
+            "field": "source_user_id",
+            "description": "ID of the account initiating the relationship.",
+            "table": "fact_edges",
+            "access": "Pseudonymized when shared outside the platform.",
+            "source": "Graph database"
+          },
+          {
+            "field": "target_user_id",
+            "description": "ID of the account receiving the relationship.",
+            "table": "fact_edges",
+            "access": "Pseudonymized; aggregated for smaller communities.",
+            "source": "Graph database"
+          },
+          {
+            "field": "edge_type",
+            "description": "Nature of the connection (follow, friend, membership, message).",
+            "table": "fact_edges",
+            "access": "Shared at aggregate level for Article 40 systemic risk questions.",
+            "source": "Graph database"
+          },
+          {
+            "field": "moderation_action",
+            "description": "Latest enforcement decision affecting the connection (e.g., mute, limit, removal).",
+            "table": "fact_edges",
+            "access": "Available with additional context on appeals and reinstatements.",
+            "source": "Trust & safety tooling"
+          }
+        ]
+      }
     </script>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/catalog.js"></script>
+    <script src="assets/js/supplemental.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/catalog.js" type="module"></script>
-    <script src="assets/js/supplemental.js" type="module"></script>
   </body>
 </html>

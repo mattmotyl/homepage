@@ -1,126 +1,116 @@
-const dataScript = document.getElementById('supplemental-data');
-const table = document.getElementById('supplemental-table');
-const tbody = table?.querySelector('tbody');
-const groupSelect = document.getElementById('supplemental-group');
-const availabilitySelect = document.getElementById('supplemental-availability');
-const searchInput = document.getElementById('supplemental-search');
+const supplementalDataEl = document.getElementById('supplemental-data');
+const tabsContainer = document.getElementById('supplemental-tabs');
+const tableEl = document.getElementById('supplemental-table');
+const tbody = tableEl ? tableEl.querySelector('tbody') : null;
+const searchInput = document.getElementById('supplemental-search-input');
+const exportBtn = document.getElementById('supplemental-export');
 
-let rows = [];
-let filteredRows = [];
-let sortKey = 'group';
-let sortDirection = 'asc';
+let datasets = {};
+let activeKey = '';
+let visibleRows = [];
 
-const uniqueValues = (items, key) => Array.from(new Set(items.map((item) => item[key]).filter(Boolean))).sort();
+const renderTabs = () => {
+  if (!tabsContainer) return;
+  tabsContainer.innerHTML = '';
+  Object.keys(datasets).forEach((key, index) => {
+    const button = document.createElement('button');
+    button.className = `button secondary${key === activeKey ? ' active' : ''}`;
+    button.type = 'button';
+    button.textContent = `${key} data`;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', key === activeKey ? 'true' : 'false');
+    button.dataset.key = key;
+    tabsContainer.appendChild(button);
+    if (index === 0 && !activeKey) {
+      activeKey = key;
+    }
+  });
+};
 
-const renderTable = () => {
-  if (!tbody) return;
+const renderRows = () => {
+  if (!tbody || !activeKey) return;
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+  const rows = datasets[activeKey] || [];
+  visibleRows = rows.filter((row) => {
+    if (!searchTerm) return true;
+    return (
+      row.field.toLowerCase().includes(searchTerm)
+      || row.description.toLowerCase().includes(searchTerm)
+      || row.table.toLowerCase().includes(searchTerm)
+      || row.access.toLowerCase().includes(searchTerm)
+      || row.source.toLowerCase().includes(searchTerm)
+    );
+  });
   tbody.innerHTML = '';
-  if (!filteredRows.length) {
+  visibleRows.forEach((row) => {
     const tr = document.createElement('tr');
-    tr.innerHTML = '<td colspan="6">No matching rows. Adjust your filters to see more data.</td>';
-    tbody.appendChild(tr);
-    return;
-  }
-  filteredRows.forEach((row) => {
-    const tr = document.createElement('tr');
-    const linkCell = row.link
-      ? `<a href="${row.link}" target="_blank" rel="noreferrer">Source ↗</a>`
-      : '';
     tr.innerHTML = `
-      <td>${row.group}</td>
-      <td>${row.subcategory}</td>
-      <td>${row.element}</td>
+      <td><code>${row.field}</code></td>
       <td>${row.description}</td>
-      <td>${row.availability}</td>
-      <td>${linkCell}</td>
+      <td>${row.table}</td>
+      <td>${row.access}</td>
+      <td>${row.source}</td>
     `;
     tbody.appendChild(tr);
   });
 };
 
-const applyFilters = () => {
-  const group = groupSelect?.value ?? '';
-  const availability = availabilitySelect?.value ?? '';
-  const searchTerm = (searchInput?.value ?? '').toLowerCase();
-
-  filteredRows = rows.filter((row) => {
-    const matchesGroup = !group || row.group === group;
-    const matchesAvailability = !availability || row.availability === availability;
-    const matchesSearch = !searchTerm
-      || row.element.toLowerCase().includes(searchTerm)
-      || row.description.toLowerCase().includes(searchTerm)
-      || row.subcategory.toLowerCase().includes(searchTerm);
-    return matchesGroup && matchesAvailability && matchesSearch;
-  });
-
-  sortRows(sortKey, false);
+const setActiveKey = (key) => {
+  activeKey = key;
+  renderTabs();
+  renderRows();
 };
 
-const sortRows = (key, toggleDirection = true) => {
-  if (toggleDirection) {
-    if (sortKey === key) {
-      sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-      sortKey = key;
-      sortDirection = 'asc';
-    }
-  } else {
-    sortKey = key;
-  }
-
-  const directionMultiplier = sortDirection === 'asc' ? 1 : -1;
-  filteredRows.sort((a, b) => {
-    const valueA = (a[key] ?? '').toString().toLowerCase();
-    const valueB = (b[key] ?? '').toString().toLowerCase();
-    if (valueA < valueB) return -1 * directionMultiplier;
-    if (valueA > valueB) return 1 * directionMultiplier;
-    return 0;
-  });
-  renderTable();
+const downloadRows = () => {
+  if (!visibleRows.length) return;
+  const header = ['Field', 'Description', 'Primary table', 'Access considerations', 'Source'];
+  const csv = [header.join(',')]
+    .concat(
+      visibleRows.map((row) =>
+        [row.field, row.description, row.table, row.access, row.source]
+          .map((value) => {
+            const normalized = String(value ?? '').replace(/"/g, '""');
+            return `"${normalized}"`;
+          })
+          .join(',')
+      )
+    )
+    .join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.setAttribute('href', url);
+  link.setAttribute('download', `${activeKey.toLowerCase()}-supplemental-data.csv`);
+  link.style.display = 'none';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 };
 
-const init = () => {
-  if (!dataScript || !tbody) return;
+(function init() {
+  if (!supplementalDataEl) return;
   try {
-    rows = JSON.parse(dataScript.textContent.trim());
+    datasets = JSON.parse(supplementalDataEl.textContent || '{}');
   } catch (error) {
-    tbody.innerHTML = '<tr><td colspan="6">Unable to load supplemental dataset.</td></tr>';
-    return;
+    datasets = {};
   }
-  filteredRows = rows.slice();
+  const keys = Object.keys(datasets);
+  if (!keys.length) return;
+  activeKey = keys[0];
+  renderTabs();
+  renderRows();
+})();
 
-  if (groupSelect) {
-    uniqueValues(rows, 'group').forEach((value) => {
-      const option = document.createElement('option');
-      option.value = value;
-      option.textContent = value;
-      groupSelect.appendChild(option);
-    });
+tabsContainer?.addEventListener('click', (event) => {
+  const target = event.target;
+  if (target instanceof HTMLButtonElement && target.dataset.key) {
+    setActiveKey(target.dataset.key);
   }
+});
 
-  if (availabilitySelect) {
-    uniqueValues(rows, 'availability').forEach((value) => {
-      const option = document.createElement('option');
-      option.value = value;
-      option.textContent = value;
-      availabilitySelect.appendChild(option);
-    });
-  }
+searchInput?.addEventListener('input', () => {
+  renderRows();
+});
 
-  if (groupSelect) groupSelect.addEventListener('change', applyFilters);
-  if (availabilitySelect) availabilitySelect.addEventListener('change', applyFilters);
-  if (searchInput) searchInput.addEventListener('input', applyFilters);
-
-  table.querySelectorAll('th[data-sort]').forEach((th) => {
-    th.addEventListener('click', () => {
-      const key = th.getAttribute('data-sort');
-      if (key) {
-        sortRows(key);
-      }
-    });
-  });
-
-  applyFilters();
-};
-
-init();
+exportBtn?.addEventListener('click', downloadRows);

@@ -1,33 +1,11 @@
+const comparisonDataEl = document.getElementById('comparison-data');
 const table = document.getElementById('comparison-table');
-const tbody = table?.querySelector('tbody');
+const tbody = table ? table.querySelector('tbody') : null;
 const canvas = document.getElementById('comparison-chart');
 const viewButtons = document.querySelectorAll('.comparison-controls button');
 let chart;
 let rows = [];
 const palette = ['#1e2a5a', '#f97316', '#2dd4bf', '#6366f1', '#0ea5e9'];
-
-const normalizeValue = (value) => {
-  if (typeof value === 'string') {
-    const lower = value.toLowerCase();
-    if (lower === 'true') return 1;
-    if (lower === 'false') return 0;
-    const numeric = Number(value);
-    if (!Number.isNaN(numeric)) return numeric;
-  }
-  if (typeof value === 'boolean') return value ? 1 : 0;
-  if (typeof value === 'number') return value;
-  return 0;
-};
-
-const formatCell = (value) => {
-  if (typeof value === 'string') {
-    const lower = value.toLowerCase();
-    if (lower === 'true') return '✓';
-    if (lower === 'false') return '—';
-  }
-  if (typeof value === 'boolean') return value ? '✓' : '—';
-  return value;
-};
 
 const buildTable = () => {
   if (!tbody) return;
@@ -37,32 +15,32 @@ const buildTable = () => {
     tr.innerHTML = `
       <td>${row.indicator}</td>
       <td>${row.dimension}</td>
-      <td>${formatCell(row.values.TikTok)}</td>
-      <td>${formatCell(row.values.Facebook)}</td>
-      <td>${formatCell(row.values.YouTube)}</td>
-      <td>${formatCell(row.values.Mastodon)}</td>
-      <td>${formatCell(row.values['Google Search'])}</td>
+      <td>${row.values.TikTok}</td>
+      <td>${row.values.Facebook}</td>
+      <td>${row.values.YouTube}</td>
+      <td>${row.values.Mastodon}</td>
+      <td>${row.values['Google Search']}</td>
     `;
     tbody.appendChild(tr);
   });
 };
 
 const buildChart = (type) => {
-  if (!canvas) return;
+  if (!canvas || !rows.length) return;
   const ctx = canvas.getContext('2d');
   if (chart) chart.destroy();
   const labels = Object.keys(rows[0].values);
   const dataSets = type === 'radar'
     ? rows.map((row, index) => ({
         label: row.indicator,
-        data: labels.map((label) => normalizeValue(row.values[label])),
+        data: labels.map((label) => row.values[label]),
         fill: true,
         borderColor: palette[index % palette.length],
         backgroundColor: `${palette[index % palette.length]}33`,
       }))
     : labels.map((label, index) => ({
         label,
-        data: rows.map((row) => normalizeValue(row.values[label])),
+        data: rows.map((row) => row.values[label]),
         borderWidth: 1,
         backgroundColor: `${palette[index % palette.length]}bb`,
         borderColor: palette[index % palette.length],
@@ -113,37 +91,28 @@ const setView = (view) => {
   }
 };
 
-function init() {
-  const dataScript = document.getElementById('comparison-data');
-  if (!dataScript) {
-    if (tbody) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = '<td colspan="7">Comparison data unavailable.</td>';
-      tbody.appendChild(tr);
-    }
-    return;
-  }
-
+(function init() {
+  if (!comparisonDataEl) return;
   try {
-    rows = JSON.parse(dataScript.textContent.trim());
+    rows = JSON.parse(comparisonDataEl.textContent || '[]');
   } catch (error) {
+    rows = [];
+  }
+  if (!rows.length) {
     if (tbody) {
       const tr = document.createElement('tr');
-      tr.innerHTML = '<td colspan="7">Comparison data could not be parsed.</td>';
+      tr.innerHTML = '<td colspan="7">No comparison data available.</td>';
       tbody.appendChild(tr);
     }
     return;
   }
-
   buildTable();
   setView('table');
+})();
 
-  viewButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const view = button.dataset.view;
-      if (view) setView(view);
-    });
+viewButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const view = button.dataset.view;
+    if (view) setView(view);
   });
-}
-
-init();
+});

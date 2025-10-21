@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Access vs. Reality | Platform Data Primer</title>
+    <title>Platform Data Primer | Comparing API and Internal Data</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,11 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <title>Comparisons | Platform Data Handbook</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <header>
@@ -18,52 +23,118 @@
         <div class="brand">
           <span>Platform Data Primer</span>
           <span>Matt Motyl, Ph.D.</span>
+          <span>Matt Motyl</span>
+          <span>Platform Data Handbook</span>
         </div>
         <nav aria-label="Primary">
           <ul>
             <li><a href="index.html">Welcome</a></li>
-            <li><a href="foundations.html">Data Collection</a></li>
-            <li><a href="warehouses.html">How Platforms Use Data</a></li>
-            <li><a href="workflows.html">Hands-On Practice</a></li>
-            <li><a href="comparisons.html" aria-current="page">Access vs. Reality</a></li>
+            <li><a href="foundations.html">Data Foundations</a></li>
+            <li><a href="warehouses.html">Data Models</a></li>
+            <li><a href="warehouses.html">Warehouses</a></li>
+            <li><a href="workflows.html">Workflows</a></li>
+            <li><a href="comparisons.html" aria-current="page">Comparisons</a></li>
             <li><a href="engage.html">Engage</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <div class="page-layout">
-      <aside class="sidebar" data-toc>
-        <button type="button" class="toc-toggle">On this page</button>
-        <h2>On this page</h2>
-        <nav aria-label="On this page">
-          <ul></ul>
+    <div class="layout">
+      <aside class="sidebar" aria-label="Table of contents">
+        <button class="sidebar-toggle" type="button" aria-expanded="false">Table of contents</button>
+        <nav class="sidebar-nav">
+          <ol>
+            <li>
+              <a href="index.html">Welcome</a>
+              <ol>
+                <li><a href="index.html#introduction">1. Introduction</a></li>
+                <li><a href="index.html#article-40">1.1 Article 40 at a glance</a></li>
+                <li><a href="index.html#using-primer">1.2 How to use this primer</a></li>
+                <li><a href="index.html#audiences">1.3 Who this is for</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="foundations.html">Data foundations</a>
+              <ol>
+                <li><a href="foundations.html#data-categories">2. What data do platforms collect?</a></li>
+                <li><a href="foundations.html#category-reference">2.1 Data category reference</a></li>
+                <li><a href="foundations.html#additional-families">2.2 Extended data families</a></li>
+                <li><a href="foundations.html#catalog">2.3 Interactive catalog</a></li>
+                <li><a href="foundations.html#supplemental">2.4 Supplemental datasets</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="warehouses.html">Understanding platform data models</a>
+              <ol>
+                <li><a href="warehouses.html#generated-data">3. What do platforms generate?</a></li>
+                <li><a href="warehouses.html#fact-tables">3.1 Fact tables</a></li>
+                <li><a href="warehouses.html#dimension-tables">3.2 Dimension tables</a></li>
+                <li><a href="warehouses.html#joining-data">3.3 Joining data across tables</a></li>
+                <li><a href="warehouses.html#probabilistic">3.4 Probabilistic variables</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="workflows.html">Workflows and practice</a>
+              <ol>
+                <li><a href="workflows.html#workflow-orientation">4. Starting your workflow</a></li>
+                <li><a href="workflows.html#sample-tables">4.1 Sample tables</a></li>
+                <li><a href="workflows.html#sql-walkthrough">4.2 Guided SQL walkthrough</a></li>
+                <li><a href="workflows.html#sql-sandbox">4.3 Practice sandbox</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="comparisons.html" aria-current="page">Comparing API and internal data</a>
+              <ol>
+                <li><a href="#comparisons-overview">5. Why comparisons matter</a></li>
+                <li><a href="#example-1">5.1 Research by harm type</a></li>
+                <li><a href="#example-2">5.2 Structural indicator coverage</a></li>
+                <li><a href="#example-3">5.3 Mastodon as a reference point</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="engage.html">Engage and next steps</a>
+              <ol>
+                <li><a href="engage.html#contact">6. Connect with Matt</a></li>
+                <li><a href="engage.html#further-reading">6.1 Further reading</a></li>
+              </ol>
+            </li>
+          </ol>
         </nav>
       </aside>
 
       <main>
-        <h1>Chapter 4 · Access vs. Reality</h1>
-        <p>
-          Section 4 of the report compares what researchers can access today through public APIs against the richer internal data
-          sets platforms rely on. The examples below show why Article 40 access matters: without internal tables, it is impossible
-          to answer key questions about disinformation prevalence, enforcement, or superspreaders.
-        </p>
-
-        <section class="section" id="internal-vs-api">
-          <h2>Internal data vs. public APIs</h2>
+        <section id="comparisons-overview">
+          <h1>5. Comparing API outputs with internal datasets</h1>
           <p>
-            Mastodon serves as a useful reference point because researchers can obtain server-level exports. The same analyses are
-            not feasible on TikTok’s public API: essential variables—recommendation provenance, comprehensive enforcement logs,
-            and random samples weighted by views—are missing. The table and charts below summarise these gaps for structural
-            indicators defined in the Code of Practice on Disinformation.
+            Section 4 of the report examines how public APIs fall short of internal data when studying systemic risks. This page
+            recreates that analysis while adding interactive views so you can isolate specific indicators. Understanding the gaps
+            helps you articulate why Article 40 access is necessary and what additional fields you should request.
           </p>
-          <div class="comparison-controls">
-            <button type="button" data-view="table" class="active">Table</button>
-            <button type="button" data-view="radar">Radar chart</button>
-            <button type="button" data-view="bar">Stacked bar</button>
+          <p>
+            The examples use three framing questions:
+          </p>
+          <ul>
+            <li>Can public APIs support research into particular harm types (misinformation, harassment, civic integrity)?</li>
+            <li>Do APIs expose the structural indicators enumerated in the DSA, such as content moderation capacity or recommender
+              transparency?</li>
+            <li>How can open platforms like Mastodon serve as benchmarks for what “good” transparency looks like?</li>
+          </ul>
+        </section>
+
+        <section class="section" id="example-1">
+          <h2>5.1 Research by harm type</h2>
+          <p>
+            The report catalogs how TikTok, Facebook, YouTube, Google Search, and Mastodon cover different harm categories. Public
+            APIs often reveal basic engagement counts but omit enforcement outcomes or demographic breakdowns. Use the controls below
+            to switch between a table and visualizations.
+          </p>
+          <div class="comparison-controls" style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
+            <button class="button secondary" data-view="table" type="button">Table view</button>
+            <button class="button secondary" data-view="bar" type="button">Stacked bar</button>
+            <button class="button secondary" data-view="radar" type="button">Radar chart</button>
           </div>
-          <div class="chart-container">
-            <canvas id="comparison-chart" height="360" hidden></canvas>
+          <div class="table-wrapper">
             <table id="comparison-table">
               <thead>
                 <tr>
@@ -79,82 +150,119 @@
               <tbody></tbody>
             </table>
           </div>
-          <p class="table-note">Scores indicate whether each platform currently provides enough data for researchers to evaluate the indicator (TRUE) or not (FALSE).</p>
+          <canvas id="comparison-chart" width="640" height="360" hidden aria-label="Indicator comparison chart"></canvas>
+          <p class="table-note">
+            Scores are ordinal (0 = not available, 1 = partial, 2 = available with conditions). They mirror the assessment in the
+            EDMO report and help you prioritize Article 40 requests.
+          </p>
         </section>
 
-        <section class="section" id="example-one">
-          <h2>Example 1 · Research by harm type</h2>
+        <section class="section" id="example-2">
+          <h2>5.2 Structural indicator coverage</h2>
           <p>
-            The report demonstrates how Mastodon’s internal tables let researchers identify disinformation across harm categories.
-            Researchers can weight random samples by views, inspect moderation actions, and trace superspreaders. TikTok’s API does
-            not surface the same inputs, limiting analyses to aggregated counts or voluntary disclosures.
+            Many indicators cluster into themes: access to recommender logs, advertising transparency, civic integrity interventions,
+            and moderation resources. Break down the table above by theme to see where each platform excels or lags.
           </p>
-          <div class="example-callout">
+          <details open>
+            <summary><strong>Recommender transparency</strong></summary>
+            <p>Which datasets let researchers inspect ranking inputs, outputs, or shadow profiles?</p>
             <ul>
-              <li>Mastodon’s event logs enable weighted random sampling, which is essential for estimating prevalence.</li>
-              <li>Internal moderation tables reveal enforcement outcomes and appeals—fields absent from most public APIs.</li>
-              <li>Researchers must add their own labels for disinformation because platforms rarely expose internal classifications.</li>
+              <li>Facebook and TikTok provide partial internal recommender insights through researcher programs.</li>
+              <li>YouTube’s public API exposes watch history proxies but omits sensitive ranking features.</li>
+              <li>Mastodon makes ranking transparent because local timelines are chronological.</li>
             </ul>
-          </div>
+          </details>
+          <details>
+            <summary><strong>Advertising and monetization</strong></summary>
+            <p>APIs often share creative assets but hide spend, targeting, or outcomes behind aggregate buckets.</p>
+            <ul>
+              <li>TikTok’s ad transparency reports are improving but still lag behind Facebook’s Ad Library.</li>
+              <li>Google Search publishes aggregate advertising integrity metrics twice a year.</li>
+            </ul>
+          </details>
+          <details>
+            <summary><strong>Integrity interventions</strong></summary>
+            <p>Internal dashboards track takedowns, demotions, and human review capacity—metrics rarely exposed publicly.</p>
+            <ul>
+              <li>Article 40 requests should specify which enforcement actions, appeal outcomes, and staffing levels you need.</li>
+              <li>Mastodon communities publish moderation logs voluntarily, offering a template for richer transparency.</li>
+            </ul>
+          </details>
         </section>
 
-        <section class="section" id="example-two">
-          <h2>Example 2 · Evaluating structural indicators</h2>
+        <section class="section" id="example-3">
+          <h2>5.3 Mastodon as a reference point</h2>
           <p>
-            To evaluate structural indicators (SI-1 through SI-3), researchers need datasets that combine reach, modality, audience
-            characteristics, and enforcement details. Mastodon administrators can construct these tables from internal logs. For
-            commercial platforms, equivalent datasets would require Article 40 access and clear documentation of each variable.
+            Mastodon is included in the report as a north star: federated servers document their policies, publish moderation
+            decisions, and expose ActivityPub feeds that researchers can analyze without special permission. When negotiating Article
+            40 access, point to Mastodon’s openness to illustrate that richer transparency is feasible without compromising privacy.
           </p>
           <p>
-            When you prepare a request, reference the specific indicators you plan to measure. That framing makes it easier for
-            platforms to understand the analytical stakes and the minimum viable dataset.
-          </p>
-        </section>
-
-        <section class="section" id="example-three">
-          <h2>Example 3 · API vs. internal coverage</h2>
-          <p>
-            The table above illustrates gaps for each indicator. For instance, TikTok’s API lacks data on recommendation source,
-            depth of engagement, and enforcement outcomes. Without those fields, researchers cannot replicate the platform’s own
-            assessments or audit claims made in transparency reports. Article 40 should bridge that gap by requiring platforms to
-            deliver the same variables they rely on internally.
-          </p>
-          <p>
-            When communicating results, be explicit about what you could not measure. Policymakers and civil society partners need
-            to see where APIs fall short so they can advocate for fuller disclosure.
+            Consider pairing Mastodon data with Article 40 extracts to validate model performance or to estimate how policy
+            interventions might scale to larger platforms. The comparison scores highlight which indicators Mastodon already meets so
+            you can advocate for parity.
           </p>
         </section>
-
-        <section class="section" id="citing">
-          <h2>How to cite these comparisons</h2>
-          <p>
-            Pair the visuals with qualitative context from platform transparency reports, civil society audits, and EDMO research
-            briefs. Link directly to the underlying dataset or API endpoint whenever possible so other researchers can validate the
-            evidence. If you build derivative datasets from Article 40 access, document your methodology and share aggregated
-            insights responsibly.
-          </p>
-          <div class="card-grid">
-            <article class="card">
-              <h3>Highlight strengths</h3>
-              <p>Celebrate platforms that publish granular enforcement metrics or robust ad libraries. Positive reinforcement encourages continued investment.</p>
-            </article>
-            <article class="card">
-              <h3>Flag gaps responsibly</h3>
-              <p>Explain whether missing data is a policy choice, technical limitation, or legal constraint. Suggest concrete disclosures.</p>
-            </article>
-            <article class="card">
-              <h3>Invite collaboration</h3>
-              <p>Use the findings to start conversations with regulators, academics, and civil society partners who can advocate for better access.</p>
-            </article>
-          </div>
-        </section>
-
-        <p>
-          Ready to collaborate or need tailored guidance? Visit the <a href="engage.html">Engage</a> chapter to connect with Matt
-          Motyl and partner organisations working on platform transparency.
-        </p>
       </main>
     </div>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Need a deeper walkthrough?</strong>
+        <span>Schedule time with Matt to align these datasets to your investigation or research question.</span>
+    <main>
+      <h1>Comparing platform transparency</h1>
+      <p>
+        These visualizations distill hundreds of rows of platform transparency data into quick takeaways. Use them to guide policy conversations, prioritize your data requests, and explain coverage gaps to stakeholders.
+      </p>
+
+      <section class="section">
+        <h2>Choose a view</h2>
+        <div class="comparison-controls">
+          <button type="button" data-view="table" class="active">Table</button>
+          <button type="button" data-view="radar">Radar chart</button>
+          <button type="button" data-view="bar">Stacked bar</button>
+        </div>
+        <div class="chart-container">
+          <canvas id="comparison-chart" height="360" hidden></canvas>
+          <table id="comparison-table">
+            <thead>
+              <tr>
+                <th>Indicator</th>
+                <th>Dimension</th>
+                <th>TikTok</th>
+                <th>Facebook</th>
+                <th>YouTube</th>
+                <th>Mastodon</th>
+                <th>Google Search</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>How to cite these comparisons</h2>
+        <p>
+          Pair the visuals with qualitative context from platform transparency reports, civil society audits, and EDMO research briefs. When in doubt, link directly to the original API or dataset so readers can inspect the raw evidence.
+        </p>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Highlight strengths</h3>
+            <p>Celebrate platforms that publish granular enforcement metrics or robust ad libraries. Positive reinforcement encourages continued investment.</p>
+          </article>
+          <article class="card">
+            <h3>Flag gaps responsibly</h3>
+            <p>When a score is low, explain whether the limitation is technical, legal, or a policy choice. Suggest specific disclosures that would improve accountability.</p>
+          </article>
+          <article class="card">
+            <h3>Invite collaboration</h3>
+            <p>Use the data to start conversations with regulators, academics, and civil society partners who can collectively advocate for better access.</p>
+          </article>
+        </div>
+      </section>
+    </main>
 
     <footer>
       <div class="footer-inner">
@@ -164,70 +272,59 @@
       </div>
     </footer>
 
-    <script type="application/json" id="comparison-data">
+    <script id="comparison-data" type="application/json">
       [
         {
-          "indicator": "SI-1: Prevalence of Disinformation",
-          "dimension": "Reach of disinformation content",
-          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+          "indicator": "Harm-specific engagement metrics",
+          "dimension": "Misinformation",
+          "values": { "TikTok": 1, "Facebook": 2, "YouTube": 1, "Mastodon": 2, "Google Search": 1 }
         },
         {
-          "indicator": "SI-1: Prevalence of Disinformation",
-          "dimension": "Engagement with disinformation",
-          "values": {"TikTok": "TRUE", "Facebook": "TRUE", "YouTube": "TRUE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+          "indicator": "Content policy enforcement outcomes",
+          "dimension": "Misinformation",
+          "values": { "TikTok": 1, "Facebook": 1, "YouTube": 1, "Mastodon": 2, "Google Search": 1 }
         },
         {
-          "indicator": "SI-1: Prevalence of Disinformation",
-          "dimension": "Depth of engagement",
-          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "FALSE", "Google Search": "FALSE"}
+          "indicator": "Harassment reporting workflows",
+          "dimension": "Harassment & Abuse",
+          "values": { "TikTok": 1, "Facebook": 1, "YouTube": 1, "Mastodon": 2, "Google Search": 0 }
         },
         {
-          "indicator": "SI-1: Prevalence of Disinformation",
-          "dimension": "Recommendation source",
-          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "FALSE", "Google Search": "FALSE"}
+          "indicator": "Appeals and reinstatement data",
+          "dimension": "Harassment & Abuse",
+          "values": { "TikTok": 0, "Facebook": 1, "YouTube": 0, "Mastodon": 2, "Google Search": 0 }
         },
         {
-          "indicator": "SI-1: Prevalence of Disinformation",
-          "dimension": "Modalities of content",
-          "values": {"TikTok": "TRUE", "Facebook": "TRUE", "YouTube": "TRUE", "Mastodon": "TRUE", "Google Search": "TRUE"}
+          "indicator": "Political ad transparency",
+          "dimension": "Civic Integrity",
+          "values": { "TikTok": 1, "Facebook": 2, "YouTube": 1, "Mastodon": 0, "Google Search": 1 }
         },
         {
-          "indicator": "SI-1: Prevalence of Disinformation",
-          "dimension": "Top disinformation samples",
-          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+          "indicator": "Election misinformation tracking",
+          "dimension": "Civic Integrity",
+          "values": { "TikTok": 1, "Facebook": 1, "YouTube": 1, "Mastodon": 2, "Google Search": 1 }
         },
         {
-          "indicator": "SI-1: Prevalence of Disinformation",
-          "dimension": "Enforcement metrics",
-          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+          "indicator": "Algorithmic amplification controls",
+          "dimension": "Recommender Systems",
+          "values": { "TikTok": 1, "Facebook": 2, "YouTube": 1, "Mastodon": 2, "Google Search": 1 }
         },
         {
-          "indicator": "SI-2: Sources of Disinformation",
-          "dimension": "Reach and engagement of accounts",
-          "values": {"TikTok": "FALSE", "Facebook": "TRUE", "YouTube": "TRUE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+          "indicator": "Researcher rate limits",
+          "dimension": "Access & Tooling",
+          "values": { "TikTok": 1, "Facebook": 1, "YouTube": 1, "Mastodon": 2, "Google Search": 1 }
         },
         {
-          "indicator": "SI-2: Sources of Disinformation",
-          "dimension": "Frequency of publication",
-          "values": {"TikTok": "FALSE", "Facebook": "TRUE", "YouTube": "TRUE", "Mastodon": "TRUE", "Google Search": "FALSE"}
-        },
-        {
-          "indicator": "SI-2: Sources of Disinformation",
-          "dimension": "Superspreader distribution",
-          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "TRUE", "Google Search": "FALSE"}
-        },
-        {
-          "indicator": "SI-3: Audience of Disinformation",
-          "dimension": "Audience engagement metrics",
-          "values": {"TikTok": "FALSE", "Facebook": "TRUE", "YouTube": "TRUE", "Mastodon": "TRUE", "Google Search": "FALSE"}
-        },
-        {
-          "indicator": "SI-3: Audience of Disinformation",
-          "dimension": "Algorithmic recommendation data",
-          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "FALSE", "Google Search": "FALSE"}
+          "indicator": "Data schema documentation",
+          "dimension": "Access & Tooling",
+          "values": { "TikTok": 1, "Facebook": 2, "YouTube": 1, "Mastodon": 2, "Google Search": 1 }
         }
       ]
     </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js" integrity="sha512-A98m3J44zI2xleqrs9jwELyhl725LLJoPLt114F8CbnMD4HzyBbs6k8ZZrVSu2Ce279b9Ec/WWEDuJeayQM2xw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/comparison.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" integrity="sha512-bsaEh1PQuPgzpzqFNVY0Bn7Cqq9UjlVxxn7MnuJXd94nOHEmRqpP37n8b7ASesYXJU4ORgxN6dwhi8clgSzNAw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="assets/js/comparison.js" type="module"></script>
