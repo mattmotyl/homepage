@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Platform Data Primer | Matt Motyl, Ph.D.</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="brand">
+          <span>Platform Data Primer</span>
+          <span>Matt Motyl, Ph.D.</span>
+        </div>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="index.html" aria-current="page">Welcome</a></li>
+            <li><a href="foundations.html">Data Collection</a></li>
+            <li><a href="warehouses.html">How Platforms Use Data</a></li>
+            <li><a href="workflows.html">Hands-On Practice</a></li>
+            <li><a href="comparisons.html">Access vs. Reality</a></li>
+            <li><a href="engage.html">Engage</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="page-layout">
+      <aside class="sidebar" data-toc>
+        <button type="button" class="toc-toggle">On this page</button>
+        <h2>On this page</h2>
+        <nav aria-label="On this page">
+          <ul></ul>
+        </nav>
+      </aside>
+
+      <main>
+        <section class="hero" id="welcome">
+          <h1>Welcome to the Platform Data Primer</h1>
+          <p>
+            This digital companion translates EDMO’s 35-page handbook on platform datasets into a guided learning experience for
+            researchers, investigators, journalists, policy makers, and technologists who are preparing to work with transparency
+            data released under the Digital Services Act.
+          </p>
+          <div class="button-group">
+            <a class="button primary" href="foundations.html">Start with what platforms collect →</a>
+            <a class="button secondary" href="#abstract">Read the abstract</a>
+          </div>
+        </section>
+
+        <section class="section" id="primer-overview">
+          <h2>Why this primer exists</h2>
+          <div class="key-points">
+            <p>
+              Very Large Online Platforms and Search Engines (VLOPSEs) hold massive, complex datasets that describe how people use
+              their services, how content spreads, and how moderation systems intervene. Article 40 of the DSA promises vetted
+              access to these data, but most practitioners have never seen the underlying tables and documentation that make the
+              numbers meaningful. This primer keeps the original report’s depth while adding navigation, examples, and interactive
+              practice so you can:
+            </p>
+            <ul>
+              <li>Understand the categories of data platforms collect and why they matter for harm analysis.</li>
+              <li>See how internal storage practices translate into the tables you may eventually query.</li>
+              <li>Compare the coverage of public APIs against the richer internal datasets platforms use themselves.</li>
+              <li>Build confidence by running SQL against realistic, Article 40-inspired sample tables right in your browser.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section" id="abstract">
+          <h2>Abstract</h2>
+          <p>
+            This primer assists researchers studying systemic risks outlined in the Digital Services Act and the Code of Practice
+            on Disinformation by explaining which platform datasets exist internally, which are exposed through transparency
+            channels, and how the two relate. You will learn how platforms store and transform the information they collect, what
+            variables are theoretically available through APIs or researcher programs, and how those variables map onto the harms
+            enumerated in European policy. The ultimate goal is to help you use Article 40 access responsibly for the public good.
+          </p>
+        </section>
+
+        <section class="section" id="introduction">
+          <h2>Introduction</h2>
+          <p>
+            VLOPSEs collect an extraordinary volume and variety of data. Even newly hired employees struggle to navigate the
+            hundreds or thousands of tables inside a modern warehouse. Some organisations enforce strict schemas; others accrue
+            tables organically over years of experimentation. Either way, making sense of the available variables is daunting.
+          </p>
+          <p>
+            Civil society organisations, investigative journalists, academic researchers, and policy teams recognise that these
+            datasets are indispensable for understanding the risks platforms pose to people, societies, and democracies. Access to
+            both historical and real-time records is necessary to quantify the scale, causes, and dynamics of those risks—
+            especially around critical civic moments such as elections.
+          </p>
+          <p>
+            Article 40 of the Digital Services Act creates a path for vetted experts to study VLOPSE data. This primer equips you
+            with the language, structure, and examples you will need once access is granted. Specifically, it expands upon the
+            original report to:
+          </p>
+          <ul>
+            <li>Describe what types of data VLOPSEs collect about people, content, behaviour, networks, and paid media.</li>
+            <li>Explain how those data are stored and transformed inside platform warehouses.</li>
+            <li>Illustrate how the information powers product features, safety systems, and measurement pipelines.</li>
+            <li>Provide examples of how to combine tables to answer concrete research questions.</li>
+            <li>Review the transparency APIs and researcher programs currently on offer.</li>
+            <li>Map available variables to the systemic risks defined in the DSA and Code of Practice.</li>
+          </ul>
+          <p>
+            Throughout, you’ll see the original report’s prose alongside new explanations, diagrams, and interactive exercises so
+            that even readers who have never written SQL can follow along. The primer assumes no prior familiarity with platform
+            data engineering—each chapter slows down to define jargon, clarify why specific variables exist, and show how to
+            interpret them responsibly.
+          </p>
+        </section>
+
+        <section class="section" id="how-to-use">
+          <h2>How to use this site</h2>
+          <p>
+            Move through the chapters sequentially if you are brand new to platform transparency research. If you already know
+            what you are looking for, use the sidebar navigation or the chapter cards below to jump directly to the topics you
+            need. Each chapter begins with narrative context, continues with detailed examples drawn from the report, and closes
+            with practice prompts or decision guides.
+          </p>
+          <div class="card-grid">
+            <article class="card">
+              <h3>Chapter 2 · Data Collection</h3>
+              <p>
+                Survey the six major categories of information platforms gather—user-provided, inferred, behavioural, networked,
+                and purchased—and explore comprehensive tables you can filter and download.
+              </p>
+              <p><a href="foundations.html">Go to Data Collection →</a></p>
+            </article>
+            <article class="card">
+              <h3>Chapter 3 · How Platforms Use Data</h3>
+              <p>
+                Follow a plain-language walkthrough of fact and dimension tables, probabilistic features, and the practical
+                considerations that influence internal storage.
+              </p>
+              <p><a href="warehouses.html">Go to How Platforms Use Data →</a></p>
+            </article>
+            <article class="card">
+              <h3>Hands-On Practice</h3>
+              <p>
+                Review step-by-step workflows, inspect sample tables, and run SQL against a sandbox that mirrors Article 40
+                datasets without leaving your browser.
+              </p>
+              <p><a href="workflows.html">Go to Hands-On Practice →</a></p>
+            </article>
+            <article class="card">
+              <h3>Access vs. Reality</h3>
+              <p>
+                Compare what transparency APIs deliver today against the richer internal tables highlighted in the primer, and see
+                where gaps remain for systemic risk monitoring.
+              </p>
+              <p><a href="comparisons.html">Go to Access vs. Reality →</a></p>
+            </article>
+            <article class="card">
+              <h3>Engage &amp; Next Steps</h3>
+              <p>
+                Connect with Matt Motyl, explore partner organisations like EDMO, Integrity Institute, and All Tech Is Human, and
+                discover ways to collaborate on transparency research.
+              </p>
+              <p><a href="engage.html">Go to Engage →</a></p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="conclusion">
+          <h2>Conclusion from the report</h2>
+          <p>
+            The EDMO handbook concludes that VLOPSEs collect far more data than their public APIs expose. Without access to the
+            predictive variables and internal metrics platforms use to police harm, researchers cannot verify transparency
+            reports or replicate platform findings. Article 40 is therefore essential for meaningful accountability.
+          </p>
+          <p>
+            Until platforms share these critical datasets and document their methodologies, external observers must label content
+            themselves and infer platform behaviour from partial disclosures. This primer exists to shorten that learning curve
+            so researchers, journalists, and civil society experts can push for deeper transparency and use new access
+            responsibly when it arrives.
+          </p>
+        </section>
+
+        <section class="section" id="quick-links">
+          <h2>Quick links</h2>
+          <div class="card-grid">
+            <article class="card">
+              <h3>Download the original report</h3>
+              <p><a href="../EDMO-Report_Platform-Datasets_.pdf">PDF (35 pages)</a></p>
+              <p class="table-note">Use the PDF when you need the exact language for citations or policy references.</p>
+            </article>
+            <article class="card">
+              <h3>Partner organisations</h3>
+              <p>
+                <a href="https://edmo.eu/" target="_blank" rel="noreferrer">European Digital Media Observatory</a><br />
+                <a href="https://www.integrityinstitute.org" target="_blank" rel="noreferrer">Integrity Institute</a><br />
+                <a href="https://alltechishuman.org" target="_blank" rel="noreferrer">All Tech Is Human</a>
+              </p>
+            </article>
+            <article class="card">
+              <h3>Follow Matt</h3>
+              <p>
+                <a href="https://www.youtube.com/@UnmoderatedInsights?sub_confirmation=1" target="_blank" rel="noreferrer"
+                  >YouTube</a
+                > ·
+                <a href="https://mattmotyl.substack.com" target="_blank" rel="noreferrer">Substack</a> ·
+                <a href="https://app.ducoexperts.com/users/matt-motyl" target="_blank" rel="noreferrer">Duco Experts</a>
+              </p>
+              <p class="table-note">Reach out for briefings, workshops, or tailored research collaborations.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Questions about platform transparency or Article 40 access?</strong>
+        <span>
+          Email <a href="mailto:matt@mattmotyl.com">matt@mattmotyl.com</a> or use the form in the
+          <a href="engage.html">Engage</a> chapter to request a consultation.
+        </span>
+        <span>© <span id="year"></span> Matt Motyl. All rights reserved.</span>
+      </div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

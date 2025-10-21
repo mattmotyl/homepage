@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hands-On Practice | Platform Data Primer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="brand">
+          <span>Platform Data Primer</span>
+          <span>Matt Motyl, Ph.D.</span>
+        </div>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="foundations.html">Data Collection</a></li>
+            <li><a href="warehouses.html">How Platforms Use Data</a></li>
+            <li><a href="workflows.html" aria-current="page">Hands-On Practice</a></li>
+            <li><a href="comparisons.html">Access vs. Reality</a></li>
+            <li><a href="engage.html">Engage</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="page-layout">
+      <aside class="sidebar" data-toc>
+        <button type="button" class="toc-toggle">On this page</button>
+        <h2>On this page</h2>
+        <nav aria-label="On this page">
+          <ul></ul>
+        </nav>
+      </aside>
+
+      <main>
+        <h1>Chapter 4 · Workflows &amp; SQL Practice</h1>
+        <p>
+          The original report assumes many readers have limited experience writing SQL or stitching tables together. This chapter
+          therefore slows down and walks through each step: from understanding what you received to running simple queries and
+          interpreting results. Everything happens in your browser—no setup required—and the sample data mirror Article 40
+          scenarios.
+        </p>
+
+        <section class="section" id="workflow-overview">
+          <h2>Step-by-step workflow</h2>
+          <ol>
+            <li><strong>Start with documentation.</strong> Review the data dictionaries, glossary entries, and access notes that arrived with your dataset.</li>
+            <li><strong>Profile the raw tables.</strong> Inspect row counts, date ranges, and primary keys to confirm the grain matches the platform’s description.</li>
+            <li><strong>Join dimensions carefully.</strong> Add only the descriptive tables you need, keeping an eye on how joins might duplicate or filter rows.</li>
+            <li><strong>Annotate your findings.</strong> Record assumptions, redactions, and caveats so your future self—and other researchers—can replicate the work.</li>
+          </ol>
+          <p>
+            If a step feels unfamiliar, do not worry. The walkthrough cards next to the SQL editor mirror this sequence, and the
+            sandbox below lets you experiment safely.
+          </p>
+        </section>
+
+        <section class="section" id="sample-tables">
+          <h2>Sample tables at a glance</h2>
+          <p>
+            Before you write a query, inspect the tables you will be working with. These snapshots match the sandbox schema and
+            show how fact and dimension tables relate to each other.
+          </p>
+          <div class="sql-schema">
+            <table>
+              <caption>dim_platform</caption>
+              <thead>
+                <tr>
+                  <th>platform_id</th>
+                  <th>name</th>
+                  <th>region</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td>TikTok</td><td>EU</td></tr>
+                <tr><td>2</td><td>Facebook</td><td>EU</td></tr>
+                <tr><td>3</td><td>YouTube</td><td>EU</td></tr>
+                <tr><td>4</td><td>Mastodon</td><td>EU</td></tr>
+              </tbody>
+            </table>
+            <table>
+              <caption>dim_content_type</caption>
+              <thead>
+                <tr>
+                  <th>content_type_id</th>
+                  <th>label</th>
+                  <th>description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td>Short video</td><td>Vertical video under 90 seconds</td></tr>
+                <tr><td>2</td><td>Feed post</td><td>Image or link shared to the primary feed</td></tr>
+                <tr><td>3</td><td>Livestream</td><td>Live video sessions</td></tr>
+                <tr><td>4</td><td>Long-form video</td><td>Video exceeding 10 minutes</td></tr>
+                <tr><td>5</td><td>Microblog</td><td>Short text-oriented update</td></tr>
+              </tbody>
+            </table>
+            <table>
+              <caption>fact_engagements (excerpt)</caption>
+              <thead>
+                <tr>
+                  <th>snapshot_date</th>
+                  <th>platform_id</th>
+                  <th>content_type_id</th>
+                  <th>impressions</th>
+                  <th>engaged_users</th>
+                  <th>watch_hours</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>2025-01-15</td><td>1</td><td>1</td><td>1890000</td><td>340000</td><td>125000.4</td></tr>
+                <tr><td>2025-01-15</td><td>2</td><td>2</td><td>940000</td><td>210000</td><td>47000.9</td></tr>
+                <tr><td>2025-01-15</td><td>3</td><td>4</td><td>720000</td><td>132000</td><td>91000.6</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">Every row in the fact table represents a unique combination of date, platform, and content type.</p>
+        </section>
+
+        <section class="section" id="sql-sandbox">
+          <h2>Interactive SQL sandbox</h2>
+          <p>
+            Use the editor to run SQL directly in your browser. The guided prompts on the right mirror the steps above, and the
+            sample questions help you practise interpreting Article 40-style exports. You can always reset the database if you
+            want to start fresh.
+          </p>
+          <div class="sql-playground" id="sql-playground">
+            <div class="sql-editor">
+              <label for="sql-input">Write or paste a SQL query</label>
+              <textarea id="sql-input" spellcheck="false">SELECT * FROM fact_engagements LIMIT 5;</textarea>
+              <div class="sql-actions">
+                <button type="button" id="run-query">Run query</button>
+                <button type="button" id="reset-db">Reset tables</button>
+              </div>
+            </div>
+            <div>
+              <h3>Guided walkthrough</h3>
+              <div id="sql-walkthrough"></div>
+              <h3>Sample questions to explore</h3>
+              <ul id="sql-samples"></ul>
+            </div>
+          </div>
+          <div class="sql-result" id="sql-result"></div>
+        </section>
+
+        <section class="section" id="analysis-tips">
+          <h2>Analysis tips for newcomers</h2>
+          <div class="card-grid">
+            <article class="card">
+              <h3>Start with aggregates</h3>
+              <p>Summarise by day, platform, or content type before drilling into edge cases. It helps you spot anomalies quickly.</p>
+            </article>
+            <article class="card">
+              <h3>Validate joins visually</h3>
+              <p>After joining tables, count rows again. If the total jumps unexpectedly, your join keys may not be unique.</p>
+            </article>
+            <article class="card">
+              <h3>Keep a query log</h3>
+              <p>Copy every query you run into a notebook or git repository with notes about what you learned and what to try next.</p>
+            </article>
+          </div>
+        </section>
+
+        <p>
+          Want to benchmark what platforms make available today? Continue to <a href="comparisons.html">Chapter 5: Access vs. Reality</a>
+          for side-by-side views of internal datasets and public API coverage.
+        </p>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Ready to level up?</strong>
+        <span>Matt can facilitate workshops that blend SQL literacy with platform transparency strategy.</span>
+        <span>© <span id="year"></span> Matt Motyl.</span>
+      </div>
+    </footer>
+
+    <script type="application/json" id="sql-bootstrap">
+      [
+        "CREATE TABLE dim_platform (platform_id INTEGER PRIMARY KEY, name TEXT, region TEXT);",
+        "INSERT INTO dim_platform (platform_id, name, region) VALUES (1, 'TikTok', 'EU'), (2, 'Facebook', 'EU'), (3, 'YouTube', 'EU'), (4, 'Mastodon', 'EU');",
+        "CREATE TABLE dim_content_type (content_type_id INTEGER PRIMARY KEY, label TEXT, description TEXT);",
+        "INSERT INTO dim_content_type (content_type_id, label, description) VALUES (1, 'Short video', 'Vertical video under 90 seconds'), (2, 'Feed post', 'Image or link shared to the primary feed'), (3, 'Livestream', 'Live video sessions'), (4, 'Long-form video', 'Video exceeding 10 minutes'), (5, 'Microblog', 'Short text-oriented update');",
+        "CREATE TABLE fact_engagements ( snapshot_date TEXT, platform_id INTEGER, content_type_id INTEGER, impressions INTEGER, engaged_users INTEGER, watch_hours REAL, PRIMARY KEY (snapshot_date, platform_id, content_type_id), FOREIGN KEY (platform_id) REFERENCES dim_platform(platform_id), FOREIGN KEY (content_type_id) REFERENCES dim_content_type(content_type_id) );",
+        "INSERT INTO fact_engagements (snapshot_date, platform_id, content_type_id, impressions, engaged_users, watch_hours) VALUES ('2025-01-15', 1, 1, 1890000, 340000, 125000.4), ('2025-01-15', 1, 3, 240000, 58000, 41200.7), ('2025-01-15', 2, 2, 940000, 210000, 47000.9), ('2025-01-15', 2, 5, 410000, 155000, 12000.1), ('2025-01-15', 3, 4, 720000, 132000, 91000.6), ('2025-01-15', 3, 1, 380000, 67000, 34000.8), ('2025-01-15', 4, 5, 68000, 24000, 1800.3), ('2025-01-15', 4, 2, 52000, 19000, 1600.5);"
+      ]
+    </script>
+    <script type="application/json" id="sql-walkthrough">
+      [
+        {
+          "title": "Start by exploring the dimensions",
+          "description": "Dimensions carry descriptive attributes you can join onto fact tables.",
+          "query": "SELECT * FROM dim_platform ORDER BY platform_id;"
+        },
+        {
+          "title": "Inspect the grain of the fact table",
+          "description": "Each row is a unique combination of snapshot date, platform, and content type.",
+          "query": "SELECT snapshot_date, COUNT(*) AS rows, SUM(impressions) AS impressions FROM fact_engagements GROUP BY snapshot_date;"
+        },
+        {
+          "title": "Join to add human-readable labels",
+          "description": "Bring in the content type descriptions to interpret platform performance.",
+          "query": "SELECT p.name AS platform, c.label AS content_type, impressions, engaged_users FROM fact_engagements f JOIN dim_platform p ON f.platform_id = p.platform_id JOIN dim_content_type c ON f.content_type_id = c.content_type_id ORDER BY impressions DESC;"
+        }
+      ]
+    </script>
+    <script type="application/json" id="sql-samples">
+      [
+        {
+          "label": "Which platform drives the most watch hours?",
+          "sql": "SELECT p.name AS platform, ROUND(SUM(watch_hours), 1) AS total_watch_hours\nFROM fact_engagements f\nJOIN dim_platform p ON f.platform_id = p.platform_id\nGROUP BY p.name\nORDER BY total_watch_hours DESC;"
+        },
+        {
+          "label": "How engaged are audiences by content type?",
+          "sql": "SELECT c.label AS content_type, ROUND(SUM(engaged_users) * 1.0 / SUM(impressions), 3) AS engagement_rate\nFROM fact_engagements f\nJOIN dim_content_type c ON f.content_type_id = c.content_type_id\nGROUP BY c.label\nORDER BY engagement_rate DESC;"
+        },
+        {
+          "label": "EU vs. non-EU coverage (placeholder)",
+          "sql": "SELECT p.region, COUNT(*) AS row_count, ROUND(SUM(impressions) / 1000.0, 1) AS impressions_k\nFROM fact_engagements f\nJOIN dim_platform p ON f.platform_id = p.platform_id\nGROUP BY p.region;"
+        }
+      ]
+    </script>
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.js" integrity="sha512-YoQdpdFQMGgrN/B+e3fHDC6W5UPeJDrW9PiAbRbqnbsdcI3yGqeG5kQxy34ENXGuzqVaq/h8GKyNEmlQrYSZkA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="assets/js/sql-playground.js" type="module"></script>
+  </body>
+</html>

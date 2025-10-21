@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Access vs. Reality | Platform Data Primer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="brand">
+          <span>Platform Data Primer</span>
+          <span>Matt Motyl, Ph.D.</span>
+        </div>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="foundations.html">Data Collection</a></li>
+            <li><a href="warehouses.html">How Platforms Use Data</a></li>
+            <li><a href="workflows.html">Hands-On Practice</a></li>
+            <li><a href="comparisons.html" aria-current="page">Access vs. Reality</a></li>
+            <li><a href="engage.html">Engage</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="page-layout">
+      <aside class="sidebar" data-toc>
+        <button type="button" class="toc-toggle">On this page</button>
+        <h2>On this page</h2>
+        <nav aria-label="On this page">
+          <ul></ul>
+        </nav>
+      </aside>
+
+      <main>
+        <h1>Chapter 4 · Access vs. Reality</h1>
+        <p>
+          Section 4 of the report compares what researchers can access today through public APIs against the richer internal data
+          sets platforms rely on. The examples below show why Article 40 access matters: without internal tables, it is impossible
+          to answer key questions about disinformation prevalence, enforcement, or superspreaders.
+        </p>
+
+        <section class="section" id="internal-vs-api">
+          <h2>Internal data vs. public APIs</h2>
+          <p>
+            Mastodon serves as a useful reference point because researchers can obtain server-level exports. The same analyses are
+            not feasible on TikTok’s public API: essential variables—recommendation provenance, comprehensive enforcement logs,
+            and random samples weighted by views—are missing. The table and charts below summarise these gaps for structural
+            indicators defined in the Code of Practice on Disinformation.
+          </p>
+          <div class="comparison-controls">
+            <button type="button" data-view="table" class="active">Table</button>
+            <button type="button" data-view="radar">Radar chart</button>
+            <button type="button" data-view="bar">Stacked bar</button>
+          </div>
+          <div class="chart-container">
+            <canvas id="comparison-chart" height="360" hidden></canvas>
+            <table id="comparison-table">
+              <thead>
+                <tr>
+                  <th>Indicator</th>
+                  <th>Dimension</th>
+                  <th>TikTok</th>
+                  <th>Facebook</th>
+                  <th>YouTube</th>
+                  <th>Mastodon</th>
+                  <th>Google Search</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <p class="table-note">Scores indicate whether each platform currently provides enough data for researchers to evaluate the indicator (TRUE) or not (FALSE).</p>
+        </section>
+
+        <section class="section" id="example-one">
+          <h2>Example 1 · Research by harm type</h2>
+          <p>
+            The report demonstrates how Mastodon’s internal tables let researchers identify disinformation across harm categories.
+            Researchers can weight random samples by views, inspect moderation actions, and trace superspreaders. TikTok’s API does
+            not surface the same inputs, limiting analyses to aggregated counts or voluntary disclosures.
+          </p>
+          <div class="example-callout">
+            <ul>
+              <li>Mastodon’s event logs enable weighted random sampling, which is essential for estimating prevalence.</li>
+              <li>Internal moderation tables reveal enforcement outcomes and appeals—fields absent from most public APIs.</li>
+              <li>Researchers must add their own labels for disinformation because platforms rarely expose internal classifications.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section" id="example-two">
+          <h2>Example 2 · Evaluating structural indicators</h2>
+          <p>
+            To evaluate structural indicators (SI-1 through SI-3), researchers need datasets that combine reach, modality, audience
+            characteristics, and enforcement details. Mastodon administrators can construct these tables from internal logs. For
+            commercial platforms, equivalent datasets would require Article 40 access and clear documentation of each variable.
+          </p>
+          <p>
+            When you prepare a request, reference the specific indicators you plan to measure. That framing makes it easier for
+            platforms to understand the analytical stakes and the minimum viable dataset.
+          </p>
+        </section>
+
+        <section class="section" id="example-three">
+          <h2>Example 3 · API vs. internal coverage</h2>
+          <p>
+            The table above illustrates gaps for each indicator. For instance, TikTok’s API lacks data on recommendation source,
+            depth of engagement, and enforcement outcomes. Without those fields, researchers cannot replicate the platform’s own
+            assessments or audit claims made in transparency reports. Article 40 should bridge that gap by requiring platforms to
+            deliver the same variables they rely on internally.
+          </p>
+          <p>
+            When communicating results, be explicit about what you could not measure. Policymakers and civil society partners need
+            to see where APIs fall short so they can advocate for fuller disclosure.
+          </p>
+        </section>
+
+        <section class="section" id="citing">
+          <h2>How to cite these comparisons</h2>
+          <p>
+            Pair the visuals with qualitative context from platform transparency reports, civil society audits, and EDMO research
+            briefs. Link directly to the underlying dataset or API endpoint whenever possible so other researchers can validate the
+            evidence. If you build derivative datasets from Article 40 access, document your methodology and share aggregated
+            insights responsibly.
+          </p>
+          <div class="card-grid">
+            <article class="card">
+              <h3>Highlight strengths</h3>
+              <p>Celebrate platforms that publish granular enforcement metrics or robust ad libraries. Positive reinforcement encourages continued investment.</p>
+            </article>
+            <article class="card">
+              <h3>Flag gaps responsibly</h3>
+              <p>Explain whether missing data is a policy choice, technical limitation, or legal constraint. Suggest concrete disclosures.</p>
+            </article>
+            <article class="card">
+              <h3>Invite collaboration</h3>
+              <p>Use the findings to start conversations with regulators, academics, and civil society partners who can advocate for better access.</p>
+            </article>
+          </div>
+        </section>
+
+        <p>
+          Ready to collaborate or need tailored guidance? Visit the <a href="engage.html">Engage</a> chapter to connect with Matt
+          Motyl and partner organisations working on platform transparency.
+        </p>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Need platform-specific advice?</strong>
+        <span>Matt can help you interpret transparency releases and turn them into actionable research roadmaps.</span>
+        <span>© <span id="year"></span> Matt Motyl.</span>
+      </div>
+    </footer>
+
+    <script type="application/json" id="comparison-data">
+      [
+        {
+          "indicator": "SI-1: Prevalence of Disinformation",
+          "dimension": "Reach of disinformation content",
+          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+        },
+        {
+          "indicator": "SI-1: Prevalence of Disinformation",
+          "dimension": "Engagement with disinformation",
+          "values": {"TikTok": "TRUE", "Facebook": "TRUE", "YouTube": "TRUE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+        },
+        {
+          "indicator": "SI-1: Prevalence of Disinformation",
+          "dimension": "Depth of engagement",
+          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "FALSE", "Google Search": "FALSE"}
+        },
+        {
+          "indicator": "SI-1: Prevalence of Disinformation",
+          "dimension": "Recommendation source",
+          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "FALSE", "Google Search": "FALSE"}
+        },
+        {
+          "indicator": "SI-1: Prevalence of Disinformation",
+          "dimension": "Modalities of content",
+          "values": {"TikTok": "TRUE", "Facebook": "TRUE", "YouTube": "TRUE", "Mastodon": "TRUE", "Google Search": "TRUE"}
+        },
+        {
+          "indicator": "SI-1: Prevalence of Disinformation",
+          "dimension": "Top disinformation samples",
+          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+        },
+        {
+          "indicator": "SI-1: Prevalence of Disinformation",
+          "dimension": "Enforcement metrics",
+          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+        },
+        {
+          "indicator": "SI-2: Sources of Disinformation",
+          "dimension": "Reach and engagement of accounts",
+          "values": {"TikTok": "FALSE", "Facebook": "TRUE", "YouTube": "TRUE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+        },
+        {
+          "indicator": "SI-2: Sources of Disinformation",
+          "dimension": "Frequency of publication",
+          "values": {"TikTok": "FALSE", "Facebook": "TRUE", "YouTube": "TRUE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+        },
+        {
+          "indicator": "SI-2: Sources of Disinformation",
+          "dimension": "Superspreader distribution",
+          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+        },
+        {
+          "indicator": "SI-3: Audience of Disinformation",
+          "dimension": "Audience engagement metrics",
+          "values": {"TikTok": "FALSE", "Facebook": "TRUE", "YouTube": "TRUE", "Mastodon": "TRUE", "Google Search": "FALSE"}
+        },
+        {
+          "indicator": "SI-3: Audience of Disinformation",
+          "dimension": "Algorithmic recommendation data",
+          "values": {"TikTok": "FALSE", "Facebook": "FALSE", "YouTube": "FALSE", "Mastodon": "FALSE", "Google Search": "FALSE"}
+        }
+      ]
+    </script>
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" integrity="sha512-bsaEh1PQuPgzpzqFNVY0Bn7Cqq9UjlVxxn7MnuJXd94nOHEmRqpP37n8b7ASesYXJU4ORgxN6dwhi8clgSzNAw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="assets/js/comparison.js" type="module"></script>
+  </body>
+</html>

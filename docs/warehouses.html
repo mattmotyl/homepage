@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>How Platforms Use Data | Platform Data Primer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="brand">
+          <span>Platform Data Primer</span>
+          <span>Matt Motyl, Ph.D.</span>
+        </div>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="foundations.html">Data Collection</a></li>
+            <li><a href="warehouses.html" aria-current="page">How Platforms Use Data</a></li>
+            <li><a href="workflows.html">Hands-On Practice</a></li>
+            <li><a href="comparisons.html">Access vs. Reality</a></li>
+            <li><a href="engage.html">Engage</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="page-layout">
+      <aside class="sidebar" data-toc>
+        <button type="button" class="toc-toggle">On this page</button>
+        <h2>On this page</h2>
+        <nav aria-label="On this page">
+          <ul></ul>
+        </nav>
+      </aside>
+
+      <main>
+        <h1>Chapter 3 · What Do Platforms Generate From That Data?</h1>
+        <p>
+          Platforms use the information they collect to power recommendation systems, advertising optimisation, and trust &
+          safety enforcement. Understanding how those data are stored—and how teams transform them into research-ready tables—will
+          help you interpret whatever exports you receive through Article 40.
+        </p>
+
+        <section class="section" id="storage-and-use">
+          <h2>How are datasets stored and used?</h2>
+          <p>
+            Data storage at VLOPSE scale is expensive. To manage costs and performance, companies split information into
+            manageable chunks, reduce table sizes, and limit the volume scanned by any single query. There is no universal schema,
+            but many teams rely on dimensional modelling: facts capture events, dimensions provide descriptive context, and
+            probabilistic variables add machine-generated signals.
+          </p>
+          <p>
+            The primer’s authors emphasise that you do not need to build a warehouse yourself. Instead, focus on understanding the
+            natural grain of the tables you receive, the identifiers that link them, and the policies that govern retention and
+            redaction. Those details determine what you can reliably analyse.
+          </p>
+        </section>
+
+        <section class="section" id="fact-tables">
+          <h2>Fact tables: long-form event logs</h2>
+          <p>
+            Fact tables describe discrete actions or events and contain identifiers you can use to connect to other information.
+            The example below mirrors the report’s “User Activity” table. Notice how each row captures one event at a specific
+            time, along with the user, session, and content involved.
+          </p>
+          <div class="table-wrapper">
+            <table>
+              <caption>User activity fact table (simplified)</caption>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>session_id</th>
+                  <th>event_time</th>
+                  <th>event_id</th>
+                  <th>post_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>38492015</td>
+                  <td>829455</td>
+                  <td>2025-01-12T09:14:05Z</td>
+                  <td>feed_view</td>
+                  <td>5520038</td>
+                </tr>
+                <tr>
+                  <td>38492015</td>
+                  <td>829455</td>
+                  <td>2025-01-12T09:14:22Z</td>
+                  <td>reaction_like</td>
+                  <td>5520038</td>
+                </tr>
+                <tr>
+                  <td>52910322</td>
+                  <td>903244</td>
+                  <td>2025-01-12T09:15:41Z</td>
+                  <td>comment_add</td>
+                  <td>9045501</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">
+            Fact tables are typically “long”—few columns, many rows—and accept repeated events for the same user or piece of
+            content.
+          </p>
+        </section>
+
+        <section class="section" id="fact-dictionaries">
+          <h2>What documentation accompanies facts?</h2>
+          <p>
+            Most warehouses maintain a dictionary that defines each variable. The primer highlights that platform documentation
+            quality varies: some dictionaries are auto-generated, others rely on analyst upkeep. Request any available metadata so
+            you know which variables are derived, how long data are retained, and whether special access restrictions apply.
+          </p>
+          <div class="table-wrapper">
+            <table>
+              <caption>Excerpt from a fact table dictionary</caption>
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Description</th>
+                  <th>Type</th>
+                  <th>Retention (days)</th>
+                  <th>Restricted?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>user_id</td>
+                  <td>Assigned numeric ID for each user</td>
+                  <td>INTEGER</td>
+                  <td>180</td>
+                  <td>No</td>
+                </tr>
+                <tr>
+                  <td>session_id</td>
+                  <td>Identifier for each authenticated session</td>
+                  <td>INTEGER</td>
+                  <td>90</td>
+                  <td>No</td>
+                </tr>
+                <tr>
+                  <td>event_id</td>
+                  <td>Label for the event type (e.g., feed_view, comment_add)</td>
+                  <td>STRING</td>
+                  <td>365</td>
+                  <td>No</td>
+                </tr>
+                <tr>
+                  <td>post_id</td>
+                  <td>Numeric identifier for the impacted post</td>
+                  <td>INTEGER</td>
+                  <td>365</td>
+                  <td>Yes (personal data)</td>
+                </tr>
+                <tr>
+                  <td>event_time</td>
+                  <td>Timestamp of the event</td>
+                  <td>TIMESTAMP</td>
+                  <td>365</td>
+                  <td>Yes (personal data)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="dimension-tables">
+          <h2>Dimension tables: human-readable context</h2>
+          <p>
+            Dimensions translate identifiers into labels you can interpret—platform names, content categories, geographic regions,
+            policy buckets. They change less frequently than fact tables but may contain historical rows when labels evolve.
+          </p>
+          <figure>
+            <div class="schema-grid">
+              <div class="schema-row">
+                <div class="schema-card">
+                  <h3>dim_platform</h3>
+                  <ul>
+                    <li><strong>platform_id</strong> — joins to user or content tables</li>
+                    <li><strong>name</strong> — human-readable platform name</li>
+                    <li><strong>region</strong> — regulatory or operational region</li>
+                  </ul>
+                </div>
+                <div class="schema-card">
+                  <h3>dim_content_type</h3>
+                  <ul>
+                    <li><strong>content_type_id</strong> — identifier used in fact tables</li>
+                    <li><strong>label</strong> — video, image, live stream, etc.</li>
+                    <li><strong>description</strong> — clarifies how the label is applied</li>
+                  </ul>
+                </div>
+                <div class="schema-card">
+                  <h3>fact_engagements</h3>
+                  <ul>
+                    <li><strong>snapshot_date</strong> — day the metrics were aggregated</li>
+                    <li><strong>platform_id</strong> — joins to dim_platform</li>
+                    <li><strong>content_type_id</strong> — joins to dim_content_type</li>
+                    <li><strong>impressions, watch_hours</strong> — measurable outcomes</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <figcaption>Join fact tables to dimensions to add the labels necessary for analysis.</figcaption>
+          </figure>
+          <p>
+            When you receive a fact export, ask whether a matching dimension table exists. Without it, identifiers like
+            <code>content_type_id</code> or <code>policy_bucket_id</code> are difficult to interpret.
+          </p>
+        </section>
+
+        <section class="section" id="joining-tables">
+          <h2>Joining across multiple tables</h2>
+          <p>
+            The report walks through how to combine fact and dimension tables to answer questions about disinformation prevalence
+            or content quality. Maintain the grain of the fact table while adding the descriptors you need. For example, to connect
+            moderation outcomes to watch time, you would join the engagement fact table to the moderation fact table on
+            <code>post_id</code> and limit the result to the date range you are studying.
+          </p>
+          <pre><code>SELECT
+  e.snapshot_date,
+  p.name AS platform,
+  c.label AS content_type,
+  SUM(e.impressions) AS total_impressions,
+  SUM(m.removals) AS removals
+FROM fact_engagements e
+LEFT JOIN fact_moderation m ON e.post_id = m.post_id AND e.snapshot_date = m.snapshot_date
+LEFT JOIN dim_platform p ON e.platform_id = p.platform_id
+LEFT JOIN dim_content_type c ON e.content_type_id = c.content_type_id
+WHERE e.snapshot_date BETWEEN DATE '2024-11-01' AND DATE '2024-11-30'
+GROUP BY 1, 2, 3;</code></pre>
+        </section>
+
+        <section class="section" id="probabilistic">
+          <h2>Probabilistic variables and model outputs</h2>
+          <p>
+            Platforms increasingly rely on model-driven variables—scores indicating the likelihood that an account is authentic,
+            that a piece of content violates policy, or that a user is misleading about their location. The primer explains how
+            these probabilistic fields are generated and why they matter. When requesting data, specify whether you need the raw
+            prediction, the threshold applied, or any human review labels that validate model performance.
+          </p>
+          <p>
+            In the report’s examples, platforms predict whether a user obscures their location, whether a piece of content is
+            likely policy violating, and how machine learning outputs feed downstream enforcement. These scores can be joined to
+            fact tables for sampling or stratification, but only if the platform shares them alongside traditional engagement
+            metrics.
+          </p>
+          <div class="key-points">
+            <ul>
+              <li>Probabilistic scores help you prioritise manual review or stratify samples for labelling.</li>
+              <li>They are often redacted from public APIs even though platforms depend on them internally.</li>
+              <li>Ask for documentation describing how the models were trained and how often they are recalibrated.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section" id="data-reduction">
+          <h2>Other data reduction considerations</h2>
+          <p>
+            To control storage costs and preserve privacy, platforms aggregate or sample data. They may remove fields that are not
+            needed for immediate decision-making, apply k-anonymity thresholds, or down-sample events from less active users. When
+            analysing transparency data, document any known suppression so that your findings include the appropriate caveats.
+          </p>
+          <dl class="data-glossary">
+            <div>
+              <dt>Retention window</dt>
+              <dd>How long rows remain in the table before they are archived or deleted.</dd>
+            </div>
+            <div>
+              <dt>Suppression rule</dt>
+              <dd>Thresholds that hide or aggregate data about small cohorts for privacy reasons.</dd>
+            </div>
+            <div>
+              <dt>Sampling strategy</dt>
+              <dd>Methods used to capture representative rows without storing every single event.</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="section" id="research-checklist">
+          <h2>Researcher checklist</h2>
+          <div class="card-grid">
+            <article class="card">
+              <h3>Clarify identifiers</h3>
+              <p>Confirm which fields uniquely identify users, content, or sessions so you join tables accurately.</p>
+            </article>
+            <article class="card">
+              <h3>Capture context</h3>
+              <p>Record the platform team, policy area, or experiment that generated the dataset before you analyse it.</p>
+            </article>
+            <article class="card">
+              <h3>Note transformations</h3>
+              <p>Document any filters, aggregations, or derived fields you apply so others can reproduce your work.</p>
+            </article>
+            <article class="card">
+              <h3>Respect safeguards</h3>
+              <p>Stay within the retention and disclosure rules specified in your Article 40 access agreement.</p>
+            </article>
+          </div>
+        </section>
+
+        <p>
+          When you are ready to apply these concepts, head to <a href="workflows.html">Chapter 4: Workflows &amp; SQL Practice</a>
+          to follow a guided analysis and experiment with the browser-based sandbox.
+        </p>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Want feedback on your schema?</strong>
+        <span>Matt regularly reviews Article 40 data pipelines and can help de-risk your modelling choices.</span>
+        <span>© <span id="year"></span> Matt Motyl.</span>
+      </div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
