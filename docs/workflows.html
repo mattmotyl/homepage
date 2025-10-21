@@ -11,6 +11,11 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <title>Workflows &amp; SQL Practice | Platform Data Handbook</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <header>
@@ -18,12 +23,15 @@
         <div class="brand">
           <span>Platform Data Primer</span>
           <span>Matt Motyl, Ph.D.</span>
+          <span>Matt Motyl</span>
+          <span>Platform Data Handbook</span>
         </div>
         <nav aria-label="Primary">
           <ul>
             <li><a href="index.html">Welcome</a></li>
             <li><a href="foundations.html">Data Foundations</a></li>
             <li><a href="warehouses.html">Data Models</a></li>
+            <li><a href="warehouses.html">Warehouses</a></li>
             <li><a href="workflows.html" aria-current="page">Workflows</a></li>
             <li><a href="comparisons.html">Comparisons</a></li>
             <li><a href="engage.html">Engage</a></li>
@@ -178,6 +186,72 @@ LIMIT 5;</textarea>
       <div class="footer-inner">
         <strong>Need a deeper walkthrough?</strong>
         <span>Schedule time with Matt to align these datasets to your investigation or research question.</span>
+    <main>
+      <h1>Workflows &amp; SQL Practice</h1>
+      <p>
+        Follow this step-by-step workflow to explore Article 40 datasets, with a sandbox where you can experiment using real SQL syntax. Each walkthrough prompt mirrors what you’ll do once you access platform-held data.
+      </p>
+
+      <section class="section">
+        <h2>Workflow overview</h2>
+        <ol>
+          <li>Start with the platform’s documentation to understand available tables, fields, and access constraints.</li>
+          <li>Create a staging area to profile the raw data and validate row counts against the platform’s stated coverage.</li>
+          <li>Model the data into fact and dimension tables, keeping the original grain intact.</li>
+          <li>Iterate with your team to define metrics, dashboards, and research-ready extracts.</li>
+        </ol>
+        <blockquote>
+          “Treat platform transparency data like a partnership: document your assumptions, share findings responsibly, and close the loop with the platform when you see anomalies.” — Matt Motyl
+        </blockquote>
+      </section>
+
+      <section class="section">
+        <h2>Interactive SQL sandbox</h2>
+        <p>
+          This sandbox runs entirely in your browser using <a href="https://sql.js.org/" target="_blank" rel="noreferrer">sql.js</a>. No data ever leaves your computer. Use the walkthrough steps or try the sample questions.
+        </p>
+        <div class="sql-playground" id="sql-playground">
+          <div class="sql-editor">
+            <label for="sql-input">Write or paste a SQL query</label>
+            <textarea id="sql-input" spellcheck="false">SELECT * FROM fact_engagements LIMIT 5;</textarea>
+            <div class="sql-actions">
+              <button type="button" id="run-query">Run query</button>
+              <button type="button" id="reset-db">Reset tables</button>
+            </div>
+          </div>
+          <div>
+            <h3>Guided walkthrough</h3>
+            <div id="sql-walkthrough"></div>
+            <h3>Sample questions to explore</h3>
+            <ul id="sql-samples"></ul>
+          </div>
+        </div>
+        <div class="sql-result" id="sql-result"></div>
+      </section>
+
+      <section class="section">
+        <h2>Checklist for responsible analysis</h2>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Document privacy guardrails</h3>
+            <p>Note any k-anonymity thresholds or aggregation rules applied to sensitive cohorts.</p>
+          </article>
+          <article class="card">
+            <h3>Track data lineage</h3>
+            <p>Record when tables were refreshed and the transformations you performed before publication.</p>
+          </article>
+          <article class="card">
+            <h3>Share reproducible notebooks</h3>
+            <p>Pair your SQL queries with annotated notebooks so peers can replicate your findings.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Ready to level up?</strong>
+        <span>Matt can facilitate team workshops that blend data literacy training with platform transparency strategy.</span>
         <span>© <span id="year"></span> Matt Motyl.</span>
       </div>
     </footer>
@@ -273,5 +347,8 @@ LIMIT 5;</textarea>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.js" integrity="sha512-jN2mYIZHuZOKhHvJ3C0cI85FhF38sZ4N2VNivX8XcX4Jt9V7H5PHeTtNKgHdwNwp0UrEGouGZWlznImPi0tL0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/sql-playground.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.js" integrity="sha512-YoQdpdFQMGgrN/B+e3fHDC6W5UPeJDrW9PiAbRbqnbsdcI3yGqeG5kQxy34ENXGuzqVaq/h8GKyNEmlQrYSZkA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="assets/js/sql-playground.js" type="module"></script>
   </body>
 </html>
