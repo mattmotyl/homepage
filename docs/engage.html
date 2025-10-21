@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Engage with Matt | Platform Data Handbook</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="brand">
+          <span>Matt Motyl</span>
+          <span>Platform Data Handbook</span>
+        </div>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="foundations.html">Data Foundations</a></li>
+            <li><a href="warehouses.html">Warehouses</a></li>
+            <li><a href="workflows.html">Workflows</a></li>
+            <li><a href="comparisons.html">Comparisons</a></li>
+            <li><a href="engage.html" aria-current="page">Engage</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <h1>Partner with Matt Motyl</h1>
+      <p>
+        Let’s collaborate on platform accountability, transparency research, and public education. Use the form below to share your goals, and Matt will follow up with ways to support your work—workshops, speaking engagements, or hands-on consulting.
+      </p>
+
+      <section class="section">
+        <h2>Request a consultation</h2>
+        <form class="form-grid" id="contact-form" action="https://formspree.io/f/mnqewpba" method="POST">
+          <label>
+            Your name
+            <input type="text" name="name" required />
+          </label>
+          <label>
+            Email address
+            <input type="email" name="email" required />
+          </label>
+          <label>
+            Organization (optional)
+            <input type="text" name="organization" />
+          </label>
+          <label>
+            How can Matt help?
+            <textarea name="message" placeholder="Tell us about your project, event, or training needs." required></textarea>
+          </label>
+          <button class="button primary" type="submit">Send message →</button>
+        </form>
+        <p>
+          Prefer email? Reach out directly at <a href="mailto:matt@mattmotyl.com">matt@mattmotyl.com</a>.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Stay connected</h2>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Watch Unmoderated Insights</h3>
+            <p><a href="https://www.youtube.com/@UnmoderatedInsights?sub_confirmation=1" target="_blank" rel="noreferrer">Subscribe on YouTube</a> for case studies and platform transparency explainers.</p>
+          </article>
+          <article class="card">
+            <h3>Subscribe to the newsletter</h3>
+            <p><a href="https://mattmotyl.substack.com" target="_blank" rel="noreferrer">Join the Substack</a> for research tips, policy analysis, and event updates.</p>
+          </article>
+          <article class="card">
+            <h3>Book Matt on Duco</h3>
+            <p><a href="https://app.ducoexperts.com/users/matt-motyl" target="_blank" rel="noreferrer">View expertise and availability</a> for one-on-one or team engagements.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Recommended reading</h2>
+        <ul>
+          <li><a href="https://www.techpolicy.press/making-social-media-safer-requires-meaningful-transparency" target="_blank" rel="noreferrer">Making social media safer requires meaningful transparency — Tech Policy Press</a></li>
+          <li><a href="https://edmo.eu" target="_blank" rel="noreferrer">European Digital Media Observatory (EDMO)</a></li>
+          <li><a href="https://digital-strategy.ec.europa.eu/en/policies/digital-services-act" target="_blank" rel="noreferrer">Digital Services Act overview</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <strong>Let’s build safer, more transparent platforms together.</strong>
+        <span>© <span id="year"></span> Matt Motyl.</span>
+      </div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
