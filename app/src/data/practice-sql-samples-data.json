@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Identify videos with high share-to-view ratios",
+    "sql": "SELECT\n  content_id,\n  SUM(total_shares) AS shares,\n  SUM(total_views) AS views,\n  CASE WHEN SUM(total_views) = 0 THEN 0 ELSE ROUND(CAST(SUM(total_shares) AS REAL) / SUM(total_views), 4) END AS share_rate\nFROM fact_engagement_details\nGROUP BY content_id\nORDER BY share_rate DESC\nLIMIT 10;"
+  },
+  {
+    "label": "Monitor integrity actions over time",
+    "sql": "SELECT\n  SUBSTR(enforcement_time, 1, 10) AS enforcement_day,\n  COUNT(*) AS actions\nFROM fact_content_policy_scores\nWHERE enforcement_action IS NOT NULL\nGROUP BY enforcement_day\nORDER BY enforcement_day;"
+  },
+  {
+    "label": "Surface cross-border interactions",
+    "sql": "SELECT\n  d.audience_country AS viewer_country,\n  c.country AS creator_country,\n  SUM(d.total_views) AS interactions\nFROM fact_engagement_details AS d\nJOIN dim_content_creators AS c ON d.author_id = c.author_id\nWHERE d.audience_country <> c.country\nGROUP BY viewer_country, creator_country\nORDER BY interactions DESC\nLIMIT 15;"
+  }
+]
