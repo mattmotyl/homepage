@@ -20,7 +20,7 @@
     "category": "Advertising",
     "element": "Ad Library creative, spend, and targeting descriptors",
     "availability": "Public API",
-    "notes": "Accessible through the Ad Library API and CSV downloads; spend buckets widen below \u20ac1K per campaign.",
+    "notes": "Accessible through the Ad Library API and CSV downloads; spend buckets widen below €1K per campaign.",
     "lastUpdated": "2025-01-28"
   },
   {
@@ -116,7 +116,7 @@
     "category": "Observed behavior",
     "element": "Query impression counts and click-through rates by topic",
     "availability": "Public API",
-    "notes": "Google Trends and Search Console APIs deliver normalized indexes (0\u2013100) with support for EU regional filters.",
+    "notes": "Google Trends and Search Console APIs deliver normalized indexes (0–100) with support for EU regional filters.",
     "lastUpdated": "2025-02-11"
   },
   {
@@ -230,53 +230,5 @@
     "availability": "Transparency Report",
     "notes": "DSA risk reporting details enforcement against malicious apps impacting recommender systems.",
     "lastUpdated": "2024-12-08"
-  },
-  {
-    "platform": "TikTok",
-    "category": "Observed behavior",
-    "element": "Video-level watch time with completion rate, surface, and region",
-    "availability": "Researcher Environment",
-    "notes": "Available through the Article 40 workspace export jobs; refreshed every 24 hours with per-video aggregates including traffic source metadata.",
-    "lastUpdated": "2025-02-11"
-  },
-  {
-    "platform": "TikTok",
-    "category": "Inferred",
-    "element": "Content authenticity and coordinated behavior scores",
-    "availability": "Researcher Environment",
-    "notes": "Risk model outputs joined to creator accounts; includes score version, threshold, and downstream enforcement outcome flags.",
-    "lastUpdated": "2025-02-08"
-  },
-  {
-    "platform": "YouTube",
-    "category": "Search",
-    "element": "Top queries and impressions from YouTube Search and recommendations",
-    "availability": "Public API",
-    "notes": "Accessible via YouTube Data API v3; requires developer key and enforces per-endpoint quota units.",
-    "lastUpdated": "2025-01-30"
-  },
-  {
-    "platform": "Google Search",
-    "category": "Observed behavior",
-    "element": "Search Console aggregated query metrics for news and civic topics",
-    "availability": "Transparency Report",
-    "notes": "Shared through Search Console bulk export; provides click and impression trends split by country and device.",
-    "lastUpdated": "2025-02-06"
-  },
-  {
-    "platform": "Microsoft Bing",
-    "category": "Received from other users",
-    "element": "Trusted flagger escalations and subsequent policy outcomes",
-    "availability": "Researcher Environment",
-    "notes": "Delivered in quarterly CSV releases to approved researchers with per-country breakdowns and response time metadata.",
-    "lastUpdated": "2025-01-18"
-  },
-  {
-    "platform": "Snapchat",
-    "category": "Advertising",
-    "element": "Public issue and political ad archive with spend, impressions, and targeting",
-    "availability": "Download",
-    "notes": "Bulk CSV published on the Snap Transparency hub; includes creative thumbnails and funding entity disclosures.",
-    "lastUpdated": "2025-02-02"
   }
 ]

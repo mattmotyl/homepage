@@ -9,15 +9,13 @@ import { slugifyHeading } from './headings'
 
 const routeMap: Record<string, string> = {
   'index.html': '/',
-  'introduction.html': '/introduction',
-  'foundations.html': '/collect',
-  'warehouses.html': '/stored-used',
-  'comparisons.html': '/share',
-  'datasets.html': '/others-share',
-  'harms.html': '/mapping',
-  'using-apis.html': '/using-apis',
-  'conclusion.html': '/conclusion',
-  'practice.html': '/practice',
+  'foundations.html': '/foundations',
+  'api.html': '/api',
+  'warehouses.html': '/warehouses',
+  'workflows.html': '/workflows',
+  'harms.html': '/harms',
+  'datasets.html': '/datasets',
+  'comparisons.html': '/comparisons',
   'engage.html': '/engage',
 }
 

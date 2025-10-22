@@ -1,6 +1,6 @@
 <main>
 <section id="harms-overview">
-<h1>Mapping Data to Concepts</h1>
+<h1>6. Understanding delegated risks</h1>
 <p>
             Article 40 focuses on <em>systemic risks</em>—delegated harms that platforms must monitor and mitigate, such as
             disinformation, gender-based violence, threats to civic discourse, and harms to minors. Translating these broad
@@ -14,7 +14,7 @@
           </p>
 </section>
 <section class="section" id="harms-mapping">
-<h2>Linking variables to harms</h2>
+<h2>6.1 Linking variables to harms</h2>
 <p>
             Use this matrix as a starting point when drafting Article 40 requests. It blends the report’s examples with additional
             prompts for investigators and journalists.
@@ -66,17 +66,17 @@
 <p class="table-note">Match each signal to the data families in Section 2 so your requests cite the same vocabulary.</p>
 </section>
 <section class="section" id="harms-sql">
-<h2>Building harm-specific queries</h2>
+<h2>6.2 Building harm-specific queries</h2>
 <p>
             The sandbox below extends the workflow dataset with harm annotations. Practice crafting queries that align signals to
             delegated risk categories. Try filtering for a single harm, comparing enforcement rates, or isolating regions where a
             harm is under-addressed.
           </p>
-<div class="card-grid" id="harms-sql-preview"></div>
+<div class="card-grid" id="sql-table-preview"></div>
 <div class="sql-layout">
 <div class="sql-panel">
 <label for="sql-input"><strong>Write your query</strong></label>
-<textarea id="harms-sql-input">SELECT
+<textarea id="sql-input">SELECT
   h.harm_category,
   SUM(f.incident_reports) AS reports,
   SUM(f.enforcement_actions) AS actions
@@ -85,15 +85,15 @@ JOIN dim_harm h ON f.harm_id = h.harm_id
 GROUP BY h.harm_category
 ORDER BY reports DESC;</textarea>
 <div style="display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap;">
-<button class="button primary" id="harms-run-query" type="button">Run query</button>
-<button class="button secondary" id="harms-reset-db" type="button">Reset tables</button>
+<button class="button primary" id="run-query" type="button">Run query</button>
+<button class="button secondary" id="reset-db" type="button">Reset tables</button>
 </div>
 </div>
 <div class="sql-panel">
 <h3>Results</h3>
-<div class="alert" id="harms-sql-result">Run a query to see the output table here.</div>
+<div class="alert" id="sql-result">Run a query to see the output table here.</div>
 <h3>Try these scenarios</h3>
-<ul id="harms-sql-samples"></ul>
+<ul id="sql-samples"></ul>
 </div>
 </div>
 </section>
