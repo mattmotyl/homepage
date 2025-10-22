@@ -1,0 +1,182 @@
+{
+        "User": [
+          {
+            "field": "user_id",
+            "description": "Unique identifier assigned to each account at creation.",
+            "table": "dim_users",
+            "access": "Always pseudonymized; link tables provided after risk review.",
+            "source": "Internal warehouse"
+          },
+          {
+            "field": "account_creation_time",
+            "description": "Timestamp of initial signup, stored in UTC.",
+            "table": "dim_users",
+            "access": "Retained indefinitely except for deleted accounts.",
+            "source": "Internal warehouse"
+          },
+          {
+            "field": "declared_pronouns",
+            "description": "Self-selected pronouns from profile settings.",
+            "table": "dim_users",
+            "access": "Sensitive; surfaced only in aggregated reporting.",
+            "source": "Profile settings"
+          },
+          {
+            "field": "risk_tier",
+            "description": "Internal classification used by integrity teams to prioritize review.",
+            "table": "dim_users",
+            "access": "Requires additional integrity justification.",
+            "source": "Integrity scoring model"
+          }
+        ],
+        "Content": [
+          {
+            "field": "content_id",
+            "description": "Unique identifier for each post, video, or comment.",
+            "table": "dim_content",
+            "access": "Available with event tables to enable joins.",
+            "source": "Content management system"
+          },
+          {
+            "field": "media_type",
+            "description": "Classification of the creative: text, image, video, live, audio.",
+            "table": "dim_content",
+            "access": "No special restrictions; mapped to policy review queues.",
+            "source": "Upload metadata"
+          },
+          {
+            "field": "safety_label",
+            "description": "Latest enforcement decision, such as misinformation, hate speech, or spam.",
+            "table": "dim_content",
+            "access": "Delayed release until appeals conclude.",
+            "source": "Policy enforcement system"
+          },
+          {
+            "field": "distribution_status",
+            "description": "Indicator showing whether the content is boosted, demoted, or removed from recommendations.",
+            "table": "dim_content",
+            "access": "Shared as part of Article 40 risk mitigation reporting.",
+            "source": "Recommendation pipeline"
+          }
+        ],
+        "Session": [
+          {
+            "field": "session_id",
+            "description": "Identifier for each login session across devices.",
+            "table": "fact_sessions",
+            "access": "Accessible with user consent through researcher environments.",
+            "source": "Authentication service"
+          },
+          {
+            "field": "entry_surface",
+            "description": "The first surface loaded during the session (e.g., feed, messaging, search).",
+            "table": "fact_sessions",
+            "access": "Anonymized; often bucketed for small cohorts.",
+            "source": "Client logging"
+          },
+          {
+            "field": "dwell_seconds",
+            "description": "Total time spent in the session before logout or timeout.",
+            "table": "fact_sessions",
+            "access": "Provided as aggregated percentiles for privacy.",
+            "source": "Client logging"
+          },
+          {
+            "field": "experiment_bucket",
+            "description": "Variant assignment for product experiments touching the session.",
+            "table": "fact_sessions",
+            "access": "Shared with research teams after experiment debriefs.",
+            "source": "Experimentation platform"
+          }
+        ],
+        "Predictive": [
+          {
+            "field": "model_name",
+            "description": "Short identifier for the machine learning model generating the score.",
+            "table": "fact_model_scores",
+            "access": "Documented in governance registries; accessible with aligned risk studies.",
+            "source": "Model registry"
+          },
+          {
+            "field": "score",
+            "description": "Numeric prediction such as probability of policy violation.",
+            "table": "fact_model_scores",
+            "access": "Provided with differential privacy noise for high-risk categories.",
+            "source": "Model inference service"
+          },
+          {
+            "field": "threshold_met",
+            "description": "Boolean flag showing whether the score triggered an automated action.",
+            "table": "fact_model_scores",
+            "access": "Shared alongside enforcement logs for transparency audits.",
+            "source": "Integrity automation"
+          },
+          {
+            "field": "label_timestamp",
+            "description": "When a human reviewer confirmed or rejected the automated score.",
+            "table": "fact_model_scores",
+            "access": "Available once investigations close.",
+            "source": "Reviewer tooling"
+          }
+        ],
+        "Survey": [
+          {
+            "field": "survey_id",
+            "description": "Unique identifier for an in-product survey deployment.",
+            "table": "dim_surveys",
+            "access": "Shared with researchers studying systemic risks or civic engagement.",
+            "source": "User research operations"
+          },
+          {
+            "field": "sampling_frame",
+            "description": "Description of the targeted population (e.g., EU adults, recent reporters).",
+            "table": "dim_surveys",
+            "access": "Requires alignment with survey privacy commitments.",
+            "source": "Research design documentation"
+          },
+          {
+            "field": "response_weight",
+            "description": "Weight applied to responses to ensure representative estimates.",
+            "table": "fact_survey_responses",
+            "access": "Provided with anonymized response IDs.",
+            "source": "Survey analytics platform"
+          },
+          {
+            "field": "open_text_response",
+            "description": "Optional free-text provided by participants.",
+            "table": "fact_survey_responses",
+            "access": "Often redacted or tokenized due to PII risk.",
+            "source": "Survey analytics platform"
+          }
+        ],
+        "Network": [
+          {
+            "field": "source_user_id",
+            "description": "ID of the account initiating the relationship.",
+            "table": "fact_edges",
+            "access": "Pseudonymized when shared outside the platform.",
+            "source": "Graph database"
+          },
+          {
+            "field": "target_user_id",
+            "description": "ID of the account receiving the relationship.",
+            "table": "fact_edges",
+            "access": "Pseudonymized; aggregated for smaller communities.",
+            "source": "Graph database"
+          },
+          {
+            "field": "edge_type",
+            "description": "Nature of the connection (follow, friend, membership, message).",
+            "table": "fact_edges",
+            "access": "Shared at aggregate level for Article 40 systemic risk questions.",
+            "source": "Graph database"
+          },
+          {
+            "field": "moderation_action",
+            "description": "Latest enforcement decision affecting the connection (e.g., mute, limit, removal).",
+            "table": "fact_edges",
+            "access": "Available with additional context on appeals and reinstatements.",
+            "source": "Trust & safety tooling"
+          }
+        ]
+      }

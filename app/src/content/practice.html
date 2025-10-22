@@ -1,0 +1,84 @@
+<main>
+  <section id="practice-intro">
+    <h1>Practice</h1>
+    <p>
+      Hands-on time cements the concepts from earlier chapters. This page offers structured exercises, reusable prompts, and a sandbox seeded
+      with the same synthetic data used throughout the primer. Work through the scenarios in order or cherry-pick the questions that align with
+      your research interests.
+    </p>
+  </section>
+
+  <section class="section" id="practice-prompts">
+    <h2>Suggested exercises</h2>
+    <div class="card-grid">
+      <article class="card">
+        <h3>Trace a systemic risk</h3>
+        <p>
+          Identify a delegated harm you care about—such as disinformation targeting a vulnerable community—and map the signals you would need
+          from <code>fact_engagements</code> and the available dimensions. Document which filters isolate the population and which metrics reveal
+          the pattern.
+        </p>
+      </article>
+      <article class="card">
+        <h3>Validate an internal claim</h3>
+        <p>
+          Platforms often cite high-level statistics in public updates. Recreate one of those statements using the sandbox (for example, “shares
+          of long-form videos declined in Q1”). Pay attention to how you aggregate, and note any assumptions you must make along the way.
+        </p>
+      </article>
+      <article class="card">
+        <h3>Design a monitoring alert</h3>
+        <p>
+          Use the probabilistic score tables to define an alerting rule that would surface emerging risks. Consider thresholds, sample sizes, and
+          how frequently you would rerun the query.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="practice-sample-tables">
+    <h2>Reference tables</h2>
+    <p>
+      The cards below keep the column names and descriptions within reach while you write queries. They mirror the sandbox schema exactly.
+    </p>
+    <div class="card-grid" id="practice-sql-preview"></div>
+  </section>
+
+  <section class="section" id="practice-sql">
+    <h2>Experiment in the sandbox</h2>
+    <p>
+      Use the prompts to kick-start your exploration. Each button loads a query into the editor. Tweak the filters, add joins, or swap metrics to
+      fit your scenario.
+    </p>
+    <div class="sql-layout">
+      <div class="sql-panel" id="practice-sql-walkthrough"></div>
+      <div class="sql-panel">
+        <label for="practice-sql-input"><strong>Write your query</strong></label>
+        <textarea id="practice-sql-input">SELECT
+  content_type,
+  SUM(total_views) AS total_views
+FROM fact_engagements
+GROUP BY content_type
+ORDER BY total_views DESC;</textarea>
+        <div class="sql-actions">
+          <button class="button primary" id="practice-run-query" type="button">Run query</button>
+          <button class="button secondary" id="practice-reset-db" type="button">Reset tables</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="practice-results">
+    <h2>Review results</h2>
+    <div class="sql-layout">
+      <div class="sql-panel">
+        <h3>Result preview</h3>
+        <div class="alert" id="practice-sql-result">Run a query to see the output table here.</div>
+      </div>
+      <div class="sql-panel">
+        <h3>Extra practice ideas</h3>
+        <ul id="practice-sql-samples"></ul>
+      </div>
+    </div>
+  </section>
+</main>

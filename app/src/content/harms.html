@@ -1,0 +1,101 @@
+<main>
+<section id="harms-overview">
+<h1>Mapping Data to Concepts</h1>
+<p>
+            Article 40 focuses on <em>systemic risks</em>—delegated harms that platforms must monitor and mitigate, such as
+            disinformation, gender-based violence, threats to civic discourse, and harms to minors. Translating these broad
+            categories into data requests is one of the hardest steps for newcomers. This page restates the report’s guidance and
+            adds practical examples that connect the high-level harms to concrete variables.
+          </p>
+<p>
+            Begin by framing your research question in terms of the delegated risk categories defined by the Digital Services Act.
+            Then identify observable signals that capture the harm. The table below illustrates how to move from policy language to
+            measurable variables.
+          </p>
+</section>
+<section class="section" id="harms-mapping">
+<h2>Linking variables to harms</h2>
+<p>
+            Use this matrix as a starting point when drafting Article 40 requests. It blends the report’s examples with additional
+            prompts for investigators and journalists.
+          </p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>Delegated harm</th>
+<th>Signals to request</th>
+<th>Example variables</th>
+<th>Why they matter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Disinformation and manipulation</td>
+<td>Content labels, fact-check outcomes, repeat spreaders, paid promotion metadata</td>
+<td><code>policy_label</code>, <code>fact_check_status</code>, <code>forward_chain_id</code>, <code>ad_disclaimer_text</code></td>
+<td>Reveals whether false claims are amplified, monetized, or removed slowly compared with policy commitments.</td>
+</tr>
+<tr>
+<td>Harassment and gender-based violence</td>
+<td>User reports, enforcement actions, appeals, safety escalations</td>
+<td><code>report_category</code>, <code>enforcement_action</code>, <code>escalation_reason</code>, <code>appeal_outcome</code></td>
+<td>Shows whether survivors receive timely protection, and whether repeat offenders evade moderation.</td>
+</tr>
+<tr>
+<td>Threats to civic discourse and elections</td>
+<td>Coordinated account flags, state-controlled media classifiers, recommendation surfaces</td>
+<td><code>coordinated_behavior_score</code>, <code>state_media_flag</code>, <code>ranking_surface</code>, <code>target_region</code></td>
+<td>Helps evaluate whether democratic processes are being gamed or targeted by foreign influence operations.</td>
+</tr>
+<tr>
+<td>Harms to minors</td>
+<td>Age estimation, content suitability ratings, time-on-platform by cohort</td>
+<td><code>predicted_age_bucket</code>, <code>age_restricted_reason</code>, <code>daily_watch_minutes</code>, <code>parental_control_status</code></td>
+<td>Surfaces whether products deliver on safety promises for younger users and where intervention is failing.</td>
+</tr>
+<tr>
+<td>Illegal products and services</td>
+<td>Marketplace takedowns, payment provider escalations, law-enforcement referrals</td>
+<td><code>listing_violation_type</code>, <code>seller_authenticity_score</code>, <code>financial_hold_flag</code>, <code>law_enforcement_case_id</code></td>
+<td>Documents how quickly platforms identify and disrupt illicit commerce that endangers consumers.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="table-note">Match each signal to the data families in Section 2 so your requests cite the same vocabulary.</p>
+</section>
+<section class="section" id="harms-sql">
+<h2>Building harm-specific queries</h2>
+<p>
+            The sandbox below extends the workflow dataset with harm annotations. Practice crafting queries that align signals to
+            delegated risk categories. Try filtering for a single harm, comparing enforcement rates, or isolating regions where a
+            harm is under-addressed.
+          </p>
+<div class="card-grid" id="harms-sql-preview"></div>
+<div class="sql-layout">
+<div class="sql-panel">
+<label for="sql-input"><strong>Write your query</strong></label>
+<textarea id="harms-sql-input">SELECT
+  h.harm_category,
+  SUM(f.incident_reports) AS reports,
+  SUM(f.enforcement_actions) AS actions
+FROM fact_harm_signals f
+JOIN dim_harm h ON f.harm_id = h.harm_id
+GROUP BY h.harm_category
+ORDER BY reports DESC;</textarea>
+<div style="display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap;">
+<button class="button primary" id="harms-run-query" type="button">Run query</button>
+<button class="button secondary" id="harms-reset-db" type="button">Reset tables</button>
+</div>
+</div>
+<div class="sql-panel">
+<h3>Results</h3>
+<div class="alert" id="harms-sql-result">Run a query to see the output table here.</div>
+<h3>Try these scenarios</h3>
+<ul id="harms-sql-samples"></ul>
+</div>
+</div>
+</section>
+</main>
+

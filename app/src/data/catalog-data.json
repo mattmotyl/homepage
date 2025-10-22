@@ -1,0 +1,282 @@
+[
+  {
+    "platform": "Meta (Facebook & Instagram)",
+    "category": "User provided",
+    "element": "Profile attributes (age range, gender, declared location, language settings)",
+    "availability": "Researcher Environment",
+    "notes": "Included in the Article 40 secure workspace; exports require vetting and aggregation of sensitive cohorts.",
+    "lastUpdated": "2025-02-15"
+  },
+  {
+    "platform": "Meta (Facebook & Instagram)",
+    "category": "Observed behavior",
+    "element": "Feed interactions with ranking metadata (story_id, surface, dwell_time)",
+    "availability": "Researcher Environment",
+    "notes": "Delivered as fact tables with 48-hour delay; contains per-impression logs for risk investigations.",
+    "lastUpdated": "2025-02-12"
+  },
+  {
+    "platform": "Meta (Facebook & Instagram)",
+    "category": "Advertising",
+    "element": "Ad Library creative, spend, and targeting descriptors",
+    "availability": "Public API",
+    "notes": "Accessible through the Ad Library API and CSV downloads; spend buckets widen below \u20ac1K per campaign.",
+    "lastUpdated": "2025-01-28"
+  },
+  {
+    "platform": "Meta (Facebook & Instagram)",
+    "category": "Received from other users",
+    "element": "User reports and enforcement queues by policy vertical",
+    "availability": "Transparency Report",
+    "notes": "Published quarterly in Widely Viewed Content and Community Standards reports with country-level breakdowns.",
+    "lastUpdated": "2024-12-20"
+  },
+  {
+    "platform": "Meta (Facebook & Instagram)",
+    "category": "Inferred",
+    "element": "Integrity risk tier and behavior scores",
+    "availability": "Researcher Environment",
+    "notes": "Model outputs are shared with confidence intervals and version metadata to support systemic risk reviews.",
+    "lastUpdated": "2025-02-05"
+  },
+  {
+    "platform": "Meta (Facebook & Instagram)",
+    "category": "Purchased / external",
+    "element": "Civic and demographic panels linked to account cohorts",
+    "availability": "Researcher Environment",
+    "notes": "Supplemental segments sourced from data brokers; aggregated to preserve differential privacy thresholds.",
+    "lastUpdated": "2024-11-30"
+  },
+  {
+    "platform": "TikTok",
+    "category": "User provided",
+    "element": "Creator category declarations and verified organization status",
+    "availability": "Public Transparency Center",
+    "notes": "CSV exports list creator self-identification, follower counts, and monetization eligibility.",
+    "lastUpdated": "2025-01-10"
+  },
+  {
+    "platform": "TikTok",
+    "category": "Observed behavior",
+    "element": "Video performance metrics (views, completion rate, shares) with region flags",
+    "availability": "Researcher Environment",
+    "notes": "Article 40 workspace delivers per-video metrics with synthetic identifiers for cross-table joins.",
+    "lastUpdated": "2025-02-08"
+  },
+  {
+    "platform": "TikTok",
+    "category": "Received from other users",
+    "element": "User reports and appeal outcomes for safety incidents",
+    "availability": "Researcher Environment",
+    "notes": "Requires additional integrity justification; sensitive appeal notes are redacted until cases close.",
+    "lastUpdated": "2025-01-26"
+  },
+  {
+    "platform": "TikTok",
+    "category": "Inferred",
+    "element": "Recommendation scores from the For You classifier",
+    "availability": "Researcher Environment",
+    "notes": "Shared as probabilistic outputs with model versioning, feature importance, and calibration metrics.",
+    "lastUpdated": "2025-01-29"
+  },
+  {
+    "platform": "TikTok",
+    "category": "Advertising",
+    "element": "Political and issue ad transparency archive",
+    "availability": "Public API",
+    "notes": "Accessible through the TikTok Research API with rate limits; includes spend bands and advertiser certification.",
+    "lastUpdated": "2025-02-01"
+  },
+  {
+    "platform": "YouTube",
+    "category": "Observed behavior",
+    "element": "Watch history aggregates (impressions, average view duration, signed-out share)",
+    "availability": "Researcher Program API",
+    "notes": "The YouTube Researcher Program surfaces de-identified session metrics with configurable content filters.",
+    "lastUpdated": "2025-02-14"
+  },
+  {
+    "platform": "YouTube",
+    "category": "Advertising",
+    "element": "Ads Transparency Center political inventory",
+    "availability": "Public API",
+    "notes": "Provides creative assets, spend ranges, and targeting information for campaigns across the EU.",
+    "lastUpdated": "2025-01-19"
+  },
+  {
+    "platform": "YouTube",
+    "category": "Inferred",
+    "element": "Viewer personalization segments (interests, retention clusters)",
+    "availability": "Researcher Program API",
+    "notes": "Shared as bucketed probabilities; sensitive cohorts require aggregation to 10k+ users before export.",
+    "lastUpdated": "2025-02-05"
+  },
+  {
+    "platform": "Google Search",
+    "category": "Observed behavior",
+    "element": "Query impression counts and click-through rates by topic",
+    "availability": "Public API",
+    "notes": "Google Trends and Search Console APIs deliver normalized indexes (0\u2013100) with support for EU regional filters.",
+    "lastUpdated": "2025-02-11"
+  },
+  {
+    "platform": "Google Search",
+    "category": "Advertising",
+    "element": "Ads Transparency Center enforcement metrics",
+    "availability": "Transparency Report",
+    "notes": "Biannual PDF and CSV releases covering removals, advertiser suspensions, and policy appeals by member state.",
+    "lastUpdated": "2024-12-12"
+  },
+  {
+    "platform": "Google Search",
+    "category": "Purchased / external",
+    "element": "Ads Safety partner datasets (malware domains, sanctioned entities)",
+    "availability": "Researcher Environment",
+    "notes": "Shared under strict NDA in the Article 40 workspace to support investigations into delegated harms.",
+    "lastUpdated": "2024-11-22"
+  },
+  {
+    "platform": "X (formerly Twitter)",
+    "category": "User provided",
+    "element": "Account metadata (creation date, verified type, declared location)",
+    "availability": "Legacy API / Transparency Download",
+    "notes": "Accessible for historical data via 2022 API archives; current program offers limited metadata for approved projects.",
+    "lastUpdated": "2024-10-15"
+  },
+  {
+    "platform": "X (formerly Twitter)",
+    "category": "Observed behavior",
+    "element": "Tweet engagement streams (impressions, likes, reposts) with language tags",
+    "availability": "Researcher Environment",
+    "notes": "Article 40 extracts supplied as hourly aggregates after Trust & Safety review of the research proposal.",
+    "lastUpdated": "2025-01-31"
+  },
+  {
+    "platform": "X (formerly Twitter)",
+    "category": "Inferred",
+    "element": "Platform-generated authenticity and bot likelihood scores",
+    "availability": "Unavailable",
+    "notes": "Removed from public datasets in 2023; researchers must request access via competent authorities under the DSA.",
+    "lastUpdated": "2024-09-27"
+  },
+  {
+    "platform": "Mastodon (federated sample)",
+    "category": "User provided",
+    "element": "Account profile metadata (bio text, server code of conduct, verification links)",
+    "availability": "Public API",
+    "notes": "All ActivityPub instances expose JSON endpoints with pagination and server-level rate limiting.",
+    "lastUpdated": "2025-01-06"
+  },
+  {
+    "platform": "Mastodon (federated sample)",
+    "category": "Observed behavior",
+    "element": "Timeline events (posts, boosts, favourites) with moderation flags",
+    "availability": "Public API",
+    "notes": "Available through streaming and REST APIs; moderation decisions are logged in server transparency dashboards.",
+    "lastUpdated": "2025-01-06"
+  },
+  {
+    "platform": "Pinterest",
+    "category": "Observed behavior",
+    "element": "Pin impressions and saves by content label",
+    "availability": "Transparency Report",
+    "notes": "Quarterly reporting provides aggregate safety and civic integrity statistics across EU member states.",
+    "lastUpdated": "2024-12-05"
+  },
+  {
+    "platform": "Snapchat",
+    "category": "User provided",
+    "element": "Public Story metadata (creator type, discover channel, audience tiers)",
+    "availability": "Transparency Report",
+    "notes": "Snap publishes CSV appendices detailing creator categories and enforcement actions by region.",
+    "lastUpdated": "2025-01-02"
+  },
+  {
+    "platform": "Snapchat",
+    "category": "Observed behavior",
+    "element": "Spotlight engagement metrics (views, shares, watch time)",
+    "availability": "Researcher Environment",
+    "notes": "Available via secure workspace in partnership with EDMO nodes for systemic risk monitoring.",
+    "lastUpdated": "2025-01-18"
+  },
+  {
+    "platform": "Reddit",
+    "category": "Observed behavior",
+    "element": "Subreddit submissions and comments with moderation labels",
+    "availability": "Public Data Export",
+    "notes": "Pushshift-hosted archives provide historical coverage; current API requires OAuth and elevated researcher access.",
+    "lastUpdated": "2025-01-20"
+  },
+  {
+    "platform": "LinkedIn",
+    "category": "User provided",
+    "element": "Economic Graph attributes (industry, company size, geography)",
+    "availability": "Transparency Report",
+    "notes": "Published through the LinkedIn Economic Graph Research portal with downloadable aggregates.",
+    "lastUpdated": "2024-12-18"
+  },
+  {
+    "platform": "LinkedIn",
+    "category": "Observed behavior",
+    "element": "Feed interactions and job application funnels by cohort",
+    "availability": "Researcher Environment",
+    "notes": "Available under NDA via Microsoft research partnerships aligned with Article 40 systemic risk studies.",
+    "lastUpdated": "2025-01-30"
+  },
+  {
+    "platform": "Google Play Store",
+    "category": "Purchased / external",
+    "element": "App safety flags and malware detection results shared with search and ads teams",
+    "availability": "Transparency Report",
+    "notes": "DSA risk reporting details enforcement against malicious apps impacting recommender systems.",
+    "lastUpdated": "2024-12-08"
+  },
+  {
+    "platform": "TikTok",
+    "category": "Observed behavior",
+    "element": "Video-level watch time with completion rate, surface, and region",
+    "availability": "Researcher Environment",
+    "notes": "Available through the Article 40 workspace export jobs; refreshed every 24 hours with per-video aggregates including traffic source metadata.",
+    "lastUpdated": "2025-02-11"
+  },
+  {
+    "platform": "TikTok",
+    "category": "Inferred",
+    "element": "Content authenticity and coordinated behavior scores",
+    "availability": "Researcher Environment",
+    "notes": "Risk model outputs joined to creator accounts; includes score version, threshold, and downstream enforcement outcome flags.",
+    "lastUpdated": "2025-02-08"
+  },
+  {
+    "platform": "YouTube",
+    "category": "Search",
+    "element": "Top queries and impressions from YouTube Search and recommendations",
+    "availability": "Public API",
+    "notes": "Accessible via YouTube Data API v3; requires developer key and enforces per-endpoint quota units.",
+    "lastUpdated": "2025-01-30"
+  },
+  {
+    "platform": "Google Search",
+    "category": "Observed behavior",
+    "element": "Search Console aggregated query metrics for news and civic topics",
+    "availability": "Transparency Report",
+    "notes": "Shared through Search Console bulk export; provides click and impression trends split by country and device.",
+    "lastUpdated": "2025-02-06"
+  },
+  {
+    "platform": "Microsoft Bing",
+    "category": "Received from other users",
+    "element": "Trusted flagger escalations and subsequent policy outcomes",
+    "availability": "Researcher Environment",
+    "notes": "Delivered in quarterly CSV releases to approved researchers with per-country breakdowns and response time metadata.",
+    "lastUpdated": "2025-01-18"
+  },
+  {
+    "platform": "Snapchat",
+    "category": "Advertising",
+    "element": "Public issue and political ad archive with spend, impressions, and targeting",
+    "availability": "Download",
+    "notes": "Bulk CSV published on the Snap Transparency hub; includes creative thumbnails and funding entity disclosures.",
+    "lastUpdated": "2025-02-02"
+  }
+]

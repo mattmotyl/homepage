@@ -1,0 +1,14 @@
+[
+        {
+          "label": "Which harms lag in enforcement?",
+          "sql": "SELECT h.harm_category, SUM(f.incident_reports) AS reports, SUM(f.enforcement_actions) AS actions, ROUND(SUM(f.enforcement_actions) * 1.0 / SUM(f.incident_reports), 2) AS enforcement_rate FROM fact_harm_signals f JOIN dim_harm h ON f.harm_id = h.harm_id GROUP BY h.harm_category ORDER BY enforcement_rate ASC;"
+        },
+        {
+          "label": "Focus on youth safety signals",
+          "sql": "SELECT s.signal_name, SUM(f.incident_reports) AS reports, SUM(f.coverage_score) / COUNT(*) AS avg_coverage FROM fact_harm_signals f JOIN dim_signal s ON f.signal_id = s.signal_id WHERE f.harm_id = 4 GROUP BY s.signal_name;"
+        },
+        {
+          "label": "Identify high-volume disinformation signals",
+          "sql": "SELECT s.signal_name, SUM(f.incident_reports) AS reports FROM fact_harm_signals f JOIN dim_signal s ON f.signal_id = s.signal_id WHERE f.harm_id = 1 GROUP BY s.signal_name ORDER BY reports DESC;"
+        }
+      ]

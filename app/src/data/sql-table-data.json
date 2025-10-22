@@ -1,0 +1,74 @@
+[
+  {
+    "name": "dim_platform",
+    "description": "Lookup table containing platform names and the regions covered in this extract.",
+    "columns": ["platform_id", "name", "region"],
+    "rows": [
+      { "platform_id": 1, "name": "TikTok", "region": "EU" },
+      { "platform_id": 2, "name": "Facebook", "region": "EU" },
+      { "platform_id": 3, "name": "YouTube", "region": "EU" },
+      { "platform_id": 4, "name": "Mastodon", "region": "EU" }
+    ]
+  },
+  {
+    "name": "dim_content_type",
+    "description": "Descriptions of the primary content formats available on each platform.",
+    "columns": ["content_type_id", "label", "description"],
+    "rows": [
+      { "content_type_id": 1, "label": "Short video", "description": "Vertical video under 90 seconds" },
+      { "content_type_id": 2, "label": "Feed post", "description": "Image or link shared to the primary feed" },
+      { "content_type_id": 3, "label": "Livestream", "description": "Live video sessions" },
+      { "content_type_id": 4, "label": "Long-form video", "description": "Video exceeding 10 minutes" },
+      { "content_type_id": 5, "label": "Microblog", "description": "Short text-oriented update" }
+    ]
+  },
+  {
+    "name": "dim_content_creators",
+    "description": "Creator metadata that helps identify origin and organization type.",
+    "columns": ["author_id", "display_name", "country", "organization_type"],
+    "rows": [
+      { "author_id": 201, "display_name": "Insight Lab", "country": "IE", "organization_type": "Civil society" },
+      { "author_id": 202, "display_name": "Agora Youth", "country": "DE", "organization_type": "Non-profit" },
+      { "author_id": 203, "display_name": "Local Pulse", "country": "ES", "organization_type": "Newsroom" },
+      { "author_id": 204, "display_name": "Trusted Voices", "country": "PL", "organization_type": "Research collective" }
+    ]
+  },
+  {
+    "name": "fact_engagements",
+    "description": "Aggregated engagement metrics by platform, content type, and reporting date.",
+    "columns": ["snapshot_date", "platform_id", "content_type_id", "impressions", "engaged_users", "watch_hours"],
+    "rows": [
+      { "snapshot_date": "2025-01-15", "platform_id": 1, "content_type_id": 1, "impressions": 1890000, "engaged_users": 340000, "watch_hours": 125000.4 },
+      { "snapshot_date": "2025-01-15", "platform_id": 1, "content_type_id": 3, "impressions": 240000, "engaged_users": 58000, "watch_hours": 41200.7 },
+      { "snapshot_date": "2025-01-15", "platform_id": 2, "content_type_id": 2, "impressions": 940000, "engaged_users": 210000, "watch_hours": 47000.9 },
+      { "snapshot_date": "2025-01-15", "platform_id": 2, "content_type_id": 5, "impressions": 410000, "engaged_users": 155000, "watch_hours": 12000.1 },
+      { "snapshot_date": "2025-01-15", "platform_id": 3, "content_type_id": 4, "impressions": 720000, "engaged_users": 132000, "watch_hours": 91000.6 },
+      { "snapshot_date": "2025-01-15", "platform_id": 3, "content_type_id": 1, "impressions": 380000, "engaged_users": 67000, "watch_hours": 34000.8 },
+      { "snapshot_date": "2025-01-15", "platform_id": 4, "content_type_id": 5, "impressions": 68000, "engaged_users": 24000, "watch_hours": 1800.3 },
+      { "snapshot_date": "2025-01-15", "platform_id": 4, "content_type_id": 2, "impressions": 52000, "engaged_users": 19000, "watch_hours": 1600.5 }
+    ]
+  },
+  {
+    "name": "fact_engagement_details",
+    "description": "Granular engagement detail by content item, surface, and audience country.",
+    "columns": ["content_id", "snapshot_date", "platform_id", "content_type_id", "author_id", "experience_surface", "audience_country", "risk_cohort", "total_views", "total_shares", "total_reactions", "watch_hours"],
+    "rows": [
+      { "content_id": 9001, "snapshot_date": "2025-02-01", "platform_id": 1, "content_type_id": 1, "author_id": 201, "experience_surface": "For You", "audience_country": "IE", "risk_cohort": "election_observer", "total_views": 210000, "total_shares": 18400, "total_reactions": 62000, "watch_hours": 5800.2 },
+      { "content_id": 9001, "snapshot_date": "2025-02-01", "platform_id": 1, "content_type_id": 1, "author_id": 201, "experience_surface": "For You", "audience_country": "FR", "risk_cohort": "general_public", "total_views": 87000, "total_shares": 6400, "total_reactions": 18000, "watch_hours": 2400.6 },
+      { "content_id": 9002, "snapshot_date": "2025-02-01", "platform_id": 2, "content_type_id": 2, "author_id": 202, "experience_surface": "News Feed", "audience_country": "DE", "risk_cohort": "youth_advocate", "total_views": 165000, "total_shares": 9200, "total_reactions": 40200, "watch_hours": 3900.4 },
+      { "content_id": 9003, "snapshot_date": "2025-02-01", "platform_id": 3, "content_type_id": 4, "author_id": 203, "experience_surface": "Subscriptions", "audience_country": "ES", "risk_cohort": "independent_researcher", "total_views": 98000, "total_shares": 5200, "total_reactions": 31200, "watch_hours": 6700.5 },
+      { "content_id": 9004, "snapshot_date": "2025-02-01", "platform_id": 3, "content_type_id": 1, "author_id": 204, "experience_surface": "For You", "audience_country": "PL", "risk_cohort": "election_observer", "total_views": 134000, "total_shares": 7500, "total_reactions": 28800, "watch_hours": 4300.9 }
+    ]
+  },
+  {
+    "name": "fact_content_policy_scores",
+    "description": "Model outputs describing policy risk scores and resulting enforcement actions.",
+    "columns": ["content_id", "snapshot_date", "platform_id", "policy_label", "risk_score", "enforcement_action", "enforcement_time"],
+    "rows": [
+      { "content_id": 9001, "snapshot_date": "2025-02-01", "platform_id": 1, "policy_label": "DISINFORMATION", "risk_score": 0.82, "enforcement_action": "DEMONETIZE", "enforcement_time": "2025-02-02T08:30:00Z" },
+      { "content_id": 9002, "snapshot_date": "2025-02-01", "platform_id": 2, "policy_label": "YOUTH_SAFETY", "risk_score": 0.64, "enforcement_action": null, "enforcement_time": null },
+      { "content_id": 9003, "snapshot_date": "2025-02-01", "platform_id": 3, "policy_label": "CIVIC_INTEGRITY", "risk_score": 0.58, "enforcement_action": "LABEL", "enforcement_time": "2025-02-02T12:10:00Z" },
+      { "content_id": 9004, "snapshot_date": "2025-02-01", "platform_id": 3, "policy_label": "HARASSMENT", "risk_score": 0.47, "enforcement_action": null, "enforcement_time": null }
+    ]
+  }
+]

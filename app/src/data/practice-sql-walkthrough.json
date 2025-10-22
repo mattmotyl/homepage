@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Start with a harm hypothesis",
+    "description": "Filter engagements to a risk cohort (for example, election observers) and see where views concentrate.",
+    "query": "SELECT\n  audience_country,\n  SUM(total_views) AS total_views\nFROM fact_engagement_details\nWHERE risk_cohort = 'election_observer'\nGROUP BY audience_country\nORDER BY total_views DESC;"
+  },
+  {
+    "title": "Compare surfaces",
+    "description": "Group by experience surface to see which platform areas drive reactions for different content types.",
+    "query": "SELECT\n  experience_surface,\n  SUM(total_reactions) AS total_reactions\nFROM fact_engagement_details\nGROUP BY experience_surface\nORDER BY total_reactions DESC;"
+  },
+  {
+    "title": "Track enforcement",
+    "description": "Join probabilistic risk scores to enforcement outcomes to understand how often high-risk content is actioned.",
+    "query": "SELECT\n  d.risk_cohort,\n  s.policy_label,\n  COUNT(*) AS total_items,\n  SUM(CASE WHEN s.enforcement_action IS NOT NULL THEN 1 ELSE 0 END) AS actioned_items\nFROM fact_engagement_details AS d\nJOIN fact_content_policy_scores AS s ON d.content_id = s.content_id\nGROUP BY d.risk_cohort, s.policy_label\nORDER BY actioned_items DESC;"
+  }
+]

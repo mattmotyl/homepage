@@ -1,0 +1,356 @@
+<main>
+  <section id="warehouse-overview">
+    <h1>How It’s Stored &amp; Used</h1>
+    <p>
+      The event logs described in the previous chapter power everything from recommendation systems to integrity defenses. Platforms use
+      raw signals to predict which videos will be watched, which accounts are trustworthy, and whether a piece of content likely violates
+      policy. This page retains the full narrative from the report while adding plain-language explanations so you can follow each concept
+      without needing a background in data engineering.
+    </p>
+    <p>
+      Storage and processing at VLOPSE scale is expensive. To make queries efficient, teams break activity into specialized tables. Most
+      follow a dimensional model: <strong>fact tables</strong> capture actions or events, <strong>dimension tables</strong> describe the
+      people or objects involved, and <strong>probabilistic scores</strong> summarize model outputs. You do not need to build a warehouse
+      yourself—you simply need enough fluency to recognize these shapes, request the right extracts, and interpret the columns you receive.
+    </p>
+  </section>
+
+  <section class="section" id="fact-tables">
+    <h2>Fact tables</h2>
+    <p>
+      Fact tables store discrete events. They are often long and narrow: each row represents a specific action, and the columns capture
+      identifiers that let you connect the event to additional context. The EDMO report uses the following user activity table to illustrate
+      the pattern.
+    </p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>user_id</th>
+            <th>session_id</th>
+            <th>event_id</th>
+            <th>post_id</th>
+            <th>event_time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>12</td>
+            <td>5021</td>
+            <td>LIKE</td>
+            <td>90</td>
+            <td>2025-01-01T00:10:10Z</td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>5021</td>
+            <td>VIEW</td>
+            <td>93</td>
+            <td>2025-01-01T00:20:15Z</td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>5022</td>
+            <td>LIKE</td>
+            <td>93</td>
+            <td>2025-01-01T00:20:20Z</td>
+          </tr>
+          <tr>
+            <td>53</td>
+            <td>5023</td>
+            <td>REPLY</td>
+            <td>143</td>
+            <td>2025-01-01T00:30:23Z</td>
+          </tr>
+          <tr>
+            <td>53</td>
+            <td>5023</td>
+            <td>SHARE</td>
+            <td>143</td>
+            <td>2025-01-01T00:30:24Z</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Even in five rows you can see core analytic moves: two people generated the activity above, one had two sessions, and each session
+      included multiple actions. Fact tables almost always include timestamps, making it possible to group by day or hour to understand
+      trends.
+    </p>
+    <p>
+      Platforms maintain dictionaries so analysts know what each column means. When Article&nbsp;40 requests reference documentation, you may
+      receive a table similar to the one below.
+    </p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>Description</th>
+            <th>Data type</th>
+            <th>Retention (days)</th>
+            <th>Restricted?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>user_id</code></td>
+            <td>Assigned numeric ID for each account.</td>
+            <td>INTEGER</td>
+            <td>730</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td><code>session_id</code></td>
+            <td>Identifier for a contiguous period of activity.</td>
+            <td>INTEGER</td>
+            <td>730</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td><code>event_id</code></td>
+            <td>Label describing the action (view, like, share, etc.).</td>
+            <td>STRING</td>
+            <td>730</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td><code>post_id</code></td>
+            <td>Content identifier associated with the event.</td>
+            <td>INTEGER</td>
+            <td>730</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td><code>event_time</code></td>
+            <td>Timestamp when the event occurred (UTC).</td>
+            <td>TIMESTAMP</td>
+            <td>730</td>
+            <td>No</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Note the emphasis on retention windows. Many fact tables only store two years of history for privacy or cost reasons. When designing
+      your research, plan for rolling exports or snapshots if you need longer horizons.
+    </p>
+  </section>
+
+  <section class="section" id="dimension-tables">
+    <h2>Dimension tables</h2>
+    <p>
+      Dimension tables enrich the identifiers found in fact tables. A <code>user_id</code> becomes a person with creation date, declared
+      location, and safety flags; a <code>post_id</code> becomes an object with language, media type, and enforcement status. These tables are
+      wide, with dozens or hundreds of columns that describe relatively stable attributes.
+    </p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>Description</th>
+            <th>Data type</th>
+            <th>Retention</th>
+            <th>Restricted access?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>user_id</code></td>
+            <td>Primary key that links to fact tables.</td>
+            <td>INTEGER</td>
+            <td>Permanent while account exists</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td><code>name</code></td>
+            <td>Preferred display name supplied by the account owner.</td>
+            <td>STRING</td>
+            <td>Permanent while account exists</td>
+            <td>Yes — personally identifiable</td>
+          </tr>
+          <tr>
+            <td><code>declared_country</code></td>
+            <td>Country selected during onboarding or inferred from device settings.</td>
+            <td>STRING</td>
+            <td>Updated when user changes profile</td>
+            <td>Restricted — sometimes shared only as region</td>
+          </tr>
+          <tr>
+            <td><code>risk_tier</code></td>
+            <td>Integrity team classification that shapes enforcement workflows.</td>
+            <td>STRING</td>
+            <td>Rolling 180 days</td>
+            <td>Yes — sensitive policy signal</td>
+          </tr>
+          <tr>
+            <td><code>account_created_at</code></td>
+            <td>Timestamp of initial signup.</td>
+            <td>TIMESTAMP</td>
+            <td>Permanent</td>
+            <td>No</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Below is a simplified data sample that mirrors the handbook’s user dimension example. Notice how each row provides human-readable
+      context for the identifiers that appear in fact tables.
+    </p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>user_id</th>
+            <th>name</th>
+            <th>email</th>
+            <th>date_joined</th>
+            <th>country</th>
+            <th>age</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>12</td>
+            <td>Ravi Patel</td>
+            <td>ravi@example.com</td>
+            <td>2020-02-14</td>
+            <td>IN</td>
+            <td>32</td>
+          </tr>
+          <tr>
+            <td>53</td>
+            <td>Ana González</td>
+            <td>ana.g@example.com</td>
+            <td>2019-07-09</td>
+            <td>ES</td>
+            <td>41</td>
+          </tr>
+          <tr>
+            <td>84</td>
+            <td>Leah Johnson</td>
+            <td>leahj@example.com</td>
+            <td>2021-11-30</td>
+            <td>US</td>
+            <td>27</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="fact-dimension-relationship">
+    <h2>The relationship between fact and dimension tables</h2>
+    <p>
+      Fact and dimension tables work together. A fact table records what happened; dimension tables translate the IDs in that event into
+      meaningful labels. You join on shared keys: a <code>user_id</code> in the fact table matches the same <code>user_id</code> in the
+      dimension table, linking events to their context.
+    </p>
+    <figure class="relationship-diagram" aria-label="Diagram showing fact tables joining to dimension tables">
+      <div class="relationship-fact">
+        <h3>Fact: <code>fact_user_activity</code></h3>
+        <ul>
+          <li><code>user_id</code></li>
+          <li><code>session_id</code></li>
+          <li><code>post_id</code></li>
+          <li><code>event_id</code></li>
+          <li><code>event_time</code></li>
+        </ul>
+      </div>
+      <div class="relationship-links" aria-hidden="true">
+        <span>join on</span>
+        <span><code>user_id</code></span>
+        <span><code>post_id</code></span>
+        <span><code>session_id</code></span>
+      </div>
+      <div class="relationship-dimensions">
+        <div>
+          <h3>Dimension: <code>dim_users</code></h3>
+          <ul>
+            <li><code>user_id</code></li>
+            <li><code>name</code></li>
+            <li><code>declared_country</code></li>
+            <li><code>risk_tier</code></li>
+            <li><code>account_created_at</code></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Dimension: <code>dim_sessions</code></h3>
+          <ul>
+            <li><code>session_id</code></li>
+            <li><code>device_type</code></li>
+            <li><code>entry_surface</code></li>
+            <li><code>network_quality</code></li>
+            <li><code>experiment_bucket</code></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Dimension: <code>dim_posts</code></h3>
+          <ul>
+            <li><code>post_id</code></li>
+            <li><code>author_id</code></li>
+            <li><code>media_type</code></li>
+            <li><code>language</code></li>
+            <li><code>policy_status</code></li>
+          </ul>
+        </div>
+      </div>
+    </figure>
+    <p>
+      Before joining, always verify that your keys are unique. If the join multiplies your rows unexpectedly, check for duplicate records or
+      missing filters (for example, limiting to active posts only). The goal is not to mirror a platform’s entire warehouse but to extract the
+      slices needed to answer systemic risk questions.
+    </p>
+    <pre><code class="language-sql">-- Daily active users by country
+SELECT
+  CAST(f.event_time AS DATE) AS event_date,
+  d.declared_country,
+  COUNT(DISTINCT f.user_id) AS total_users
+FROM fact_user_activity AS f
+JOIN dim_users AS d ON f.user_id = d.user_id
+GROUP BY event_date, d.declared_country
+ORDER BY event_date, d.declared_country;</code></pre>
+  </section>
+
+  <section class="section" id="probabilistic">
+    <h2>Probabilistic variables and model outputs</h2>
+    <p>
+      Platforms increasingly rely on machine learning predictions. These scores estimate the likelihood that something will happen: whether a
+      piece of content violates policy, whether an account belongs to a coordinated network, or how likely a user is to churn. They are not
+      ground truth—they are probabilities trained on past labels and continually recalibrated.
+    </p>
+    <p>
+      When you receive model outputs, pay attention to five attributes surfaced in the handbook:
+    </p>
+    <ul>
+      <li><strong>Model version:</strong> Version strings identify which training run produced the score. Platforms frequently retrain models
+        as policies evolve.</li>
+      <li><strong>Score value:</strong> A numeric value between 0 and 1 (or 0 and 100) representing the model’s confidence.</li>
+      <li><strong>Threshold applied:</strong> The decision boundary platforms use internally—often different from the raw score you receive.</li>
+      <li><strong>Label timestamp:</strong> When the score was generated or last refreshed. Stale scores can misrepresent current risk.</li>
+      <li><strong>Downstream action:</strong> Whether the platform took any action (demotion, removal, escalation) after the score crossed a
+        threshold.</li>
+    </ul>
+    <p>
+      These signals are powerful for risk research, but they are also easy to misinterpret. Treat probabilistic variables as directional
+      indicators. Compare them against observed enforcement data, look for distribution shifts over time, and document any platform-specific
+      caveats included in the Article&nbsp;40 handoff materials. In many cases you will want both the score and the final enforcement outcome so
+      you can evaluate model performance.
+    </p>
+    <pre><code class="language-sql">-- Monitoring distribution shifts in a policy risk model
+SELECT
+  DATE_TRUNC('month', score_generated_at) AS score_month,
+  AVG(risk_score) AS avg_risk_score,
+  PERCENTILE_CONT(0.9) WITHIN GROUP (ORDER BY risk_score) AS p90_risk_score,
+  SUM(CASE WHEN enforcement_action = 'DEMONETIZE' THEN 1 ELSE 0 END) AS demotions
+FROM fact_content_policy_scores
+GROUP BY score_month
+ORDER BY score_month;</code></pre>
+    <p>
+      You do not need to deploy machine learning systems yourself. Your job is to understand what the variables mean, how the platform uses
+      them, and whether they are reliable enough to support your research question. When in doubt, request documentation describing the model’s
+      training data, evaluation metrics, and known blind spots.
+    </p>
+  </section>
+</main>
